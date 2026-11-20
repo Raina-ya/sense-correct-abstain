@@ -219,8 +219,8 @@ P-amp is a known-reference sensor. Its own ideal outcome is computable classical
 | Pass condition (b), noiseless recovery | On the frozen `(epsilon, phi)` grid, the noiseless numerical check recovers injected values with absolute error at most `1e-8`. |
 | Pass condition (c), budget | At the frozen `N` and `f`, the analytic standard error of `epsilon_hat` (visibility 1, shot noise only) is at most `epsilon_min / 2.8` (two-sided alpha 0.05, power 0.8); `epsilon_min` is frozen in Part 1 (placeholder `0.02`). |
 | Pass condition (d), no phase ambiguity | For every grid point, `16 * |epsilon*theta + phi| < pi/2` and `32 * |phi| < pi/2`. If the frozen grid violates this, P-amp fails; the grid is not shrunk afterwards. |
-| Prespecified failure modes (Part 2 onward) | Visibility decays with `m` (decoherence); the error in `B(theta)` repeated differs from the error in the target context (crosstalk, schedule dependence); drift between sensing and execution; asymmetric error law for negative angles. |
-| Novelty boundary | P-amp is close to known robust phase-estimation constructions (citation unverified). No novelty is claimed for the sensor. |
+| Prespecified failure modes (Part 2 onward) | Visibility decays with `m` (decoherence); the error in `B(theta)` repeated differs from the error in the target context (crosstalk, schedule dependence); drift between sensing and execution; asymmetric error law for negative angles; noise above the robustness threshold of the repetition ladder (added 2026-11-20, see `docs/literature/notes/phase_estimation_pamp_boundary.md`). |
+| Novelty boundary | P-amp is close to robust phase estimation (Kimmel, Low & Yoder 2015; Rudinger et al. 2017; metadata and abstracts checked 2026-11-20, full text not read). No novelty is claimed for the sensor. Whether to adopt the RPE estimator or RPE consistency checks instead of plain least squares is an owner decision that must be made before the week-4 freeze. |
 
 ### 3.5 Endpoints and policies
 

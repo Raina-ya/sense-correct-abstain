@@ -25,9 +25,29 @@ metadata or abstract page has been located.
 
 | Candidate | Verification state | Why it may matter | Required check |
 |---|---|---|---|
-| Czarnik et al., 2021, *Error mitigation with Clifford quantum-circuit data*, *Quantum* 5, 592 | **unverified** | Original CDR source behind the predecessor's P2 family. | Training/reference construction, transfer assumption, classical cost, and failure when the target and Clifford surrogate respond differently to angle-dependent noise. |
-| Lowe et al., 2021, *Unified approach to data-driven quantum error mitigation*, *Physical Review Research* 3, 033098, [publisher](https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.3.033098) | **unverified** | Frames CDR and variable-noise CDR in a common data-driven model. | Whether any theorem or diagnostic supports using one deterministic twin as an `epsilon` sensor; do not infer this from benchmark improvements. |
+| Czarnik et al., 2021, *Error mitigation with Clifford quantum-circuit data*, *Quantum* 5, 592, DOI 10.22331/q-2021-11-26-592 | **bibliographic fields verified in the predecessor library; content unverified for this project** | Original CDR source behind the predecessor's P2 family. | Training/reference construction, transfer assumption, classical cost, and failure when the target and Clifford surrogate respond differently to angle-dependent noise. |
+| Lowe et al., 2021, *Unified approach to data-driven quantum error mitigation*, *Physical Review Research* 3, 033098, [publisher](https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.3.033098) | **bibliographic fields verified in the predecessor library; content unverified for this project** | Frames CDR and variable-noise CDR in a common data-driven model. | Whether any theorem or diagnostic supports using one deterministic twin as an `epsilon` sensor; do not infer this from benchmark improvements. |
 | Project predecessor P2, frozen protocol at predecessor commit `cd5e576` | **audited: `docs/audits/predecessor_e2_audit.md` (commit `0aa627b`) and review** | Direct project comparator: nearest-Clifford twin, two extra circuits, and the twin's own classically computable ideal gap. | Reconcile `docs/audits/predecessor_e2_audit.md`; distinguish alarm visibility from estimating `epsilon`; charge reference computation and shots; state target-to-twin transfer failure. |
+
+## Sources added 2026-11-20 (Claude; metadata and abstract only)
+
+Full rows are in `library.csv`. None of these has been read in full.
+
+| Key | Source | Why added |
+|---|---|---|
+| `kimmel2015rpe` | Kimmel, Low & Yoder, *Phys. Rev. A* 92, 062315 (2015), arXiv:1502.02677 | Robust phase estimation of amplitude errors: P-amp's closest known construction. Erratum: *Phys. Rev. A* 104, 069901 (2021). |
+| `rudinger2017rpe` | Rudinger, Kimmel, Lobser & Maunz, *Phys. Rev. Lett.* 118, 190502 (2017) | Experimental RPE. |
+| `russo2021rpe` | Russo, Kirby, Rudinger, Baczewski & Kimmel, *Phys. Rev. A* 103, 042609 (2021), arXiv:2011.13442 | Consistency tests for RPE: sensor-level "do not trust" rule. |
+| `higgins2009` | Higgins et al., *New J. Phys.* 11, 073023 (2009) | Non-adaptive Heisenberg-limited phase estimation underlying RPE. |
+| `ware2021pfr` | Ware et al., *Phys. Rev. A* 103, 042604 (2021) | Hardware Pauli-frame randomization with GST. |
+| `kelly2018dag` | Kelly et al., arXiv:1803.03226 (2018) | Cost and structure of recalibration (the C action). |
+| `proctor2020drift` | Proctor et al., *Nat. Commun.* 11, 5396 (2020) | Drift detection (Chapter 4). |
+| `mitarai2018`, `schuld2019` | *Phys. Rev. A* 98, 032309 (2018); *Phys. Rev. A* 99, 032331 (2019) | Parameter-shift structure of the response (nuisance class). |
+| `chow1970` | Chow, *IEEE Trans. Inf. Theory* 16, 41–46 (1970) | Optimal reject rule. |
+| `herbei2006` | Herbei & Wegkamp, *Can. J. Stat.* 34, 709–721 (2006) | Reject option with explicit cost. |
+| `howard1966voi` | Howard, *IEEE Trans. Syst. Sci. Cybern.* SSC-2 (1966) | Value of information; page range unconfirmed. |
+| `vandervaart1998` | van der Vaart, *Asymptotic Statistics*, Cambridge (1998) | Efficient information with nuisance (I3). |
+| `tsybakov2009` | Tsybakov, *Introduction to Nonparametric Estimation*, Springer (2009) | Minimax lower bounds, Le Cam's method. |
 
 ## Working comparison fields for Gate 1 sensors
 
@@ -49,6 +69,8 @@ project derivation.
 3. Done as `p2_cdr_pamp_comparison.md`; CDR sources still unverified.
 4. Open: `notes/pst_kik_comparator.md` (controlled sign/inverse, target error,
    and cost comparison).
-5. Open: a source for robust phase estimation (P-amp's closest known
-   construction), needed for the Gate 1B novelty boundary; currently cited as
-   unverified in the plan.
+5. Done at metadata/abstract level: robust phase estimation sources and
+   `notes/phase_estimation_pamp_boundary.md`. Full-text reading of
+   `kimmel2015rpe` (with erratum) and `russo2021rpe` remains open.
+6. Open: full-text reading of `scavino2026` (decision kernels for QEM), the
+   closest decision-level QEM work, before any novelty wording is frozen.
