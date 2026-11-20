@@ -1,6 +1,6 @@
 # Sense, Correct, or Abstain: Research Program Plan v0
 
-**Status:** planning draft, 2026-11-19. This document contains no new experimental result. It is not a frozen protocol and has not been independently timestamped. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
+**Status:** planning draft, 2026-11-19; revised 2026-11-20 (Gate 1A/1B routing, frame bookkeeping, separated information quantities). This document contains no new experimental result. It is not a frozen protocol and has not been independently timestamped. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
 
 **Planning assumption:** 8--10 hours per week, starting 2026-11-23. Dates move later if this assumption is not confirmed; Part contents do not change in response to delays or results.
 
@@ -39,7 +39,7 @@ These are inputs from the completed projects, not results of this repository.
 |---|---|---|---|---|---|---|
 | Ch. 1 | Estimation Is Not Decision | When does lower estimator error fail to improve top-1 selection under a fixed shot budget? | Completed: `adaptive-qem-benchmark` | Starting point | Analytic and noisy simulation; no hardware evidence | If a general selector fails, retain the counterexamples and Proposition 1 as the chapter's result. This is the observed outcome, not a future pivot. |
 | Ch. 2 | Visibility of Decision-Relevant Bias | Which runtime probes can see a differential bias that flips a decision, and what coverage is lost by acting on an alarm? | Completed: `bias-probe-visibility` | Uses Ch. 1's distinction between estimator quality and decision correctness | Analytic and noisy simulation; separately authorized hardware-derived readout addendum | If broad detection fails, draw the visible/blind boundary and quantify the cost of abstention. This is the observed chapter shape. |
-| Ch. 3 | Sense, Correct, or Abstain | Can randomized-compiling labels identify angle-dependent coherent bias well enough to choose no action, recalibration, or abstention, and when can no probe choose reliably? | Planning | Starts where Ch. 2 stops: an alarm has value only if it supports a useful action | Analytic, noiseless simulation, noisy simulation; optional device-parameter simulation; hardware only in a separately registered and authorized addendum | If labels cannot identify the multiplicative error, retain the general three-action theory and make the E2 construction a negative identifiability result. If identification works but correction has no net value, report the action-value boundary rather than changing methods. |
+| Ch. 3 | Sense, Correct, or Abstain | Can randomized-compiling labels identify angle-dependent coherent bias well enough to choose no action, recalibration, or abstention, and when can no probe choose reliably? | Planning | Starts where Ch. 2 stops: an alarm has value only if it supports a useful action | Analytic, noiseless simulation, noisy simulation; optional device-parameter simulation; hardware only in a separately registered and authorized addendum | If RC labels cannot identify the multiplicative error under the Gate 1A criterion, the RC-label construction becomes a negative identifiability result and the chapter continues only through the single fallback sensor fixed in advance (Gate 1B, P-amp). If P-amp also fails, retain the general three-action theory, the blindness and lower-bound results, and the RC-label negative result; no third probe is added. If identification works but correction has no net value, report the action-value boundary rather than changing methods. |
 | Ch. 4 | Decisions Under Drift | When should a workflow sense again, recalibrate, switch action, or stop when calibration becomes stale? | Planned; data collection not authorized | Sequentializes Ch. 3's one-shot action, loss, and sensing cost | Analytic, simulated drift, and only if separately authorized, longitudinal hardware evidence | If a stable hardware time series cannot be collected, establish a time-uniform method under explicitly simulated drift and report hardware generalization as unresolved. |
 | Ch. 5 | Limits and Transfer | Which lower bounds and action rules transfer beyond symmetric QAOA-MaxCut, and where do task asymmetry or scale change the boundary? | Planned | Tests whether the concepts from Chs. 1--4 survive a change of task, scale, and error structure | Analytic, noiseless simulation, noisy simulation, and possibly device-parameter simulation; hardware not assumed | If transfer fails, produce a failure taxonomy separating QAOA-specific symmetries from decision-theoretic structure. Candidate backup task: an asymmetric ranking problem where readout error can change the decision. |
 
@@ -74,7 +74,7 @@ The following Part names, purposes, and order are decided before work begins. A 
 
 | Part | Purpose | Gates | Evidence allowed in this Part | Deliverable |
 |---|---|---|---|---|
-| Part 1 -- Identifiability and label semantics | Define the physical/statistical model, derive the rank and information conditions, specify the RC-label construction, and test only the smallest analytic/noiseless cases | Gate 1 | Analytic and noiseless simulation only; no confirmatory noisy data | Mathematical specification, literature map, frozen model candidates, and Gate-1 report |
+| Part 1 -- Identifiability and label semantics | Define the physical/statistical model, derive the rank and information conditions, specify the RC-label construction and the fixed P-amp fallback, and test only the smallest analytic/noiseless cases | Gates 1A and 1B | Analytic and noiseless simulation only; no confirmatory noisy data | Mathematical specification, literature map, frozen model candidates, and Gate-1 report |
 | Part 2 -- Decision relevance and correction | Determine whether an identifiable parameter predicts gap bias or a top-1 flip; define correction and its failure modes | Gate 2 | Development noisy simulation on development-only seeds and instances | Development report, correction rule, failure taxonomy, and Gate-2 report |
 | Part 3 -- Policy value, audit, and freeze | Account for sensing, correction, re-execution, and abstention; test policy non-degeneracy; conduct power analysis and adversarial pre-data audit; freeze and independently timestamp the confirmatory protocol | Gates 3 and 4 | Development and split-99 design simulation only; no holdout | Locked primary rule, thresholds, loss, power report, audit, manifest, and independent registration record |
 | Part 4 -- One-time confirmation and synthesis | Run the frozen holdout once, report all positive, negative, and nonevaluable results, then synthesize the paper and conduct a hardware go/no-go review | No new design gate; tests the frozen primary claim | Confirmatory noisy simulation; optional device-parameter simulation clearly separated; hardware only after a new protocol and explicit authorization | One-time holdout report, claim ledger, paper, reproducibility package, and hardware go/no-go decision |
@@ -85,10 +85,19 @@ Numerical thresholds below are **planning placeholders** unless a source is stat
 
 | Gate | Question | Pass criterion | Failure criterion | Prespecified exit after failure |
 |---|---|---|---|---|
-| Gate 1: identifiability | Can label-conditioned observations distinguish multiplicative `epsilon` from additive `phi` for a frozen angle set? | The analytic Fisher information for `(epsilon, phi)` is full rank under at least one deployable, non-oracle circuit design; a noiseless numerical check agrees with the analytic rank and recovers injected parameters within numerical tolerance. | Rank deficient for every deployable frozen design, or apparent rank comes only from ideal values or oracle knowledge unavailable at runtime. | Stop the adaptive empirical branch. Complete the action-selection blindness result and report the E2/label construction as a negative identifiability example. Do not search new probes after seeing the failure. |
+| Gate 1A: identifiability, primary mechanism (RC labels only) | Can RC-label-conditioned observations identify multiplicative `epsilon` separately from additive `phi` for a frozen angle set, without any ideal target readout? | Using only the information quantities admitted in Section 3.3 (I1, the label-contrast likelihood, and the non-oracle part of I3, the profile/efficient information for `epsilon` with the unknown ideal response as a nuisance parameter): the admitted information matrix for `(epsilon, phi)` is full rank under at least one frozen deployable design, and a noiseless numerical check agrees with the analytic rank and recovers injected parameters within numerical tolerance. I2 (absolute-level information under a known ideal response curve) is reported as a diagnostic only and cannot contribute to a pass. | The admitted information for `epsilon` is zero or rank deficient in every frozen deployable design; or apparent rank comes only from I2, ideal values, or oracle knowledge unavailable at runtime. | Record the RC-label construction as a negative identifiability result. Proceed to Gate 1B if and only if Gate 1A failed by its frozen criterion. Do not modify the RC-label design after inspection. |
+| Gate 1B: identifiability, prespecified fallback (P-amp) | Can the fixed amplification-repetition plus echo reference (P-amp, Section 3.4.1) identify `(epsilon, phi)` within the sensing share of the budget? | All P-amp pass conditions in Section 3.4.1, fixed before Gate 1A is run, are met. | Any P-amp pass condition fails. | Stop the empirical policy branch. Retain the action-selection blindness result, the finite-pilot lower bound, the three-action theory, and the RC-label negative result. No third probe is introduced. |
 | Gate 2: decision relevance | Does `epsilon_hat` predict gap bias or a flip rather than merely a gate parameter? | On development-only instances, a rule fixed before evaluation predicts the **sign of correction benefit** better than its frozen no-information baseline, with a prespecified uncertainty bound and no ideal target value as an input. Exact metric and margin are frozen in Part 1 after power analysis. | No out-of-sample improvement over the frozen baseline; signal exists only for parameter estimation, not decision loss; or the rule requires knowing the error structure or ideal gap. | End the corrective-policy claim. Retain parameter identifiability plus the theorem showing why it is not decision sufficient. No confirmatory holdout for an adaptive action policy. |
 | Gate 3: net value | After charging every shot to one budget, does sensing and correction improve decision value over fixed policies? | Under the development-locked scalar loss and total budget, the lower confidence bound for the label policy's improvement over the development-selected best fixed baseline is positive. Sensitivity to the abstention-cost weight is reported but does not replace the primary value. | Improvement is nonpositive, depends on uncharged re-execution/calibration, or disappears under the primary cost definition. | Report the resource boundary and stop before confirmatory execution. A useful correction with negative net value is a negative result, not a reason to enlarge the budget. |
 | Gate 4: non-degeneracy | Does the policy actually use more than one action? | Across development strata fixed in advance, at least two actions have nonzero selection probability and each clears a prespecified minimum frequency supported by power analysis; no action is selected solely because of a coding tie-break. | Always-correct, always-abstain, or effectively no-action under the frozen distribution; one action occurs too rarely to estimate its loss. | Replace no rule after inspection. Report that the optimal deployable policy collapsed to a fixed action; compare that fixed action only as a development result and stop the adaptive confirmatory claim. |
+
+#### Gate 1 routing and claim boundary (decision recorded 2026-11-20)
+
+- The only allowed path is: Gate 1A (RC labels) -> if and only if Gate 1A fails by its frozen criterion -> Gate 1B (P-amp) -> if Gate 1B fails, stop the empirical policy branch.
+- The P-amp circuits, repetition counts, statistic, budget share, and pass thresholds in Section 3.4.1 are fixed before Gate 1A is run. They are not designed or tuned after Gate 1A results exist.
+- If the chapter proceeds through Gate 1B, the paper may not claim that RC labels sense `epsilon`. The claim becomes: whether a known-phase sensing structure can support a net-beneficial correct-or-abstain decision under a fixed budget. Novelty is placed in decision relevance, fixed-budget accounting, and the three-action policy, not in the P-amp sensor, which is close to known phase-estimation constructions.
+- In Gates 2--4 and the endpoints, "the sensor" means the sensor that passed Gate 1 (RC labels if Gate 1A passed, otherwise P-amp). If both could be evaluated, RC labels remain primary.
+- An analytic draft (`docs/theory/gate1_frame_covariance_draft.md`, unreviewed) predicts that Gate 1A fails under the compiled-angle model with virtual Z frames. This is a prediction to be reviewed, not a result, and it does not change the routing above.
 
 ### 3.3 Part 1 one-page mathematical problem
 
@@ -115,6 +124,29 @@ This is a model, not yet a hardware fact. Part 1 must separately state:
 3. **Control model:** the hardware control parameter, not an abstract `RZ`, carries the error.
 
 The project cannot infer one model from the identity `X RZ(theta) X = RZ(-theta)`. It must establish how the compiler represents the label and whether the operation is a pulse, a virtual frame update, or a composite two-qubit construction. A `theta + pi` representation is not equivalent as an error model unless that representation is frozen explicitly.
+
+#### Frame bookkeeping: physical-frame versus logical-frame phase
+
+`delta_{k ell t}` above is defined in the physical (compiled) frame. The measurement likelihood depends on the phase after the label is undone, that is, in the logical frame. For a label Pauli `P_t` and a rotation generator `G`, write `s_t = -1` if `P_t G P_t = -G` and `s_t = +1` if they commute. Under the compiled-angle model with sign-flip absorption (`g_t(theta) = s_t * theta`) and virtual, error-free Z frames, the unreviewed draft derivation gives
+
+```text
+P_t RZ((1+epsilon) * (-theta) + phi) P_t = RZ((1+epsilon) * theta - phi),
+logical phase error  delta^L_{k ell t} = epsilon * theta_{k ell} + s_t * phi.
+```
+
+So in the logical frame the multiplicative term does not depend on the label, while the additive term flips sign with the label. This is the reverse of how the two terms look in the physical frame. If Z labels are instead absorbed as `theta + pi` with wrapping and the error scales the wrapped angle, an extra label-dependent term `epsilon * c_t` with `c_t` in `{+pi, -pi}` appears. Which representation applies must be frozen in Part 1 (see the draft for a numerical check of one single-qubit example; that check is not a proof).
+
+#### Three information quantities (reported separately)
+
+Let `r` denote the unknown ideal response of the target circuits (the response curve as a function of the logical angle). Part 1 computes, for every frozen design:
+
+1. **I1, label-contrast information.** The Fisher information for `(epsilon, phi)` carried by the likelihood of label-contrast statistics, whose distribution does not depend on `r` at `epsilon = phi = 0`.
+2. **I2, absolute-level information with a known response.** The Fisher information of the full label-resolved likelihood when `r` is treated as known. This uses ideal values and is a diagnostic only.
+3. **I3, profile or efficient information with `r` as nuisance.** The efficient information for `epsilon` after projecting out the nuisance tangent space of `r` (or the profile information under a stated parametric nuisance model). Only the part of I3 that does not rely on oracle knowledge of `r` is admissible.
+
+Gate 1A may pass only on I1 and the admissible part of I3. I2 may never be used as deployable evidence.
+
+**Analytic prediction written before simulation (draft, unreviewed).** Under the compiled-angle model with virtual Z frames, if `phi = 0`, every label-contrast statistic has zero mean for every `epsilon`, and the admissible information for `epsilon` from RC labels is zero (with a nonparametric nuisance `r`). Under the same model with `phi != 0`, labels carry first-order information about `phi` and information about `epsilon` only at order `phi`. Under the logical-angle model, labels carry no information about either parameter.
 
 #### Direct-phase identifiability
 
@@ -149,7 +181,7 @@ for locally unbiased estimators. Part 1 must not claim a global guarantee from t
 - Two candidates with identical effective angles remain blind.
 - Two distinct angles can remove the algebraic rank defect, but the measurement model can remain blind if its score is zero or symmetric.
 - Additional QAOA layers help only if they introduce linearly informative effective angles; repeating the same sensitivity direction does not change rank.
-- If both multiplicative and additive terms transform identically with the label, labels alone need not separate them.
+- The two terms need not transform identically for labels to fail. Under the compiled-angle model with virtual Z frames (draft derivation above), the additive term flips with the label and the multiplicative term is label invariant in the logical frame; the label-invariant term is then confounded with the unknown ideal response, so labels identify `phi` but not `epsilon` without ideal values. A direct-phase rank count that treats `g_t(theta) = +/- theta` as two distinct effective angles would wrongly report full rank; rank must be counted in the logical frame and with the nuisance `r` (I1 and I3), not in the physical frame or with I2.
 
 ### 3.4 Gate-1 minimum simulation specification
 
@@ -167,12 +199,34 @@ This is a design specification, not authorization to run it. Part 1 freezes the 
 | Statistic | Primary Gate-1 statistic: a label-outcome score or likelihood estimator for `(epsilon, phi)` defined before simulation. Report bias, covariance, Fisher-information condition number/rank, convergence, and failure status. |
 | Required negative controls | Label permutation; single angle; identical candidate angles; a measurement basis with analytically zero first-order sensitivity; an error model where `epsilon` and `phi` transform identically |
 | Gate-1 outputs | Analytic rank table, noiseless likelihood check, parameter-recovery table, numerical convergence log, and a signed mismatch report between prediction and observation |
+| Information reporting | I1, I2, and I3 (Section 3.3) reported separately for every design; the Gate 1A verdict cites only I1 and the admissible part of I3 |
+| Additional analytic control | The `phi = 0` label-contrast identity: under the frozen model, the predicted value of every label-contrast mean (identically zero under the compiled-angle model with virtual Z frames, per the draft) is written down before the noiseless check |
+
+#### 3.4.1 Gate 1B fallback sensor: P-amp (fixed before Gate 1A is run)
+
+P-amp is a known-reference sensor. Its own ideal outcome is computable classically by construction; that is declared as a runtime-computable quantity, as in Chapter 2's rule, and it never reads the ideal value of a target circuit. P-amp circuits run without RC labels, so the frame bookkeeping of Section 3.3 does not enter.
+
+| Item | Fixed specification |
+|---|---|
+| Block | The same tagged cost construction as the target: `B(theta) = CX(c,t) - RZ_tagged(theta) on t - CX(c,t)`, with control `c` prepared in `|0>`, so that `B(theta)` acts ideally as `RZ(theta)` on the target qubit `t`, prepared in `|+>` |
+| Repetition circuits | `R(m, theta) = B(theta)^m` for `m` in `{1, 4, 16}` and `theta` in `{pi/8, pi/4}` (6 circuits) |
+| Echo circuits | `E(m) = [B(pi/4) B(-pi/4)]^m` for `m` in `{1, 4, 16}` (3 circuits) |
+| Measurement | Target qubit in the X and in the Y basis for every circuit: 9 circuits x 2 bases = 18 settings |
+| Phase model (all three E2 models in Section 3.3 agree here) | Repetition: total phase `m*theta + m*(epsilon*theta + phi)`. Echo: `2*m*phi` (the multiplicative term cancels, the mechanism behind the Chapter 1 folding blindness). Requires that negative commanded angles follow the same error law; otherwise the model is violated and P-amp fails. |
+| Statistic | Per setting pair, `u_hat = atan2(<Y>_hat, <X>_hat)`. Residual phases are formed by subtracting the known `m*theta` and unwrapping sequentially in `m`. `(epsilon_hat, phi_hat)` is the equal-weight least-squares solution of: residual `R(m,theta)` = `m*theta*epsilon + m*phi`; residual `E(m)` = `2*m*phi`. |
+| Budget | Exactly the sensing share `f*N` of the fixed total budget (`f = 0.10` as a placeholder carried from Chapter 2; `f` and `N` frozen in Part 1 before Gate 1A), split equally over the 18 settings. Recorded in the cost ledger in circuits and shots. |
+| Pass condition (a), analytic rank | The linear design matrix with rows `(m*theta, m)` for repetitions and `(0, 2*m)` for echoes has rank 2, and the known-reference Fisher information is full rank, without any ideal target value. |
+| Pass condition (b), noiseless recovery | On the frozen `(epsilon, phi)` grid, the noiseless numerical check recovers injected values with absolute error at most `1e-8`. |
+| Pass condition (c), budget | At the frozen `N` and `f`, the analytic standard error of `epsilon_hat` (visibility 1, shot noise only) is at most `epsilon_min / 2.8` (two-sided alpha 0.05, power 0.8); `epsilon_min` is frozen in Part 1 (placeholder `0.02`). |
+| Pass condition (d), no phase ambiguity | For every grid point, `16 * |epsilon*theta + phi| < pi/2` and `32 * |phi| < pi/2`. If the frozen grid violates this, P-amp fails; the grid is not shrunk afterwards. |
+| Prespecified failure modes (Part 2 onward) | Visibility decays with `m` (decoherence); the error in `B(theta)` repeated differs from the error in the target context (crosstalk, schedule dependence); drift between sensing and execution; asymmetric error law for negative angles. |
+| Novelty boundary | P-amp is close to known robust phase-estimation constructions (citation unverified). No novelty is claimed for the sensor. |
 
 ### 3.5 Endpoints and policies
 
 #### Primary endpoint -- one only
 
-**Paired improvement in frozen decision value of the deployable label policy over the development-locked best fixed policy, under one fixed total execution budget.**
+**Paired improvement in frozen decision value of the deployable sensor policy over the development-locked best fixed policy, under one fixed total execution budget.** "Sensor" means the sensor that passed Gate 1 (RC labels via Gate 1A, otherwise P-amp via Gate 1B); the endpoint text is otherwise unchanged by the routing.
 
 For a unit `u`, define a loss before holdout data exist:
 
@@ -188,7 +242,7 @@ All sensing, calibration, correction, and re-execution shots are charged to the 
 Delta_V = mean_u[L_fixed,u - L_policy,u].
 ```
 
-The deployable policy may use only label-conditioned runtime data, known circuit metadata, and quantities declared computable at runtime. It may not read the ideal target value, true `epsilon`, error-structure label, future calibration, or holdout outcomes. The fixed comparator is selected once on development data from no action, always recalibrate, and always abstain, then locked. The confirmatory success rule and graph-cluster uncertainty method are set by Part 3 power analysis and independently timestamped before holdout.
+The deployable policy may use only runtime data from the Gate-1 sensor (label-conditioned data, or P-amp data under Gate 1B), known circuit metadata, and quantities declared computable at runtime. It may not read the ideal target value, true `epsilon`, error-structure label, future calibration, or holdout outcomes. The fixed comparator is selected once on development data from no action, always recalibrate, and always abstain, then locked. The confirmatory success rule and graph-cluster uncertainty method are set by Part 3 power analysis and independently timestamped before holdout.
 
 #### Secondary endpoints
 
@@ -208,7 +262,8 @@ The deployable policy may use only label-conditioned runtime data, known circuit
 
 | Method or claim | It should fail when... |
 |---|---|
-| Label identification of `epsilon` | Only one effective angle is observed; the label map does not vary the relevant control; `epsilon` and `phi` transform in the same direction; or the measurement score is zero. |
+| Label identification of `epsilon` (Gate 1A) | Only one effective angle is observed; the label map does not vary the relevant control; Z frames are virtual and the multiplicative term is label invariant in the logical frame (draft prediction: zero admissible information for `epsilon` at `phi = 0`); the error is defined on the logical angle; or the measurement score is zero. |
+| P-amp identification of `(epsilon, phi)` (Gate 1B) | Visibility decays with repetition; the repeated block does not reproduce the target-context error; negative angles follow a different error law; drift between sensing and execution; or phase ambiguity at the largest repetition count. |
 | Parameter-to-decision transfer | The candidate gap is insensitive to the identified parameter, other unmeasured errors dominate, or equal parameter errors induce different biases across circuit contexts. |
 | Recalibration | The error drifts before re-execution, the correction model is misspecified, the correction uncertainty exceeds the margin, or re-execution consumes too much budget. |
 | Abstention | The score is not calibrated for decision error, coverage loss dominates the fixed loss, or alarms occur under matched nulls. |
@@ -217,7 +272,7 @@ The deployable policy may use only label-conditioned runtime data, known circuit
 | Finite-shot lower bound | The chosen two points are physically irrelevant, not inside the frozen model class, or the resulting bound is too loose at the study budget. |
 | Common random compilations | Between-compilation variance is negligible relative to conditional shot noise; covariance is nonpositive; or bias remains and narrower intervals increase false certification. |
 
-### 3.7 Theory that survives a failed Gate 1
+### 3.7 Theory that survives a failed Gate 1 (1A and 1B)
 
 The following must be formulated without QAOA, E2, or RC-specific notation before the empirical construction is treated as successful:
 
@@ -227,7 +282,7 @@ The following must be formulated without QAOA, E2, or RC-specific notation befor
 4. A value-of-information condition comparing the expected reduction in action loss with sensing cost.
 5. A policy non-degeneracy definition and an honest fixed-action collapse result.
 
-If Gate 1 fails, these results form the general chapter and the failed label construction is its first concrete example; no favorable replacement probe is introduced after inspection.
+If Gate 1A and Gate 1B both fail, these results form the general chapter and the failed label construction is its first concrete example. The only replacement probe ever allowed is the P-amp fallback fixed in Section 3.4.1 before Gate 1A; no other probe is introduced after inspection.
 
 ## 4. Parallel preparation for Chapter 4
 
@@ -297,9 +352,9 @@ Monthly descriptive summaries may be generated, but the longitudinal hypothesis 
 | 1 | Nov 23--29 | Read the highest-priority sources in full; reproduce the predecessor E2 and P3 semantics on paper; write the logical/compiled/control model distinction | Annotated literature and model ledger |
 | 2 | Nov 30--Dec 6 | Define the label map `g_t(theta)`, outcome likelihood, direct rank lemma, and failure cases | Mathematical specification draft |
 | 3 | Dec 7--13 | Derive Fisher information and finite-separation lower-bound route; design negative controls | Theory review package |
-| 4 | Dec 14--20 | Adversarial review of identifiability; freeze the minimal noiseless grid and pass/fail implementation checks | Gate-1 design lock candidate |
-| 5 | Dec 21--27 | Run only the frozen analytic/noiseless Gate-1 checks; reconcile prediction mismatches without changing the question | **Gate 1 decision; earliest kill point** |
-| 6 | Dec 28--Jan 3 | If Gate 1 passed, specify development-only noisy model and gap-bias estimand; otherwise write the negative-identifiability chapter path | Part 1 report |
+| 4 | Dec 14--20 | Adversarial review of identifiability; freeze the minimal noiseless grid, pass/fail implementation checks, and the complete P-amp specification (Section 3.4.1) including `N`, `f`, and `epsilon_min` | Gate-1 design lock candidate (covers Gate 1A and Gate 1B) |
+| 5 | Dec 21--27 | Run only the frozen analytic/noiseless Gate 1A checks; if and only if Gate 1A fails by its frozen criterion, run the frozen Gate 1B (P-amp) checks; reconcile prediction mismatches without changing the question | **Gate 1A/1B decision; earliest kill point** |
+| 6 | Dec 28--Jan 3 | If Gate 1A or 1B passed, specify development-only noisy model and gap-bias estimand for that sensor; if both failed, write the negative-identifiability chapter path | Part 1 report |
 | 7 | Jan 4--10 | Define the deployable estimator and correction uncertainty propagation | Part 2 method lock |
 | 8 | Jan 11--17 | Development simulations for parameter-to-gap transfer and required nulls | Gate-2 evidence collection |
 | 9 | Jan 18--24 | Out-of-sample development scoring; classify method/model/resource failures | **Gate 2 decision** |
@@ -329,10 +384,12 @@ If any gate fails, the remaining empirical schedule is cancelled or delayed as s
 
 | Risk | Early sign | Fastest check (no more than 2 days) | Triggered action |
 |---|---|---|---|
-| Labels do not act on the noisy physical quantity | Compiler absorbs labels as virtual frames while the injected error is unchanged | Print and algebraically audit the compiled operation/label map for 2--3 qubits; compare unitary and tagged-control parameters | Kill the label-sensing construction; retain the blindness result |
-| `epsilon` and `phi` are confounded | Fisher matrix rank 1 or extreme condition number in every allowed design | Symbolic/numerical rank calculation over the minimal angle set and negative controls | Gate 1 fail; no adaptive empirical branch |
-| Two candidate angles are algebraically different but measurement-blind | Distinct angles produce proportional or zero score vectors | Exact noiseless likelihood derivatives for the two circuits | Change no outcome-driven measurement; follow the frozen fallback or fail Gate 1 |
-| Vyas-style label statistic does not extend to angle-dependent QAOA | Parameter recovery works for a fixed phase but not for multiplicative errors across angles | Minimal 2-qubit noiseless/local-alternative test | Report limited transport; stop Gate 1 if primary model fails |
+| Labels do not act on the noisy physical quantity | Compiler absorbs labels as virtual frames while the injected error is unchanged | Print and algebraically audit the compiled operation/label map for 2--3 qubits; compare unitary and tagged-control parameters | Gate 1A fails; retain the RC-label blindness result; proceed only to the frozen Gate 1B |
+| Frame covariance hides `epsilon` from labels | Draft derivation: in the logical frame the multiplicative term is label invariant; label contrast is identically zero at `phi = 0` | Review the draft proof in `docs/theory/gate1_frame_covariance_draft.md`; exact 2-qubit noiseless check of the `phi = 0` identity | Gate 1A fails as predicted; record as negative result; proceed only to the frozen Gate 1B |
+| `epsilon` and `phi` are confounded | Admissible information (I1 plus admissible I3) rank 1 or extreme condition number in every allowed design | Symbolic/numerical rank calculation over the minimal angle set and negative controls, reporting I1, I2, I3 separately | Gate 1A fail -> frozen Gate 1B; if Gate 1B also fails, no adaptive empirical branch |
+| P-amp fails | Rank, recovery, budget, or phase-ambiguity condition in Section 3.4.1 not met | Analytic standard error at the frozen `N` and `f`; noiseless recovery on the frozen grid | Stop the empirical policy branch; no third probe |
+| Two candidate angles are algebraically different but measurement-blind | Distinct angles produce proportional or zero score vectors | Exact noiseless likelihood derivatives for the two circuits | Change no outcome-driven measurement; fail Gate 1A and follow the frozen Gate 1B |
+| Vyas-style label statistic does not extend to angle-dependent QAOA | Parameter recovery works for a fixed phase but not for multiplicative errors across angles | Minimal 2-qubit noiseless/local-alternative test | Report limited transport; Gate 1A fails if the primary model fails, then frozen Gate 1B |
 | Parameter estimate is not decision-relevant | Good `epsilon` recovery but no gap-bias/flip prediction | Exact derivative of the candidate gap with respect to `epsilon` on fixed development instances | Gate 2 fail; theory/negative result only |
 | Correction creates an inverse crime | Recovery succeeds only when analysis and generator use the identical model | One misspecified-generator check fixed before evaluation | Classify model failure; do not claim deployability |
 | Always-correct dominates | Correction benefit has one sign and sensing never changes the action | Development-only per-unit treatment-effect sign table | Gate 4 fail; report fixed-action collapse |
@@ -386,6 +443,8 @@ At most five decisions block a future freeze; none blocks storing this planning 
 - [ ] User decisions in Section 8 recorded.
 - [ ] Full-text prior-art review completed without upgrading unverified entries prematurely.
 - [ ] Part 1 mathematical specification approved.
+- [ ] Frame-covariance draft (`docs/theory/gate1_frame_covariance_draft.md`) reviewed by the user: proved, corrected, or rejected.
+- [ ] P-amp specification (Section 3.4.1), `N`, `f`, and `epsilon_min` frozen and committed before any Gate 1A check is run.
 - [ ] Primary loss or constrained endpoint justified.
 - [ ] No noisy development data generated before the Part 1 prediction/model record is frozen and committed.
 - [ ] No confirmatory data generated before adversarial audit, clean lock, and independent registration.
