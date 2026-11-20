@@ -1,10 +1,13 @@
-"""Check that docs/literature/library.csv and library_notes.md agree.
+"""Check structural agreement between library.csv and library_notes.md.
 
 Usage: python tools/check_library.py
 
 Checks: every CSV key has exactly one note heading (#### `key`) and vice
 versa, and each note sits under the top-level section (## A, ## B, ...) whose
 letter matches the first letter of the key's `theme` column.
+
+This script does not validate bibliographic metadata, evidence levels, or
+scientific claims.
 """
 
 from __future__ import annotations
@@ -49,7 +52,10 @@ def main() -> int:
 
     for message in problems:
         print(message)
-    print(f"{len(themes)} CSV entries, {len(found)} notes, {len(problems)} problems")
+    print(
+        f"{len(themes)} CSV entries, {len(found)} notes, "
+        f"{len(problems)} structural problems"
+    )
     return 1 if problems else 0
 
 

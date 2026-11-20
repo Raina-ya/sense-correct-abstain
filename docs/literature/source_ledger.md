@@ -48,7 +48,7 @@ Full rows are in `library.csv`. None of these has been read in full.
 | `howard1966voi` | Howard, *IEEE Trans. Syst. Sci. Cybern.* SSC-2 (1966) | Value of information; page range unconfirmed. |
 | `vandervaart1998` | van der Vaart, *Asymptotic Statistics*, Cambridge (1998) | Efficient information with nuisance (I3). |
 | `tsybakov2009` | Tsybakov, *Introduction to Nonparametric Estimation*, Springer (2009) | Minimax lower bounds, Le Cam's method. |
-| `mckay2017vz` | McKay et al., *Phys. Rev. A* 96, 022330 (2017), arXiv:1612.00858 | Virtual Z gates: a physical `RZ` may carry no angle error, so E2 needs another carrier. |
+| `mckay2017vz` | McKay et al., *Phys. Rev. A* 96, 022330 (2017), arXiv:1612.00858 | Virtual Z gates can be implemented as zero-duration phase-frame updates. This makes the hardware carrier of E2 an open implementation question; the abstract does not establish that current `RZ` implementations or the full control stack are error-free. |
 
 ## Working comparison fields for Gate 1 sensors
 

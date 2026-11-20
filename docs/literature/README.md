@@ -13,6 +13,10 @@ that its full text or derivations have been checked.
 - **Metadata:** [`library.csv`](library.csv), 63 entries, each with a
   `theme` code matching the notes.
 
+`python tools/check_library.py` is a structural consistency check only. It
+checks key coverage, duplicate notes, and theme placement; it does not validate
+bibliographic metadata, evidence levels, or scientific claims.
+
 Composition:
 
 - 8 inherited core sources, with the canonical states from the research plan;
