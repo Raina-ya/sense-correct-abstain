@@ -11,4 +11,6 @@ Planning only. No experiment has been run, no protocol has been independently re
 
 The initial thesis map, four-Part Chapter 3 plan, gate criteria, monthly hardware-study draft, schedule, risks, and reading list are in [the research program plan](docs/research_program_plan_v0.md).
 
+The problem-oriented reading queue, verification rules, and source ledger are in [docs/literature/](docs/literature/README.md).
+
 An unreviewed analytic draft for Gate 1 (frame bookkeeping for RC labels, with one single-qubit numerical check) is in [docs/theory/gate1_frame_covariance_draft.md](docs/theory/gate1_frame_covariance_draft.md). It is not a proof and not a result.
