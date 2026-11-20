@@ -6,29 +6,32 @@ that its full text or derivations have been checked.
 
 ## Library at a glance (updated 2026-11-20)
 
-The machine-readable library is [`library.csv`](library.csv): 62 entries.
+- **Start here:** [`library_notes.md`](library_notes.md) has a short note for
+  every entry, grouped by research thread (A–H), with a mind map of the whole
+  topic. It is written to be extended: add a CSV row, add a note from the
+  template, and run `python tools/check_library.py`.
+- **Metadata:** [`library.csv`](library.csv), 63 entries, each with a
+  `theme` code matching the notes.
+
+Composition:
 
 - 8 inherited core sources, with the canonical states from the research plan;
 - 40 entries reused from the predecessor's verified library (bibliographic
   fields verified there; relevance notes for this project are new and are
   routing notes, not content checks);
-- 14 new entries whose bibliographic metadata and abstract were checked on
+- 15 new entries whose bibliographic metadata and abstract were checked on
   2026-11-20 (no full text read).
-
-Each row records the questions it serves (Q1–Q8 in `problem_matrix.md`), its
-role, verification state, who checked it, why it matters, and its main
-limitation for this project.
 
 | Question | Entries | Keys |
 |---|---:|---|
-| Q1 | 5 | `wallman2016`, `winick2022`, `knill2005`, `hashim2021`, `ware2021pfr` |
-| Q2 | 12 | `vyas2026`, `erhard2019`, `flammia2020pauli`, `chen2023learnability`, `nielsen2021gst`, `magesan2011`, `imbens2004`, `tamer2010`, `lipsitch2010`, `mitarai2018`, `schuld2019`, `vandervaart1998` |
-| Q3 | 5 | `wallman2016`, `vyas2026`, `nielsen2021gst`, `farhi2014`, `zhou2020qaoa` |
-| Q4 | 9 | `santos2024pst`, `bar2026lkik`, `henao2023akik`, `cai2023`, `proctor2022mirror`, `kimmel2015rpe`, `rudinger2017rpe`, `russo2021rpe`, `higgins2009` |
-| Q5 | 4 | `czarnik2021`, `lowe2021`, `aaronson2004`, `gidney2021stim` |
-| Q6 | 27 | `chen2023learnability`, `kueng2016`, `sanders2016`, `takagi2022`, `takagi2023`, `tsubouchi2023`, `quek2024`, `cai2023`, `govia2025`, `prodius2026`, `lecam1973`, `imbens2004`, `tamer2010`, `bechhofer1954`, `kimnelson2006`, `chen2000ocba`, `garivier2016`, `kaufmann2016`, `ghosh2017`, `scavino2026`, `koster2026`, `russo2021rpe`, `kelly2018dag`, `chow1970`, `herbei2006`, `howard1966voi`, `tsybakov2009` |
-| Q7 | 9 | `santos2024pst`, `bar2026lkik`, `henao2023akik`, `kurita2023`, `hashim2021`, `sarovar2020`, `temme2017`, `kandala2019`, `ware2021pfr` |
-| Q8 | 4 | `zhang2026spot`, `wald1945`, `howard2021`, `proctor2020drift` |
+| Q1 | 5 | `knill2005`, `wallman2016`, `winick2022`, `hashim2021`, `ware2021pfr` |
+| Q2 | 12 | `vyas2026`, `erhard2019`, `flammia2020pauli`, `magesan2011`, `nielsen2021gst`, `chen2023learnability`, `imbens2004`, `lipsitch2010`, `tamer2010`, `vandervaart1998`, `mitarai2018`, `schuld2019` |
+| Q3 | 6 | `wallman2016`, `vyas2026`, `nielsen2021gst`, `mckay2017vz`, `farhi2014`, `zhou2020qaoa` |
+| Q4 | 9 | `higgins2009`, `kimmel2015rpe`, `rudinger2017rpe`, `russo2021rpe`, `proctor2022mirror`, `bar2026lkik`, `henao2023akik`, `santos2024pst`, `cai2023` |
+| Q5 | 4 | `aaronson2004`, `czarnik2021`, `gidney2021stim`, `lowe2021` |
+| Q6 | 27 | `russo2021rpe`, `kueng2016`, `sanders2016`, `kelly2018dag`, `koster2026`, `cai2023`, `govia2025`, `prodius2026`, `quek2024`, `takagi2022`, `takagi2023`, `tsubouchi2023`, `chen2023learnability`, `lecam1973`, `tsybakov2009`, `imbens2004`, `tamer2010`, `chow1970`, `herbei2006`, `howard1966voi`, `bechhofer1954`, `chen2000ocba`, `garivier2016`, `kaufmann2016`, `kimnelson2006`, `ghosh2017`, `scavino2026` |
+| Q7 | 10 | `hashim2021`, `ware2021pfr`, `sarovar2020`, `mckay2017vz`, `kandala2019`, `temme2017`, `bar2026lkik`, `henao2023akik`, `kurita2023`, `santos2024pst` |
+| Q8 | 4 | `howard2021`, `wald1945`, `zhang2026spot`, `proctor2020drift` |
 
 Thematic notes:
 
