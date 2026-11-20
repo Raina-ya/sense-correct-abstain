@@ -1,6 +1,6 @@
 # Sense, Correct, or Abstain: Research Program Plan v0
 
-**Status:** planning draft, 2026-11-19; revised 2026-11-20 (Gate 1A/1B routing, frame bookkeeping, separated information quantities). This document contains no new experimental result. It is not a frozen protocol and has not been independently timestamped. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
+**Status:** planning draft, 2026-11-19; revised 2026-11-20 (Gate 1A/1B routing, frame bookkeeping, separated information quantities; later the same day, owner-review revision of Main Task 1, see §8.1). This document contains no new experimental result. It is not a frozen protocol and has not been independently timestamped. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
 
 **Planning assumption:** 8--10 hours per week, starting 2026-11-23. Dates move later if this assumption is not confirmed; Part contents do not change in response to delays or results.
 
@@ -242,7 +242,7 @@ All sensing, calibration, correction, and re-execution shots are charged to the 
 Delta_V = mean_u[L_fixed,u - L_policy,u].
 ```
 
-The deployable policy may use only runtime data from the Gate-1 sensor (label-conditioned data, or P-amp data under Gate 1B), known circuit metadata, and quantities declared computable at runtime. It may not read the ideal target value, true `epsilon`, error-structure label, future calibration, or holdout outcomes. The fixed comparator is selected once on development data from no action, always recalibrate, and always abstain, then locked. The confirmatory success rule and graph-cluster uncertainty method are set by Part 3 power analysis and independently timestamped before holdout.
+The deployable policy may use only runtime data from the Gate-1 sensor (label-conditioned data, or P-amp data under Gate 1B), known circuit metadata, quantities declared computable at runtime, and development-locked rule constants (revision note §8.1). It may not read the ideal target value, true `epsilon`, error-structure label, future calibration, or holdout outcomes. The fixed comparator is selected once on development data from no action, always recalibrate, and always abstain, then locked; "no action" is the issue-only comparator, itself selected once on development data between two prespecified allocations (revision note §8.1). The confirmatory success rule and graph-cluster uncertainty method are set by Part 3 power analysis and independently timestamped before holdout.
 
 #### Secondary endpoints
 
@@ -399,10 +399,32 @@ Every source entering the bibliography must be opened at an original publisher, 
 At most five decisions block a future freeze; none blocks storing this planning draft.
 
 1. **Work capacity:** confirm or replace the planning assumption of 8--10 hours per week starting 2026-11-23.
-2. **Abstention loss:** what practical harm ratio should `lambda_A` represent relative to issuing a wrong answer? If there is no defensible single value, approve a constrained primary endpoint instead of a scalar loss before Part 3.
-3. **Correction action:** should "correct" mean a second execution with an estimated angle recalibration, or may it include a separately defined compiled correction? The primary action must be one concrete operation.
+2. **Abstention loss (D2):** what practical harm ratio should `lambda_A` represent relative to issuing a wrong answer? If there is no defensible single value, approve a constrained primary endpoint instead of a scalar loss before Part 3.
+3. **Correction action (D3):** should "correct" mean a second execution with an estimated angle recalibration, or may it include a separately defined compiled correction? The primary action must be one concrete operation.
 4. **Longitudinal hardware:** should Chapter 4 protocol design begin in parallel, knowing that registration and every monthly job still require separate authorization and may be declared infeasible?
-5. **Writing target:** should Chapter 3 be planned as a standalone two-column article first, with the dissertation chapter adapted later, or as a dissertation chapter with a later article extraction?
+5. **Writing target (D7):** should Chapter 3 be planned as a standalone two-column article first, with the dissertation chapter adapted later, or as a dissertation chapter with a later article extraction?
+
+### 8.1 Decision index and revision note (2026-11-20, owner review of Main Task 1)
+
+Decision IDs used in the work plan ([`schedule/research_schedule_v1.md`](schedule/research_schedule_v1.md), "Pending decisions") are indexed here. Items 1 and 4 above carry no D-ID: work capacity is kept out of the public work plan, and Chapter 4 protocol timing is tracked under its Extension Task 1.
+
+| ID | Decision | Where it is stated in this plan | Status |
+|---|---|---|---|
+| D1 | Primary E2 placement | §3.3 (three models), §3.4 | Decided 2026-11-20: synthetic compiled-angle model (virtual-Z frames, sign-flip absorption) as primary; logical-angle model as regression/negative control; wrapped-Z absorption not adopted; physical-control model not modeled. |
+| D2 | `lambda_A`, `lambda_F` (or a constrained endpoint) | §3.5; §8 item 2 | Decided 2026-11-20: `lambda_A = 1/4` (owner-chosen normative loss ratio), `lambda_F = lambda_A = 1/4`, no answer after a failed correction. |
+| D3 | The single correction action | §3.5; §8 item 3 | Decided 2026-11-20: angle recalibration and full re-execution of both candidates; fixed shot reserve; corrected decision from corrected data only. |
+| D4 | P-amp estimator (least squares, RPE estimator, RPE-style checks) | §3.4.1, "Novelty boundary" row | Open; needed before M3. |
+| D5 | P2 reported as an alarm only, or also as a first-order `epsilon` estimate | Not stated in this plan; work plan Subtask B.3 | Open; needed before M3. |
+| D6 | Timing and scope of independent registration | Status paragraph; §3.2; acceptance checklist | Open; needed before M3 / M7. |
+| D7 | Writing target | §8 item 5 | Open; needed before M9. |
+
+**Revision note (dated 2026-11-20).** Made before any Gate 1 computation and not in response to any result.
+
+1. D1–D3 are recorded as in the table; details and boundaries are in [`contracts/decision_problem_v1.md`](contracts/decision_problem_v1.md) §6.
+2. Fixed comparator: "no action" in §3.5 is the issue-only comparator, selected once on development data between (i) the full-target allocation and (ii) the sensor policy's allocation with the sensor observation ignored, then locked before the holdout; it never reads unit-level sensor observations. This keeps an allocation-only gain from producing a positive `Delta_V` (theory draft [`theory/three_action_theory_v1.md`](theory/three_action_theory_v1.md), Proposition P2). The primary endpoint `Delta_V` and its form are unchanged.
+3. Deployability: development-locked rule constants (thresholds, transfer coefficients, tie rules) are allowed policy inputs.
+4. Population: units whose ideal gap is exactly zero are excluded (no unique correct top-1 decision); only a numerical equality tolerance is allowed, never a scientific indifference region.
+5. Decision IDs are indexed as above. Part content, Gate order, the Gate 1A -> 1B routing, and the primary endpoint are unchanged.
 
 ## Planning acceptance checklist
 

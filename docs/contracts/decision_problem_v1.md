@@ -1,22 +1,21 @@
 # Decision-problem contract v1 (Main Task 1, Subtasks 1.1–1.4)
 
-**Status:** draft contract, 2026-11-20, written by Claude for owner review.
-**Not frozen.** It has no independent timestamp and is not a protocol. It
-contains no experimental result. Items marked **[OWNER: D1/D2/D3]** cannot be
-filled in until the owner records those decisions (see §6 and
-[`../schedule/research_schedule_v1.md`](../schedule/research_schedule_v1.md),
-"Pending decisions"). Items marked **[PROPOSED]** are defaults proposed by this
-draft that the owner can accept or replace; they are not decisions.
+**Status:** owner-reviewed draft contract. First drafted 2026-11-20 (commit
+`8dc782c`); revised 2026-11-20 after owner review, which recorded decisions
+D1–D3, the issue-only comparator, the deployability clarification, and the
+ideal-tie rule (§6, §7). **Not frozen**: it has no independent timestamp and is
+not a protocol. It contains no experimental result. Items marked **[PROPOSED]**
+are defaults that the owner has not yet ruled on; they are not decisions.
 
 **Authority.** This contract implements Subtasks 1.1–1.4 of the research work
 plan. Where it and [`../research_program_plan_v0.md`](../research_program_plan_v0.md)
-disagree, the program plan governs; disagreements found while writing it are
-listed in §7 instead of being resolved here. Part content, Gate order, and the
-primary endpoint are unchanged.
+disagree, the program plan governs. The owner-review changes are recorded in
+the program plan's dated revision note (§8.1 there). Part content, Gate order,
+the Gate 1A → 1B routing, and the primary endpoint `Delta_V` are unchanged.
 
 **Theory companion.** The risk identity, pairwise switching conditions,
-blindness lemma, finite-pilot lower bound, value-of-information condition, and
-non-degeneracy definitions that this contract relies on are in
+blindness lemma, finite-pilot lower bound, value-of-information decomposition,
+collapse result, and non-degeneracy definition used here are in
 [`../theory/three_action_theory_v1.md`](../theory/three_action_theory_v1.md).
 
 ---
@@ -37,19 +36,27 @@ u = (G, c, nu, r)
 | `G` | Graph (MaxCut instance). | Population frozen in Part 2 (development) and Part 3 (confirmatory). |
 | `c = (A, B)` | Candidate pair: two frozen QAOA parameter vectors for `G`, with their frozen logical cost angles `theta_{k ell}`. | Frozen with the graph; candidates are not chosen from simulated outcomes. |
 | circuit instance | The compiled circuits of both candidates, the sensor circuits, and (for RC) the realized label draws `t`, with circuit hashes. | Compilation rule frozen in MT2 (`rc_construction_v1.md`, planned). |
-| `nu` | Noise condition: the primary E2 model **[OWNER: D1]**, the values `(epsilon, phi)`, and the nuisance noise `eta` (visibility, label-independent offset, any in-scope SPAM or control terms). | Grid frozen before the relevant Gate. |
+| `nu` | Noise condition: the E2 model (primary: the synthetic compiled-angle model, §6 D1), the values `(epsilon, phi)`, and the nuisance noise `eta` (visibility, label-independent offset, any in-scope SPAM or control terms). | Grid frozen before the relevant Gate. |
 | `r` | Replicate: seed for label draws and shot sampling. | SeedSequence keys frozen with the protocol. |
 
 **Clustering.** Units sharing a graph `G` are dependent (shared ideal response
-and candidate geometry). The primary resampling cluster is the graph **[PROPOSED]**,
-in line with program plan §3.5 ("graph-cluster uncertainty method"); the exact
-method is fixed in Part 3.
+and candidate geometry). The primary resampling cluster is the graph
+**[PROPOSED]**, in line with program plan §3.5 ("graph-cluster uncertainty
+method"); the exact method is fixed in Part 3.
 
-**Ideal ties.** A unit whose ideal gap `g = mu_A - mu_B` satisfies
-`|g| <= g_tie` has no well-defined correct candidate. **[PROPOSED]** Such units
-are excluded when the population is defined, using the ideal gap in the scoring
-layer only, with `g_tie` frozen with the population (for example a small
-multiple of numerical precision). The policy never sees `g` (§3). See §7, item 6.
+**Ideal ties (owner decision 2026-11-20).** A unit whose ideal gap
+`g = mu_A - mu_B` is exactly zero has no unique correct top-1 decision and is
+**excluded from the target population**. The ideal gap is used for this only in
+the population-definition and scoring layer; the policy never sees `g` (§3).
+
+- No near-zero scientific exclusion threshold is defined. Units with small but
+  nonzero `|g|` stay in the population, however hard they are to decide.
+- If floating-point evaluation makes an exact-zero test impossible, a
+  **numerical equality tolerance** `tau_num` may be frozen with the population
+  for the sole purpose of deciding whether a computed `g` equals zero. It is set
+  from the arithmetic precision of the ideal-value computation, not from any
+  decision consideration, and it is not a **scientific indifference region**:
+  it may not be widened to exclude units that are merely difficult.
 
 ### 1.2 Latent state
 
@@ -59,9 +66,11 @@ vartheta = (r_ideal, epsilon, phi, eta)
 
 - `r_ideal`: the ideal (noiseless) response of every circuit in the unit; it
   determines the ideal candidate values `mu_A, mu_B`, the ideal gap `g`, and the
-  correct candidate `k*(vartheta) = argmax_k mu_k`.
-- `epsilon`: multiplicative angle error (E2); `phi`: additive phase; their exact
-  placement in the circuit depends on **[OWNER: D1]**.
+  correct candidate `k*(vartheta) = argmax_k mu_k` (unique, since `g != 0`).
+- `epsilon`: multiplicative angle error (E2); `phi`: additive phase. Under the
+  primary model (§6 D1) a physical tagged `RZ(a)` is implemented as
+  `RZ((1+epsilon) a + phi)`, with `a = s_t theta` after sign-flip label
+  absorption and Z labels as error-free virtual frame updates.
 - `eta`: nuisance noise in scope (visibility, offsets, label-dependent terms
   when included).
 
@@ -75,7 +84,7 @@ Stage 0  metadata m          circuits, logical angles, label design, budget spli
 Stage 1  X1 = (X_S, X_T0)    sensor data (n_S shots) + initial target data (n_T0)  (runtime)
 Stage 2  a = pi(m, X1)       action in {N, C, A}
 Stage 3  N: issue delta_0(X_T0)
-         C: kappa_hat = kappa(m, X1); recompile; run n_C corrected shots -> X_C; issue delta_C(X_C)
+         C: kappa_hat = kappa(m, X1); recalibrate; run n_C corrected shots -> X_C; issue delta_C(X_C)
          A: issue nothing
 ```
 
@@ -85,28 +94,29 @@ Stage 3  N: issue delta_0(X_T0)
   score from the initial target shots; an exact tie is broken toward candidate
   `A`, with the tie recorded. (Any tie rule is acceptable if it is frozen and
   does not depend on outcomes.)
-- `delta_C(X_C)`: the same rule applied to the corrected-execution data. Whether
-  `X_T0` is pooled with `X_C` is part of **[OWNER: D3]**.
+- `delta_C(X_C)`: the same rule applied to the corrected-execution data **only**.
+  `X_T0` is never pooled with `X_C` (§6 D3).
 
 ### 1.4 Action semantics
 
-| Action | Meaning | Status |
-|---|---|---|
-| **N, no action (issue)** | Issue `delta_0`, the decision produced by the original execution. | Fixed by the work plan. |
-| **C, correct** | Estimate a correction `kappa_hat` from `X1`, recalibrate, and perform the specified corrected execution with `n_C` shots; issue `delta_C`. | The concrete operation, its shot path, and data pooling are **[OWNER: D3]**. |
-| **A, abstain** | Withhold the decision; incur `lambda_A`. | `lambda_A` is **[OWNER: D2]**. |
+| Action | Meaning |
+|---|---|
+| **N, no action (issue)** | Issue `delta_0`, the decision produced by the original execution. |
+| **C, correct** | Estimate `(epsilon_hat, phi_hat)` from `X1`, recalibrate every tagged cost rotation (§6 D3), re-execute **both** candidate circuits with the reserved `n_C` shots under the same frozen compilation rule as the initial execution, and issue `delta_C(X_C)`. |
+| **A, abstain** | Withhold the decision; incur `lambda_A = 1/4`. |
 
 **Correction failure.** A correction "fails" when the corrected execution does
 not produce a decision. **[PROPOSED]** failure events, frozen as a closed list:
 
 1. `kappa_hat` is undefined (estimator does not converge, phase-unwrapping or
-   no-alias condition violated, division by a zero-information quantity);
+   no-alias condition violated, division by a zero-information quantity,
+   `1 + epsilon_hat <= 0`);
 2. `kappa_hat` falls outside the frozen admissible correction range;
 3. the corrected circuit cannot be compiled under the frozen compilation rule;
-4. the corrected execution would exceed the remaining budget.
+4. the corrected execution would exceed the reserved `n_C`.
 
-What happens after a failure is part of **[OWNER: D2]** (option "no answer
-after failure" versus "fallback to `delta_0`"; §6).
+After a failure **no answer is issued** and the loss is `lambda_F` only; there
+is no fallback to `delta_0` (§6 D2).
 
 ### 1.5 Budget and resource ledger
 
@@ -115,39 +125,54 @@ calibration, correction estimation, and corrected re-execution is charged to
 `N`. Classical computation time and circuit count are reported separately and
 are not part of `N`.
 
-| Path | Shots consumed | Constraint |
-|---|---|---|
-| N | `n_S + n_T0` | `<= N` |
-| C | `n_S + n_T0 + n_C` | `<= N` |
-| A | `n_S + n_T0` (already spent before the action is chosen) | `<= N` |
+**Fixed reserve (owner decision D3).** The split `N = n_S + n_T0 + n_C` is fixed
+in advance for the sensor policy. `n_C` is a reserve for the corrected
+re-execution.
 
-Whether `n_C` is a fixed reserve that stays unused on the N and A paths, or
-whether the N path may spend it on more target shots, is part of
-**[OWNER: D3]**; it changes `q_f` in the theory and the comparator definitions
-below (§7, item 2).
+| Path | Shots executed | Shots charged to the policy's design |
+|---|---|---|
+| N | `n_S + n_T0` | `N` (the unused reserve `n_C` is part of the design and is **not** reallocated) |
+| C | `n_S + n_T0 + n_C` | `N` |
+| A | `n_S + n_T0` | `N` (reserve unused, not reallocated) |
+
+The ledger records executed shots per path and the unused reserve separately,
+but the policy's budget is `N` on every path. The split and the fixed-reserve
+rule cannot be changed to an adaptive reallocation after any result is seen.
 
 ### 1.6 Loss components (kept separate)
 
 | Component | Event | Enters the primary loss as |
 |---|---|---|
 | Wrong-answer loss | A decision is issued (path N, or path C without failure) and it differs from `k*`. | `1` |
-| Abstention loss | The policy chose A. | `lambda_A` **[OWNER: D2]** |
-| Correction failure | The policy chose C and a failure event in §1.4 occurred. | `lambda_F` **[OWNER: D2]** (plus `1` if the fallback semantics is chosen and the fallback answer is wrong) |
+| Abstention loss | The policy chose A. | `lambda_A = 1/4` |
+| Correction failure | The policy chose C and a failure event in §1.4 occurred (no answer is issued). | `lambda_F = 1/4` |
 | Correction harm | C ran without failure but `delta_C` is wrong (including when `delta_0` was right). | Counted as wrong-answer loss; also reported separately as a secondary count. |
-| Resource consumption | Shots per path, circuits, depth, classical time. | Not in the loss (budget is fixed); reported in the ledger. |
+| Resource consumption | Shots executed per path, unused reserve, circuits, depth, classical time. | Not in the loss (budget is fixed); reported in the ledger. |
 
 ### 1.7 Fixed comparators
 
-| Comparator | Definition | Notes |
-|---|---|---|
-| Always issue | All `N` shots on the target; issue `delta_0`. No sensing. | This is the predecessor's all-target baseline (`q_0`). **[PROPOSED]** it uses the full `N`, not the sensing allocation, so that it is the strongest implementable "issue" policy at the same budget. |
-| Always correct | Run the Gate-1 sensor, always perform C. | Defined only if a sensor passed Gate 1. Its allocation follows **[OWNER: D3]**. |
-| Always abstain | Run nothing; risk is exactly `lambda_A`. | |
+The action classes remain N, C, and A; no fourth primary action is added.
 
-The best fixed comparator is selected **once**, on development data, under the
-primary loss, and then locked. **[PROPOSED]** tie order if two comparators have
-equal development loss: always issue, then always correct, then always abstain.
-All three fixed-policy results are retained and reported (work plan, Subtask 5.3).
+| Comparator | Definition |
+|---|---|
+| **Issue-only comparator** (fixed no-action / always-issue) | Development-locked choice between two prespecified allocations, both of which always take N: **(i) full-target**: all `N` shots on the target, no sensing, issue `delta_0`; **(ii) sensor allocation**: the sensor policy's split `(n_S, n_T0, n_C)` is executed exactly as the policy would, but the sensor observation is ignored and N is always taken (`delta_0` from the `n_T0` shots). The allocation with the lower development loss is selected once and locked before the holdout. The comparator never reads unit-level sensor observations to choose an action. |
+| **Always correct** | The sensor policy's allocation `(n_S, n_T0, n_C)`; C is always taken. Defined only if a sensor passed Gate 1. |
+| **Always abstain** | Always A; loss exactly `lambda_A = 1/4`. |
+
+`L_fixed` is the loss of the best of these three, selected **once** on
+development data under the primary loss and locked before the holdout.
+**[PROPOSED]** tie order: issue-only, then always correct, then always abstain;
+within the issue-only comparator, a development tie goes to the full-target
+allocation. All fixed-policy results, including both issue-only allocations,
+are retained and reported (work plan, Subtask 5.3).
+
+**Why allocation (ii) is included.** Under coherent bias that flips the
+decision, moving shots away from the target can *lower* the issue error (it
+tends toward 1/2 instead of 1). Without (ii), a policy that always issues at the
+sensor allocation could beat a full-target comparator through the allocation
+alone, with no use of sensor information. Theory note, Proposition P2, shows
+that with (ii) included, no information-free policy has positive population
+`Delta_V`.
 
 ---
 
@@ -164,11 +189,17 @@ merged, and a weaker type is never relabeled as a stronger one.
 | Device-parameter simulation | Behavior of a simulation parameterized by published device numbers. | **Never** hardware evidence. | `device-parameter simulation (not hardware evidence)` |
 | Hardware-derived | Observations from an authorized run under a separately registered addendum. | Generality beyond the backend and interval observed. | `hardware-derived` |
 
+**Model scope.** Every analytic or simulated result under the primary E2 model
+is a result about the **synthetic compiled-angle model** (§6 D1). It is not an
+experimental conclusion about virtual-Z hardware.
+
 **Proof status for analytic claims.** `proved (draft, owner review pending)`;
-`sketch` (argument outline with named gaps); `conjecture`; `inherited` (proved
-in a completed project, reused with its stated scope). A **numerical check**
-(exact arithmetic or enumeration of one or a few examples) is reported under the
-claim it checks, labeled `numerical check`, and never counts as a proof.
+`corrected` (a previously stated result whose statement or proof was changed);
+`downgraded`; `sketch`; `conjecture`; `conditional example`; `inherited`
+(proved in a completed project, reused with its stated scope). A **numerical
+check** (exact arithmetic or enumeration of one or a few examples) is reported
+under the claim it checks, labeled `numerical check`, and never counts as a
+proof.
 
 **Literature status** is reported separately from evidence type, as in
 [`../literature/source_ledger.md`](../literature/source_ledger.md): metadata
@@ -193,9 +224,10 @@ an independently timestamped addendum and explicit authorization of every run.
    any data exist (for example the ideal outcome of a P-amp reference circuit,
    or the ideal value of a Clifford twin; never of a target circuit).
 5. Calibration quantities whose acquisition shots are charged to `N`.
-6. **[PROPOSED clarification, §7 item 1]** Frozen rule constants: thresholds,
-   transfer-rule coefficients, and tie rules fixed on development data and
-   locked before the data they are applied to.
+6. **Development-locked rule constants** (owner decision 2026-11-20):
+   thresholds, transfer-rule coefficients, tie rules, and other rule constants
+   fixed on development data only and locked before the data they are applied
+   to. They may not be refit on confirmatory data.
 
 ### 3.2 Forbidden inputs
 
@@ -228,13 +260,21 @@ For evaluation unit `u`:
 ```text
 L_u = 1{an answer is issued and the selected candidate is wrong}
       + lambda_A * 1{the policy abstains}
-      + lambda_F * 1{correction is attempted but execution fails}.
+      + lambda_F * 1{correction is attempted but execution fails},
+
+lambda_A = 1/4,   lambda_F = lambda_A = 1/4,   no answer is issued after a failed correction.
 ```
 
-The wrong-answer weight is normalized to 1. The values of `lambda_A`,
-`lambda_F`, and the post-failure semantics are **[OWNER: D2]**. If D2 selects a
-constrained endpoint instead of a scalar `lambda_A`, this section is rewritten
-before any freeze (program plan §8, item 2, allows this option).
+**Meaning of `lambda_A = 1/4`.** It is an **owner-chosen normative loss
+ratio**: one wrong answer costs as much as four abstentions. It is not an
+objective constant estimated from Chapter 2 data, and it is not claimed to be a
+universally applicable utility weight. `lambda_F = lambda_A` treats a failed
+correction as an involuntary abstention, so that attempting a correction can
+never be a cheaper substitute for abstaining.
+
+**Alternative-loss sensitivity.** Prespecified alternative loss weights may be
+analyzed, but only as a **secondary endpoint**. They are never used to rescue,
+replace, or reinterpret the primary `Delta_V`.
 
 ### 4.2 Sole primary statistic
 
@@ -274,120 +314,100 @@ loss weights; correction-harm count (§1.6).
 |---|---|
 | Gate 1A passes | Sensor = RC labels; all actions defined. |
 | Gate 1A fails, 1B passes | Sensor = P-amp; all actions defined; no RC-label sensing claim. |
-| Gate 1A fails only for `epsilon` but labels support a deployable test of `phi != 0` | Recorded as a Gate 1A failure for `epsilon`. Abstention can use the test; correction cannot (no estimate). Routing still goes to Gate 1B. |
+| Gate 1A fails only for `epsilon` but labels support a deployable test of `phi != 0` | Recorded as a Gate 1A failure for `epsilon`. Abstention can use the test; correction cannot (D3 needs `epsilon_hat`). Routing still goes to Gate 1B. |
 | Both fail (Branch C) | Action C has no sensor; the empirical policy branch stops. The contract remains the definition used by the theory chapter. |
 
----
-
-## 6. Owner decisions required (D1–D3)
-
-These are listed as options with consequences. **No option has been chosen in
-this document.** D1 is needed before M2 (and therefore before the conditional
-likelihood); D2 and D3 are needed before the loss and correction action can be
-written as final.
-
-### D1 — Primary E2 placement
-
-| Option | What is frozen | Consequences |
-|---|---|---|
-| D1-a Logical-angle model | E2 multiplies the logical angle before label absorption (what the predecessor implemented; audit §1). | Labels are blind to both `epsilon` and `phi` by construction, so Gate 1A fails analytically and almost trivially; the chapter runs through Gate 1B (P-amp). Existing predecessor tests serve as regression tests. The RC-label negative result is weak as a contribution because it follows from the definition. |
-| D1-b Compiled-angle model, virtual Z frames, sign-flip absorption | Physical `RZ(a) -> RZ((1+epsilon)a + phi)` with `a = s_t theta`; Z labels are error-free frame updates. | Draft prediction (unreviewed): zero admissible information for `epsilon` at `phi = 0`, a deployable test for `phi != 0`, no estimate of `phi` without the response slope. If proved, this is a non-trivial negative identifiability result. Requires stating the physical carrier of an angle-proportional `RZ` error; on hardware where `RZ` is virtual (`mckay2017vz`) the model may have to be recorded as synthetic. |
-| D1-c Compiled-angle model, wrapped Z absorption (`theta + pi`) | As D1-b, but Z labels are absorbed as wrapped angles before the error acts. | Labels then carry first-order information about `epsilon` even at `phi = 0`, but the signal comes from the compiler's representation (`epsilon * (+/- pi)` terms). Gate 1A could pass for a reason a reviewer may call an artifact; the representation must be shown to be real in a named compiler. |
-| D1-d Physical-control model | The error acts on a pulse amplitude/duration or composite control parameter. | Most physically motivated, but the current simulator has no pulse or control model (audit §1); substantial new modeling. If it cannot be represented faithfully, the work plan requires recording it as "not modeled" rather than substituting a virtual rotation. |
-
-Secondary/diagnostic status of the non-chosen models is fixed at the same time
-(work plan, Subtask 2.1).
-
-### D2 — Abstention loss `lambda_A`, failure loss `lambda_F`, post-failure semantics
-
-**D2.1 `lambda_A` (or a constrained endpoint)**
-
-| Option | Consequences |
-|---|---|
-| D2.1-a A single scalar `lambda_A` in `(0, 1/2)` (for example `1/4`: one wrong answer is as bad as four abstentions) | Keeps the single scalar endpoint unchanged. Abstention can be optimal. Theory note (Corollary 2): if the issued decision were the posterior-most-likely candidate, abstention could be optimal only for `lambda_A < 1/2`; because action N issues the fixed empirical decision `delta_0`, abstention can still be optimal above `1/2` when bias makes `delta_0` confidently wrong. |
-| D2.1-b A scalar `lambda_A >= 1/2` | Abstention is chosen only where the conditional error of `delta_0` exceeds 1/2, i.e., where the bias is believed to flip the decision. Policies will abstain rarely; Gate 4 (non-degeneracy) becomes harder to pass via abstention. |
-| D2.1-c A very small `lambda_A` (for example `<= 0.05`) | Risk listed in program plan §6: always-abstain may become the best fixed comparator, and `Delta_V` then measures how often the policy beats a zero-coverage rule. |
-| D2.1-d Constrained endpoint: minimize the wrong-issue rate subject to coverage `>= c_min` (or the reverse) | Avoids choosing a harm ratio, but changes the form of §4 and requires a constrained comparator and a different uncertainty method; must be written and frozen before Part 3. |
-
-For orientation only (arithmetic on inherited Chapter 2 results, not evidence
-for any value): for the E2 structure, the predecessor's alarm rule lowered
-false certification from `0.0609` to `0.0159` while coverage fell from `0.6025`
-to `0.300` (audit §6). Under a scalar loss that rule beats certify-only exactly
-when `lambda_A < 0.045 / 0.3025 ≈ 0.149`. The chapters are not directly
-comparable: in Chapter 2 an uncertified decision already counted as "not
-covered", while here action N issues regardless of the interval.
-
-**D2.2 `lambda_F`**
-
-| Option | Consequences |
-|---|---|
-| D2.2-a `lambda_F = lambda_A` | A failed correction is an involuntary abstention. Simple; no incentive to "use C as a cheap abstention". |
-| D2.2-b `lambda_A < lambda_F < 1` | Penalizes the wasted resources and the late failure; correction becomes less attractive where the failure probability is high. |
-| D2.2-c `lambda_F = 1` (or more) | Failure as bad as a wrong answer; strongly discourages C in uncertain regions; may push the policy toward collapse to N or A. |
-| Constraint for every option | `lambda_F < lambda_A` is not recommended by this draft: a policy could then choose C where failure is likely as a cheaper substitute for A, which rewards failures. |
-
-**D2.3 Post-failure semantics**
-
-| Option | Consequences |
-|---|---|
-| D2.3-a No answer after failure; loss `lambda_F` | Matches the loss formula in the work plan as written; action set stays {N, C, A}. |
-| D2.3-b Fallback: issue `delta_0` after failure; loss `lambda_F` + wrong-answer term | Recovers coverage, but effectively adds a fourth path ("C, else N") that the loss formula and comparators must then name explicitly. |
-
-### D3 — The single concrete correction action
-
-| Option | What C does | Consequences |
-|---|---|---|
-| D3-a Angle recalibration + full re-execution | Recompile each tagged cost rotation with the commanded angle that cancels the estimated error (for the linear model, `(theta - phi_hat) / (1 + epsilon_hat)`), run both candidates again with `n_C` shots, decide from `X_C`. | Matches the program plan's wording ("second execution with an estimated angle recalibration"). Needs both `epsilon_hat` and `phi_hat` (or a stated rule if only one is identified). Costs a full re-execution, so `n_C` competes directly with `n_T0` and `n_S`; under the compiled-angle model the recalibrated angle is itself subject to the same error law, which the correction must account for. |
-| D3-b Compiled compensating rotation | Insert a compensating rotation after each tagged gate (for example `RZ(-epsilon_hat theta - phi_hat)`), then re-execute. | Under virtual-Z frames the compensator may be error-free, which makes correction look easier than any physical realization; under the compiled-angle model the compensator is itself mis-rotated. The result depends strongly on D1. |
-| Not eligible under the current plan: classical post-hoc correction of the observed gap (no re-execution) | — | Conflicts with Subtask 1.1 ("perform the specified corrected execution"); allowed only through a dated program-plan revision. |
-
-**D3 sub-choices (needed with either option):**
-
-1. **Shot path.** (i) Fixed reserve: `n_S`, `n_T0`, `n_C` fixed in advance; the
-   reserve is unused on paths N and A. Simple and auditable, but N and A waste
-   `n_C`, which lowers policy value. (ii) Adaptive: on path N the reserve is
-   spent on more target shots before issuing. Higher value, but `delta_0` then
-   depends on the action, which the theory handles (`q_f` becomes
-   path-dependent) but the ledger and comparators must spell out.
-2. **Pooling.** Decide from `X_C` only (clean; discards `n_T0` shots) or pool
-   `X_T0` with `X_C` (uses all shots, but mixes uncorrected and corrected data
-   and so reintroduces part of the bias).
+The draft frame-covariance derivation predicts a Gate 1A failure under the
+primary model. That prediction is not a result: Gate 1A is still tested formally
+against its frozen criterion (program plan §3.2).
 
 ---
 
-## 7. Issues found in the plan while writing this contract (not resolved here)
+## 6. Owner decisions (recorded 2026-11-20)
 
-1. **Frozen rule constants are not on the deployability list.** Subtask 1.3 does
-   not list development-locked thresholds and transfer-rule coefficients, yet
-   Gates 2–4 require them. §3.1 item 6 proposes adding them explicitly. Owner
-   confirmation needed.
-2. **Budget path of C is unspecified.** "All shots are charged to one fixed
-   budget" does not say whether the re-execution reserve is spent on other
-   paths. This changes `q_f`, the always-issue comparator, and Gate 3. Folded
-   into D3.
-3. **Post-failure semantics is unspecified.** The loss formula does not say
-   whether a wrong-answer term can follow a failure. Folded into D2.
-4. **Fewer target shots do not always mean higher error.** Under coherent bias
-   that flips the decision, the wrong-decision probability of the empirical
-   sign can *decrease* when target shots are removed (it tends toward 1/2 rather
-   than 1). The value-of-information condition in the theory note therefore
-   keeps the allocation cost `q_f - q_0` signed and does not assume it is
-   nonnegative.
-5. **Decision-ID numbering.** The work plan says D1–D7 are "recorded in program
-   plan §8", but §8 lists five different items (work capacity, abstention loss,
-   correction action, longitudinal hardware, writing target). D1 (E2 placement)
-   is stated in §3.3, and D4–D6 in §3.4.1 and the checklist. The two documents
-   should be reconciled by a dated revision note.
-6. **Ideal ties.** Neither plan says how units with ideal gap `g = 0` (or
-   numerically near 0) are handled. §1.1 proposes exclusion at population
-   definition.
-7. **M1 versus MT1 "done".** M1's exit evidence is "contracts drafted and
-   committed", while MT1's "done when" also requires owner approval of D1–D3.
-   This draft reaches M1 but not MT1 completion; the status table should say so.
-8. **Comparator loophole (from item 4).** If removing target shots lowers the
-   issue error, a policy that always issues at the sensing allocation would beat
-   the full-budget always-issue comparator without using any sensor
-   information, giving `Delta_V > 0` from the allocation alone (theory note,
-   Proposition P2). Options: add "always issue at the sensor allocation" to the
-   comparator set, or define always-issue as the best issue-only allocation on
-   development data. Owner decision needed before the comparator set is frozen.
+The option tables presented for these decisions are in commit `8dc782c`
+(this file, §6). Only the decisions and their boundaries are kept here.
+
+### D1 — Primary E2 placement: D1-b, as a synthetic compiled-angle model
+
+**Primary model.** Compiled-angle model with virtual-Z frames and sign-flip
+absorption: each physical tagged rotation with commanded angle `a = s_t theta`
+is implemented as `RZ((1+epsilon) a + phi)`; Z labels are error-free virtual
+frame updates.
+
+**Boundaries.**
+
+1. Until there is evidence of a physical pulse or control carrier for an
+   angle-proportional `RZ` error, this model is called the **synthetic
+   compiled-angle model** in every document.
+2. Conclusions under this model may not be extrapolated to experimental
+   conclusions about real virtual-Z hardware.
+3. **D1-a (logical-angle model)** is kept as a regression and negative control
+   (labels blind by construction). It is not a co-primary model.
+4. **D1-c (wrapped-Z absorption)** is neither a primary nor an alternative
+   success model. It is listed only as a non-adopted model variant, unless it is
+   first shown that the actual representation of a named compiler or backend
+   matches it.
+5. **D1-d (physical-control model)** is recorded as **not modeled**. No
+   pulse-level simulator is added.
+6. Gate 1A is tested formally under its frozen criterion even though the draft
+   predicts failure; the prediction is never written as a result.
+
+### D2 — Losses and failure semantics
+
+- Primary `lambda_A = 1/4`: owner-chosen normative loss ratio (one wrong answer
+  = four abstentions); not estimated from Chapter 2 data and not a universal
+  utility weight.
+- `lambda_F = lambda_A = 1/4`.
+- After a correction failure, no answer is issued; there is no fallback to
+  `delta_0`.
+- Prespecified alternative-loss sensitivity analyses are secondary only and
+  cannot rescue the primary `Delta_V`.
+
+### D3 — Correction action
+
+- **D3-a.** Estimate the angle error, recalibrate, and fully re-execute both
+  candidate circuits. Under the primary linear model, each tagged rotation whose
+  intended physical angle is `a` is commanded at
+  `a' = (a - phi_hat) / (1 + epsilon_hat)`, so that the implemented angle is
+  `(1+epsilon) a' + phi`, which equals `a` when the estimates are exact. The
+  correction therefore needs both `epsilon_hat` and `phi_hat`.
+- **Shot path: fixed reserve.** `n_C` is reserved in advance. Paths N and A do
+  not reallocate the reserve; the unused reserve is still part of that policy's
+  fixed budget design (§1.5). The rule cannot be changed to adaptive
+  reallocation after results are seen.
+- **Decision data.** The corrected decision uses `X_C` only; uncorrected `X_T0`
+  is not pooled with `X_C`.
+
+---
+
+## 7. Plan issues found while drafting and their resolution
+
+| # | Issue | Resolution (2026-11-20) |
+|---|---|---|
+| 1 | Development-locked rule constants were not on the deployability list. | Added (§3.1 item 6); program plan revision note §8.1. |
+| 2 | Budget path of C was unspecified. | Fixed reserve (D3; §1.5). |
+| 3 | Post-failure semantics was unspecified. | No answer after failure (D2; §1.4). |
+| 4 | Fewer target shots do not always mean higher error under coherent bias. | Kept as a stated fact; handled by the issue-only comparator (§1.7). |
+| 5 | Decision-ID numbering differed between the work plan and the program plan. | Index added to program plan §8.1; work plan cross-reference corrected. Numbering only. |
+| 6 | Ideal ties were unspecified. | Exact `g = 0` excluded; only a numerical equality tolerance allowed (§1.1). |
+| 7 | M1 versus MT1 "done". | M1 achieved at `8dc782c`; MT1 status updated in the work plan after this revision. |
+| 8 | Comparator loophole (allocation-only gains). | Issue-only comparator with two prespecified allocations (§1.7); theory note P2 corrected. |
+
+**Still open (raised by the P2 correction; owner ruling needed before the
+comparator set is frozen).**
+
+- **Metadata-only policies.** P2 covers policies whose action does not depend on
+  the unit at all. A policy that chooses its action from circuit metadata alone
+  (an allowed input, §3.1 item 3), without any sensor observation, could beat
+  the single best fixed comparator by taking different fixed actions in
+  different metadata strata, and would then show `Delta_V > 0` without using
+  runtime evidence. This draft does not change the comparator set; options
+  include reporting a development-locked metadata-only comparator as a
+  secondary diagnostic, or forbidding metadata-only action variation in the
+  policy class.
+- **Finite-sample comparator selection.** P2 is a population statement. With
+  estimated development losses, the locked comparator (or the issue-only
+  allocation) can be mis-selected. An information-free policy can then show a
+  positive holdout `Delta_V` only through that development mis-selection; this
+  is to be covered by the Part 3 uncertainty method, not by P2.

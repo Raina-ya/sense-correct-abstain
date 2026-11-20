@@ -1,10 +1,15 @@
 # Three-action theory v1 (Main Task 1, Subtask 1.5)
 
-**Status: draft, 2026-11-20, written by Claude. Not reviewed by the project
-owner. Not frozen.** Every result carries a proof status:
+**Status: draft, written by Claude 2026-11-20 (commit `8dc782c`); revised
+2026-11-20 after owner review of Main Task 1 (direction approved; decisions
+D1–D3 and the issue-only comparator recorded in the contract). Not frozen. The
+individual proofs still await the owner's line-by-line check.** Every result
+carries a proof status:
 
 - `proved (draft, owner review pending)`: a complete proof is written below; it
   still needs owner checking before it is cited as proved.
+- `corrected`: the statement or proof was changed in the owner-review revision;
+  the change is described where it occurs.
 - `sketch`: an outline with named gaps.
 - `conditional example`: an instance whose premise is itself unproved.
 - `numerical check`: exact enumeration of one or a few examples (§9). It checks
@@ -22,8 +27,17 @@ Literature keys refer to [`../literature/library.csv`](../literature/library.csv
 Their verification states are unchanged by this note: `chow1970`, `herbei2006`,
 `howard1966voi`, `tsybakov2009`, `vandervaart1998` are metadata/abstract-level
 checks only; `lecam1973` is inherited (bibliographic). No result below depends
-on an unread source for its proof: every proof is self-contained, and a citation
-only marks where a standard form comes from.
+on an unread source for its proof: every proof is self-contained (including the
+two divergence inequalities used in T2, proved in §5), and a citation only marks
+where a standard form comes from. Where the exact attribution or reference
+location could not be checked against a full text, the text says
+"attribution/reference location unverified". No new literature entry was added
+in the revision.
+
+**Model scope.** The theory is sensor- and model-independent. Where an example
+refers to the primary E2 model, that model is the **synthetic compiled-angle
+model** of contract §6 D1, and nothing here is a conclusion about virtual-Z
+hardware.
 
 ---
 
@@ -31,18 +45,18 @@ only marks where a standard form comes from.
 
 | # | Result | Status |
 |---|---|---|
-| T1 | Three-action risk identity | proved (draft) |
-| C1 | Reduction to the predecessor's Eq. (6) (no correction, `lambda_A = 0`) | proved (draft) |
-| C2 | Reduction to a Chow-type reject rule (no correction, `lambda_A > 0`) | proved (draft); exact match to Chow's published form to be verified against the full text of `chow1970` |
+| T1 | Three-action risk identity | proved (draft); re-checked in revision |
+| C1 | Reduction to the predecessor's Eq. (6) (no correction, `lambda_A = 0`) | proved (draft); equation number checked against the predecessor's compiled paper |
+| C2 | Reduction to a Chow-type reject rule (no correction, `lambda_A > 0`) | rule proved (draft); attribution of the exact form to Chow (1970) unverified (full text not accessible) |
 | P1 | Pairwise switching conditions (when evidence changes the Bayes action) | proved (draft) |
 | L1 | Action-selection blindness lemma | proved (draft) |
 | E1 | Direct-phase example of L1 (single sensed angle) | proved (draft) within the direct-phase model; relevance to the QAOA likelihood not established |
-| E2 | RC-label example of L1 under the compiled-angle, virtual-Z model | conditional example: premise is the unreviewed frame-covariance draft plus an unproved nuisance argument |
-| T2 | Finite-pilot lower bound on wrong-action probability and regret | proved (draft); the KL and Hellinger forms use standard inequalities whose lemma numbers in `tsybakov2009` are to be checked |
-| D1 | Value-of-information decomposition | proved (draft) (identity) |
-| P2 | Honest collapse: degenerate policies cannot have positive `Delta_V` | proved (draft), under a stated comparator condition |
+| E2 | RC-label example of L1 under the synthetic compiled-angle model | conditional example: premise is the unreviewed frame-covariance draft plus an unproved nuisance argument |
+| T2 | Finite-pilot lower bound on wrong-action probability and regret | proved (draft); the two divergence inequalities are now proved in the note; their reference location in `tsybakov2009` unverified |
+| D1 | Value-of-information decomposition | corrected (comparator set updated; allocation cost now nonnegative at population level) |
+| P2 | Honest collapse | corrected and narrowed: proved (draft) for information-free policies at population level under the issue-only comparator; metadata-only policies and finite-sample selection not covered |
 | P3 | Uniform dominance implies a fixed Bayes action | proved (draft) |
-| D2 | Policy non-degeneracy (definition) | definition; thresholds frozen in Part 3 |
+| D2 | Policy non-degeneracy (definition) | definition; wording of its relation to Gate 3 corrected; thresholds frozen in Part 3 |
 
 ---
 
@@ -62,8 +76,10 @@ only marks where a standard form comes from.
   `delta_C`. Its conditional law may depend on `vartheta` and `x`, and is
   conditionally independent of the policy's private randomization given `x`.
 - Loss weights: wrong answer 1, abstention `lambda_A >= 0`, failure
-  `lambda_F >= 0`. Post-failure semantics: no answer (contract D2.3-a). The
-  fallback variant (D2.3-b) is handled in Remark 1.
+  `lambda_F >= 0`. The results are stated for general weights; the contract's
+  primary values are `lambda_A = lambda_F = 1/4`. Post-failure semantics: no
+  answer (contract §6 D2). Shot path: fixed reserve, so the stage-1 evidence and
+  `delta_0` do not depend on the action (contract §6 D3).
 
 **Action-conditional losses.** For state `vartheta` and evidence `x`:
 
@@ -123,25 +139,22 @@ randomization; stage-2 randomness is conditionally independent of that
 randomization given `x`; the action set and losses are as stated. No Gaussian,
 independence-between-sensor-and-target, or stationarity assumption is used.
 
-**Remark 1 (fallback semantics).** If a failed correction falls back to issuing
-`delta_0` (contract D2.3-b), replace `l_C` by
-`lambda_F rho + rho' + c`, with `rho' = P(F = 1, delta_0 != k* | x)`. T1 holds
-with this `l_C`; nothing else changes.
-
-**Remark 2 (path-dependent allocation).** If the N path spends the re-execution
-reserve on additional target shots (contract D3, shot path (ii)), then
-`delta_0` is computed from more data on path N than the stage-1 evidence used
-by the policy. T1 still holds if `l_N(vartheta, x)` is redefined as the
-conditional wrong-answer probability of the path-N decision given `x`
-(`l_N` is then a probability in `[0,1]` rather than an indicator). The
-reductions C1 and C2 below are stated for the fixed-reserve case.
+**Remark 1 (non-adopted variants).** The owner did not adopt a fallback after
+failure or an adaptive reallocation of the reserve. For the record only: with a
+fallback, T1 holds with `l_C = lambda_F rho + P(F = 1, delta_0 != k* | x) + c`;
+with adaptive reallocation, T1 holds if `l_N(vartheta, x)` is redefined as the
+conditional wrong-answer probability of the path-N decision given `x`. Neither
+variant is used anywhere else in this note.
 
 ### Corollary C1 — reduction to the predecessor's Eq. (6). proved (draft)
 
-Predecessor reference: `bias-probe-visibility` at commit `cd5e576`, paper
-`paper/main_v4.tex`, sixth numbered equation (`eq:worth`), identical to
-condition (4) of `docs/theory/08_prop2.md` (whose display (6) is the equivalent
-form `eta_f > 1 - q_0/q_f`).
+Predecessor reference: `bias-probe-visibility` at commit `cd5e576`. In the
+compiled paper `paper/main_v4.pdf`, Section 3.3, Eq. (6) is
+`d_f > q_f - q_0`, following Eq. (5) `q_f = P(W_f), d_f = P(A_f ∩ W_f),
+R_f = q_f - d_f` (checked in the revision by text extraction of the PDF; source
+label `eq:worth` in `paper/main_v4.tex`). It is the same condition as display
+(4) of `docs/theory/08_prop2.md`; that note's display (6) is the equivalent form
+`eta_f > 1 - q_0/q_f`.
 
 Remove C (`pi_C = 0`), set `lambda_A = 0`, and let the policy abstain exactly on
 a probe alarm: `pi_A(x) = 1{x in Alarm}`. With the predecessor's notation
@@ -157,7 +170,7 @@ predecessor's Eq. (6). ∎ The predecessor's statement that its condition holds
 "without independence" is consistent with T1, which also uses no independence
 between probe and target data.
 
-### Corollary C2 — Chow-type reject rule. proved (draft); attribution to verify
+### Corollary C2 — Chow-type reject rule. rule proved (draft); attribution unverified
 
 Remove C and let `lambda_A > 0`. Fix a prior `Pi` on `Theta` and write the
 posterior wrong-answer probability of the issued decision as
@@ -176,16 +189,18 @@ abstain  iff  e_N(x) > lambda_A        (either action on e_N(x) = lambda_A).
 If in addition `delta_0(x)` is the posterior-most-likely answer, then
 `e_N(x) = 1 - max_k Pi(k* = k | x)`, and the rule becomes "abstain iff the
 largest posterior answer probability is below `1 - lambda_A`", which is the
-threshold rule commonly attributed to Chow (1970). Only the abstract of
-`chow1970` has been checked in this project, so the attribution of this exact
-form is to be verified against the full text.
+threshold rule commonly attributed to Chow (1970) in secondary literature.
+**Attribution unverified:** only the abstract of `chow1970` (which describes "an
+optimum rejection rule") has been checked; the full text was not accessible in
+the revision (publisher paywall), so it is not confirmed that the paper states
+this exact form with these costs. The proof below does not depend on it.
 
 **Proof.** By (T1b) averaged over `Pi` and conditioned on `X`, the Bayes risk is
 `E[e_N(X)] + E[pi_A(X)(lambda_A - e_N(X))]`, minimized pointwise by setting
 `pi_A(x) = 1` when `lambda_A - e_N(x) < 0` and 0 when it is positive. If
 `delta_0` is the posterior mode, `e_N = 1 - max_k Pi(k | x)`. ∎
 
-**Consequence for decision D2 (two answers).** If `delta_0` is the posterior
+**Consequence for the loss (two answers).** If `delta_0` is the posterior
 mode, `e_N(x) <= 1/2`, so abstention is never Bayes-optimal when
 `lambda_A >= 1/2`. In this project action N issues the *fixed empirical*
 decision `delta_0`, not the posterior mode, and N cannot issue the other answer;
@@ -311,8 +326,9 @@ not help: what the decision needs is `epsilon`, which this sensor cannot
 separate from `phi`. Whether the QAOA measurement likelihood inherits this
 direct-phase structure is a Gate 1A question, not established here.
 
-**Example E2 — RC labels under the compiled-angle, virtual-Z model.
-conditional example (premise unproved).** The unreviewed draft
+**Example E2 — RC labels under the synthetic compiled-angle model (primary
+model, contract §6 D1). conditional example (premise unproved).** The
+unreviewed draft
 [`gate1_frame_covariance_draft.md`](gate1_frame_covariance_draft.md) predicts
 that at `phi = 0` every label yields the same outcome law, depending on
 `(1+epsilon) theta` and the unknown ideal response. *If* Part 1 proves that the
@@ -321,13 +337,14 @@ exist `(epsilon, r)` and `(epsilon', r')` in the frozen nuisance class with
 identical label-resolved laws (the draft's closure argument is flagged there as
 probably false and is to be replaced), and *if* those two states imply different
 optimal actions, then L1 makes RC labels action-blind at `phi = 0`. Both "if"s
-are open; this example only shows where L1 would enter.
+are open; this example only shows where L1 would enter. It is not a Gate 1A
+result: Gate 1A is decided only by its frozen criterion.
 
 ---
 
 ## 5. Finite-pilot lower bound
 
-### Theorem T2 — proved (draft); inequality references to check
+### Theorem T2 — proved (draft); reference location unverified
 
 Let `vartheta_0, vartheta_1` have stage-1 laws `P_0, P_1` (now possibly
 different). With `Gamma(x)` as in L1 but computed for this pair:
@@ -365,14 +382,37 @@ D_a^1(x) p_1(x)] mu(dx) >= integral sum_a pi_a(x) (D_a^0 + D_a^1)(x)
 min(p_0, p_1)(x) mu(dx) >= integral Gamma(x) min(p_0, p_1) mu(dx)`.
 (T2b): `integral min(p_0, p_1) = 1 - TV`. (T2c): `P_0(pi != a_0) + P_1(pi = a_0)
 = integral [(1 - pi_{a_0}) p_0 + pi_{a_0} p_1] >= integral min(p_0, p_1)`, and
-`P_1(pi != a_1) >= P_1(pi = a_0)`. (T2d) is the Bretagnolle–Huber inequality
-`integral min(p, q) >= (1/2) exp(-KL(p || q))` together with additivity of KL
-over products. (T2e) is Le Cam's inequality
-`integral min(p, q) >= (1/2) (integral sqrt(p q))^2` together with
-multiplicativity of the Bhattacharyya coefficient over products. Both
-inequalities are standard (`tsybakov2009`, Chapter 2; `lecam1973`); the lemma
-numbers in Tsybakov are to be checked, since only book metadata has been
-verified. ∎
+`P_1(pi != a_1) >= P_1(pi = a_0)`. For (T2d)–(T2e) two inequalities are
+needed; both are proved here so that T2 does not rest on an unread reference.
+
+*Conventions (checked in the revision).* `TV(P, Q) = sup_A |P(A) - Q(A)|
+= (1/2) integral |p - q|`, so `integral min(p, q) = 1 - TV` and
+`integral max(p, q) = 1 + TV <= 2`. `BC(P, Q) = integral sqrt(p q)`;
+with `H^2 = integral (sqrt p - sqrt q)^2` (range `[0, 2]`), `BC = 1 - H^2/2`.
+`KL(P || Q) = integral p log(p/q)`, taken as `+infinity` if `P` is not
+absolutely continuous with respect to `Q`.
+
+*(i) Le Cam's inequality, `integral min(p, q) >= (1/2) BC^2`.* By
+Cauchy–Schwarz,
+`BC^2 = (integral sqrt(min) sqrt(max))^2 <= integral min * integral max
+<= 2 integral min`.
+
+*(ii) Bretagnolle–Huber, `integral min(p, q) >= (1/2) exp(-KL(P || Q))`.* If
+`KL = infinity` there is nothing to prove. Otherwise, by (i) it suffices that
+`BC^2 >= exp(-KL)`. On `{p > 0}`, `BC >= integral p sqrt(q/p)`, and by Jensen
+(log concave), `log integral p sqrt(q/p) >= integral p log sqrt(q/p) =
+-(1/2) KL`, so `BC^2 >= exp(-KL)`.
+
+*Products.* `KL` adds over independent coordinates and `BC` multiplies, which
+gives (T2d) from (ii) and (T2e) from (i). Direction: both bound the overlap
+`1 - TV` from **below**, which is the direction a lower bound on errors needs;
+the constant is `1/2` in both.
+
+*Reference location (unverified).* These are standard (`lecam1973`;
+`tsybakov2009`, Chapter 2). Secondary sources cite them as Lemma 2.3 (Le Cam's
+inequalities) and Lemma 2.6 (Bretagnolle–Huber) of Tsybakov's book; the book
+itself was not consulted (only its metadata is verified), so these locations are
+recorded as unverified. ∎
 
 **Scope.** T2 is only as meaningful as the pair. MT3 Subtask 3.3 must construct
 pairs that lie inside the frozen model class, imply different optimal actions,
@@ -387,12 +427,21 @@ sample-complexity bounds on estimator error (`takagi2022`, `quek2024`, see
 
 ## 6. Value of information under a fixed budget
 
-### Decomposition D1 — proved (draft) (identity)
+### Decomposition D1 — corrected (identity; comparator set updated)
 
-Let `Pi` be the development distribution of units (states), bars denote
-averages over `Pi`, and let `R_fix = min{ q_bar_0, r_bar_C^fix, lambda_A }` be
-the risk of the best fixed comparator (contract §1.7). For a sensor policy `pi`
-with stage-1 issue error `q_bar_f` (reduced target allocation), T1b gives
+Let `Pi` be the distribution of units (states), bars denote averages over `Pi`,
+and write the population risks of the fixed comparators of contract §1.7 as
+
+```text
+q_bar_0    issue-only, full-target allocation
+q_bar_f    issue-only, sensor allocation (sensor observation ignored)
+r_bar_C    always correct, sensor allocation
+lambda_A   always abstain
+R_fix = min{ min(q_bar_0, q_bar_f), r_bar_C, lambda_A }.
+```
+
+For a sensor policy `pi` (whose stage-1 issue error at the sensor allocation is
+also `q_bar_f`), T1b gives
 
 ```text
 Delta_V(pi) = R_fix - R_bar(pi) = G(pi) - K,
@@ -406,35 +455,68 @@ information principle (`howard1966voi`: information is worth acquiring only if
 the expected improvement in the decision exceeds its cost) written with the cost
 measured in shots.
 
-**Sign of `K`.** When always-issue is the best fixed policy,
-`K = q_bar_f - q_bar_0`, the extra issue error from moving `n_S` (and the
-reserve) away from the target. Under coherent bias that flips the decision,
-removing target shots can *lower* the issue error (it moves toward 1/2 instead
-of toward 1), so `K` can be negative. No monotonicity in shots is assumed
-(contract §7, item 4).
+**Sign of `K` (corrected).** No monotonicity of issue error in shots is
+assumed: under coherent bias that flips the decision, removing target shots can
+lower the issue error (it moves toward 1/2 instead of toward 1), so
+`q_bar_f < q_bar_0` is possible. In the first draft, whose comparator was
+full-target always-issue only, `K` could therefore be negative, and part of
+`Delta_V` could come from the allocation alone. With the issue-only comparator,
+`R_fix <= min(q_bar_0, q_bar_f) <= q_bar_f`, hence
 
-### Proposition P2 — honest collapse. proved (draft)
+```text
+K = q_bar_f - R_fix >= 0       (population level),
+```
 
-Suppose the comparator set contains, for each action `a`, a fixed policy whose
-risk is no larger than that of always taking `a` under the sensor policy's
-allocation. (This holds for A trivially; for C when always-correct uses the
-same allocation; for N when `q_bar_0 <= q_bar_f`, otherwise see below.) Then
-any policy that takes one action with probability 1 has `Delta_V <= 0`.
-Equivalently, `Delta_V(pi) > 0` implies that `pi` uses at least two actions with
-positive probability.
+so at population level `Delta_V(pi) > 0` requires `G(pi) > K >= 0`: a positive
+expected action-loss reduction from deviating from N.
 
-**Proof.** If `pi` takes `a` almost surely, `R_bar(pi)` equals the risk of
-always taking `a` at the sensor allocation, which by assumption is at least the
-corresponding comparator's risk, which is at least `R_fix`. ∎
+### Proposition P2 — honest collapse. corrected and narrowed; proved (draft)
 
-**When the condition fails.** If `q_bar_f < q_bar_0` (fewer target shots give a
-lower issue error, possible under bias), then "always issue at the sensor
-allocation" beats the full-budget always-issue comparator, and a policy that
-never deviates from N could show `Delta_V > 0` without using any sensor
-information. **This is a loophole in the comparator definition**, reported here
-rather than fixed: the owner can either add "always issue at the sensor
-allocation" to the comparator set or define always-issue as the best issue-only
-allocation on development data. (Listed in the summary of open items, §8.)
+**What changed.** The first draft claimed that every policy taking a single
+action has `Delta_V <= 0`, under a comparator condition that fails exactly when
+`q_bar_f < q_bar_0`. That condition is now met by construction, and the
+statement is strengthened from single-action policies to all information-free
+policies, but narrowed to the population level.
+
+**Assumptions.**
+
+- (A1) Comparators as in contract §1.7: issue-only (best of full-target and
+  sensor allocation), always correct at the sensor allocation, always abstain.
+- (A2) Population level: the comparator is selected by exact risks under the
+  same distribution `Pi` on which `Delta_V` is evaluated.
+- (A3) Information-free policy: the action probabilities `w_a = P(pi = a)` are
+  the same for every unit; they depend neither on the stage-1 evidence `X` nor
+  on the unit's metadata (a fixed, possibly randomized, mixture of N, C, A).
+  Single-action policies are the special case `w_a = 1`.
+
+**Statement.** Under (A1)–(A3), `Delta_V(pi) <= 0`. Equivalently, under (A1)–(A2),
+`Delta_V(pi) > 0` implies that the action of `pi` depends on the unit.
+
+**Proof.** Under (A3) the action is independent of the unit, so by T1a
+`R_bar(pi) = w_N q_bar_f + w_C r_bar_C + w_A lambda_A`, where every term is the
+risk of always taking that action at the sensor allocation (fixed reserve, so
+the allocation does not depend on the action). Each of these is a comparator
+risk or, for N, at least `min(q_bar_0, q_bar_f)`; hence each is at least
+`R_fix`, and so is their weighted average. Therefore
+`Delta_V = R_fix - R_bar(pi) <= 0`. ∎
+
+**What P2 does not cover (open, contract §7).**
+
+1. **Metadata-only policies.** A policy whose action depends on circuit metadata
+   but not on any sensor observation violates (A3). It can take different fixed
+   actions in different metadata strata and beat the single best fixed
+   comparator, giving `Delta_V > 0` without runtime evidence. P2 cannot exclude
+   this; the comparator set or the policy class would have to be changed, which
+   is an owner decision.
+2. **Finite samples.** (A2) fails when comparators are selected from estimated
+   development losses. An information-free policy can then show a positive
+   holdout `Delta_V` only through development mis-selection; controlling that is
+   the job of the Part 3 uncertainty method, not of P2.
+
+**Consequence.** By P2, a policy that uses only one action, or mixes actions
+without regard to the unit, cannot pass Gate 3 at population level; in
+particular a gain from "issue with fewer target shots" alone is absorbed by the
+issue-only comparator and cannot produce a spurious positive `Delta_V`.
 
 ### Proposition P3 — uniform dominance gives a fixed Bayes action. proved (draft)
 
@@ -465,27 +547,33 @@ analysis. A deployable policy `pi` is **non-degenerate** if
    below a frozen level, and re-running the policy with the opposite tie rule
    changes the action frequencies by less than a frozen amount.
 
-**Honest collapse** is the outcome in which condition 1 fails; by P2 such a
-policy cannot improve on the fixed comparators (under P2's comparator
-condition), and the work plan requires reporting it as a result rather than
-tuning thresholds.
+**Honest collapse** is the outcome in which condition 1 fails; the work plan
+requires reporting it as a result rather than tuning thresholds.
 
-Non-degeneracy is necessary for Gate 3 (by P2) but not sufficient.
+**Relation to Gate 3 (wording corrected).** P2 shows that a positive population
+`Delta_V` requires the action to depend on the unit, hence at least two actions
+with positive probability. It does not show that each must reach `nu_min`: a
+policy that uses a second action very rarely could have a small positive
+`Delta_V` while failing condition 1. Gate 4's frequency requirement is
+therefore an additional requirement, not a consequence of Gate 3, and
+non-degeneracy in the sense of D2 is neither necessary nor sufficient for a
+positive `Delta_V`. (The first draft said "necessary"; that was too strong.)
 
 ---
 
 ## 8. Open items for owner review
 
-1. Check every proof marked `proved (draft)`.
-2. Verify the attribution of the C2 threshold form against the full text of
-   `chow1970`, and the lemma numbers for Bretagnolle–Huber and Le Cam's
-   inequality in `tsybakov2009`.
-3. Decide the comparator loophole in P2 (§6): add "always issue at the sensor
-   allocation" or define always-issue as the best issue-only allocation.
-4. Choose D2 (`lambda_A`, `lambda_F`, post-failure semantics) and D3 (shot
-   path); Remarks 1–2 show T1 accommodates either choice.
-5. Example E2 depends on Part 1 replacing the closure argument of the
-   frame-covariance draft.
+1. Check every proof marked `proved (draft)` or `corrected`.
+2. Attribution/reference location unverified: the exact C2 form in the full
+   text of `chow1970`; the lemma numbers of Le Cam's inequality and
+   Bretagnolle–Huber in `tsybakov2009`. Neither affects a proof here.
+3. Rule on the metadata-only policy gap left by P2 (§6; contract §7).
+4. Example E2 depends on Part 1 replacing the closure argument of the
+   frame-covariance draft; it stays conditional on that unreviewed draft.
+
+Resolved in the owner-review revision: the comparator loophole (P2, D1); the
+choice of `lambda_A`, `lambda_F`, post-failure semantics and shot path
+(contract §6).
 
 ---
 
@@ -511,7 +599,19 @@ Python 3.13 in Claude's workspace, exact rational arithmetic for checks 1–2.
 | 100 | 0.615528 | 0.302503 | 0.389033 |
 | 1000 | 0.113228 | 0.003285 | 0.040657 |
 
-Both lower bounds hold in all three cases. Script:
+Both lower bounds hold in all three cases.
+
+4. **P2 loophole and its repair (arithmetic on invented risks, added in the
+   revision).** Take `q_bar_0 = 0.30`, `q_bar_f = 0.22` (fewer target shots give
+   a lower issue error), `r_bar_C = 0.27`, `lambda_A = 1/4`. With the
+   first-draft comparator set `{q_bar_0, r_bar_C, lambda_A}`, `R_fix = 1/4`, and
+   the information-free policy "always N at the sensor allocation" has
+   `Delta_V = 3/100 > 0` (spurious). With the issue-only comparator,
+   `R_fix = 11/50` and the same policy has `Delta_V = 0`; the information-free
+   mixture `(w_N, w_C, w_A) = (1/2, 3/10, 1/5)` has `R_bar = 241/1000` and
+   `Delta_V = -21/1000`. (Exact rational arithmetic.)
+
+Script for checks 1–3:
 
 ```python
 import math

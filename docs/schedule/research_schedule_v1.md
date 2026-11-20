@@ -53,7 +53,7 @@ evidence cannot distinguish latent error states that require different actions.
 | Task | Research Part | Gate | Status | Main deliverable |
 |---|---|---|---|---|
 | MT0 Preparatory audit and literature | before Part 1 | — | done (owner review of agent readings pending) | predecessor audit, literature library, RC assumption table, novelty draft |
-| MT1 Research contracts | Part 1 | — | in progress (M1 drafts committed 2026-11-20; awaiting owner review and decisions D1–D3) | [decision-problem contract](../contracts/decision_problem_v1.md), [three-action theory draft](../theory/three_action_theory_v1.md) |
+| MT1 Research contracts | Part 1 | — | done 2026-11-20 (M1 achieved at `8dc782c`; owner-review revision with D1–D3 recorded; proofs await the owner's line-by-line check) | [decision-problem contract](../contracts/decision_problem_v1.md), [three-action theory draft](../theory/three_action_theory_v1.md) |
 | MT2 Error and compilation semantics | Part 1 | — | in progress (frame-covariance draft, unreviewed) | E2 semantics, RC construction, conditional likelihood |
 | MT3 Gate 1A identifiability | Part 1 | 1A | not started | Gate 1 math spec, design lock, Gate 1A report |
 | Branch A (1A passes) | Part 1 | — | conditional | sensor freeze record |
@@ -222,6 +222,7 @@ are reported separately.
 - **Depends on:** MT0.
 - **Deliverables:** decision-problem contract [`docs/contracts/decision_problem_v1.md`](../contracts/decision_problem_v1.md) covering 1.1–1.4 (draft, unreviewed); three-action theory draft [`docs/theory/three_action_theory_v1.md`](../theory/three_action_theory_v1.md) covering 1.5 (draft, unreviewed).
 - **Done when:** the loss, `lambda_A`, `lambda_F`, the correction action, the comparators, and the deployability list are written down and approved by the owner (decisions D1–D3); the three-action risk identity is proved and reduces to the predecessor's Eq. (6) when correction is removed and `lambda_A = 0`, and to a Chow-type reject rule when correction is removed and `lambda_A > 0`.
+- **Status (2026-11-20):** done after the owner-review revision. D1–D3, the issue-only comparator, the deployability clarification, and the ideal-tie rule are recorded in the contract. The risk identity and both reductions are proved in draft and await the owner's line-by-line check; the Chow-form attribution and the Tsybakov lemma locations remain unverified and do not affect any proof.
 
 ---
 
@@ -584,7 +585,9 @@ No method receives uncharged reference, calibration, or rerun data.
 
 ### Subtask 5.3: Select and freeze fixed comparators
 
-- Evaluate no action, always correct, and always abstain on development data.
+- Evaluate no action, always correct, and always abstain on development data
+  (no action = the issue-only comparator with its two prespecified
+  allocations; contract §1.7).
 - Select the best fixed comparator once under the primary loss.
 - Freeze the comparator before confirmatory evaluation.
 - Retain all fixed-policy results to expose policy collapse or sensitivity to
@@ -816,15 +819,15 @@ Negative transfer results remain first-class outputs.
 
 ## Pending decisions before freezes
 
-These are owner decisions recorded in program plan §8; the plan cannot pass the
+These owner decisions are indexed in program plan §8.1; the plan cannot pass the
 listed milestone without them. Personal capacity questions are kept out of this
 public document.
 
 | ID | Decision | Needed before | Notes |
 |---|---|---|---|
-| D1 | Primary E2 placement: logical-angle, compiled-angle, or physical-control model | M2 | Under the logical-angle model labels are blind by construction; the draft predicts blindness under the compiled-angle model with virtual Z as well. |
-| D2 | Abstention loss `lambda_A` (or a constrained endpoint) and failure loss `lambda_F` | M2 | Program plan §3.5 and §8. |
-| D3 | The single concrete correction action | M2 | A second execution with an estimated angle recalibration, or a separately defined compiled correction. |
+| D1 | Primary E2 placement: logical-angle, compiled-angle, or physical-control model | M2 | **Decided 2026-11-20:** synthetic compiled-angle model (virtual-Z frames, sign-flip absorption) as primary; logical-angle model kept as regression/negative control; wrapped-Z not adopted; physical-control not modeled (contract §6). The draft predicts Gate 1A blindness under this model; Gate 1A is still tested formally. |
+| D2 | Abstention loss `lambda_A` (or a constrained endpoint) and failure loss `lambda_F` | M2 | **Decided 2026-11-20:** `lambda_A = 1/4` (owner-chosen normative ratio), `lambda_F = 1/4`, no answer after a failed correction (contract §4.1, §6). Program plan §3.5 and §8.1. |
+| D3 | The single concrete correction action | M2 | **Decided 2026-11-20:** angle recalibration and full re-execution of both candidates; fixed shot reserve, not reallocated on paths N and A; corrected decision from `X_C` only (contract §6). |
 | D4 | P-amp estimator: plain least squares, the robust phase-estimation estimator, and whether to add RPE-style consistency checks | M3 | Must be fixed before any Gate 1A computation. |
 | D5 | Whether P2 is reported only as an alarm or also as a first-order `epsilon` estimate | M3 | Only if frozen before Gate 1A. |
 | D6 | Timing and scope of independent registration (Gate 1 predictions, confirmatory protocol, Chapter 4 series) | M3 / M7 | "Preregistered" is used only with an independent timestamp. |
@@ -856,7 +859,7 @@ public document.
 | P-amp | The prespecified Gate 1B fallback sensor: amplification repetitions plus echo reference (program plan §3.4.1). |
 | P2 | The predecessor's Clifford-twin probe; a mandatory same-budget comparator. |
 | Deployable | Uses only runtime data, recorded labels, known metadata, declared runtime-computable references, and charged calibration data. |
-| Fixed comparator | The best of always-issue, always-correct, and always-abstain, selected once on development data. |
+| Fixed comparator | The best of the issue-only comparator (full-target or sensor allocation, chosen once on development data), always-correct, and always-abstain, selected once on development data. |
 | Holdout | Confirmatory data read once after independent registration. |
 
 ---
