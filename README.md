@@ -15,4 +15,6 @@ The problem-oriented reading queue, verification rules, and source ledger are in
 
 M2 freezes the synthetic E2 and RC semantics in the [E2 semantics note](docs/theory/e2_semantics_v1.md), [RC construction](docs/theory/rc_construction_v1.md), and [conditional likelihood](docs/theory/conditional_likelihood_v1.md). The corrected [frame-covariance note](docs/theory/gate1_frame_covariance_draft.md) proves the local Pauli identity and the zero-I1 statement at `phi=0`; it contains no Gate-1 result.
 
+M3 freezes the pre-computation [Gate 1 mathematical specification](docs/theory/gate1_math_spec_v1.md) and [Gate 1 design lock](docs/freeze/gate1_design_lock.md). These are protocol artifacts, not Gate 1 results; the committed SHA-256 manifest is an internal lock rather than an independent preregistration.
+
 Main Task 1 is recorded in the [decision-problem contract](docs/contracts/decision_problem_v1.md) and [three-action theory draft](docs/theory/three_action_theory_v1.md). D1–D3 are decided; theorem proofs remain project drafts unless stated otherwise.

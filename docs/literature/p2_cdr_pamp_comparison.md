@@ -51,7 +51,9 @@ small. This is a project derivation, not checked, and it is **not** a new branch
 it only strengthens the conclusion that the sensor mechanism cannot carry the
 novelty claim, and it suggests that the P2 comparator should be reported both as
 an alarm (predecessor form) and, if Part 1 freezes it before Gate 1A, as this
-first-order estimate. The usual P2 failure remains: the twin and target can
+first-order estimate. D5 subsequently froze P2 in its predecessor alarm form
+only, so this unproved estimate is not implemented in the locked Gate 1 study.
+The usual P2 failure remains: the twin and target can
 respond differently to the same `epsilon`.
 
 ## Fair-comparison requirements

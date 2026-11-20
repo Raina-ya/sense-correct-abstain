@@ -1,6 +1,6 @@
 # Sense, Correct, or Abstain: Research Program Plan v0
 
-**Status:** planning draft, 2026-11-19; revised 2026-11-20 (Gate 1A/1B routing, Main Task 1 owner decisions, and M2 synthetic E2/RC/likelihood semantics). This document contains no new experimental result. It is not a frozen protocol and has not been independently timestamped. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
+**Status:** planning draft, 2026-11-19; revised 2026-11-20 (Gate 1A/1B routing, Main Task 1 owner decisions, M2 semantics, and M3 design lock). This document contains no new experimental result. The M3 Git commit and SHA-256 manifest are an internal pre-computation lock, not an independently timestamped registration. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
 
 **Planning assumption:** 8--10 hours per week, starting 2026-11-23. Dates move later if this assumption is not confirmed; Part contents do not change in response to delays or results.
 
@@ -214,13 +214,13 @@ P-amp is a known-reference sensor. Its own ideal outcome is computable classical
 | Measurement | Target qubit in the X and in the Y basis for every circuit: 9 circuits x 2 bases = 18 settings |
 | Phase model (all three E2 models in Section 3.3 agree here) | Repetition: total phase `m*theta + m*(epsilon*theta + phi)`. Echo: `2*m*phi` (the multiplicative term cancels, the mechanism behind the Chapter 1 folding blindness). Requires that negative commanded angles follow the same error law; otherwise the model is violated and P-amp fails. |
 | Statistic | Per setting pair, `u_hat = atan2(<Y>_hat, <X>_hat)`. Residual phases are formed by subtracting the known `m*theta` and unwrapping sequentially in `m`. `(epsilon_hat, phi_hat)` is the equal-weight least-squares solution of: residual `R(m,theta)` = `m*theta*epsilon + m*phi`; residual `E(m)` = `2*m*phi`. |
-| Budget | Exactly the sensing share `f*N` of the fixed total budget (`f = 0.10` as a placeholder carried from Chapter 2; `f` and `N` frozen in Part 1 before Gate 1A), split equally over the 18 settings. Recorded in the cost ledger in circuits and shots. |
+| Budget | `N = 24,300`, `f = 0.10`, hence 2,430 sensing shots split as 135 shots for each of the 18 settings. Recorded in circuits and shots. |
 | Pass condition (a), analytic rank | The linear design matrix with rows `(m*theta, m)` for repetitions and `(0, 2*m)` for echoes has rank 2, and the known-reference Fisher information is full rank, without any ideal target value. |
 | Pass condition (b), noiseless recovery | On the frozen `(epsilon, phi)` grid, the noiseless numerical check recovers injected values with absolute error at most `1e-8`. |
-| Pass condition (c), budget | At the frozen `N` and `f`, the analytic standard error of `epsilon_hat` (visibility 1, shot noise only) is at most `epsilon_min / 2.8` (two-sided alpha 0.05, power 0.8); `epsilon_min` is frozen in Part 1 (placeholder `0.02`). |
+| Pass condition (c), budget | With `epsilon_min = 0.02`, the conservative first-order design calculation gives `SE(epsilon_hat) <= 0.00709020 < epsilon_min/2.8 = 0.00714286`. This is not a finite-sample coverage guarantee. |
 | Pass condition (d), no phase ambiguity | For every grid point, `16 * |epsilon*theta + phi| < pi/2` and `32 * |phi| < pi/2`. If the frozen grid violates this, P-amp fails; the grid is not shrunk afterwards. |
 | Prespecified failure modes (Part 2 onward) | Visibility decays with `m` (decoherence); the error in `B(theta)` repeated differs from the error in the target context (crosstalk, schedule dependence); drift between sensing and execution; asymmetric error law for negative angles; noise above the robustness threshold of the repetition ladder (added 2026-11-20, see `docs/literature/notes/phase_estimation_pamp_boundary.md`). |
-| Novelty boundary | P-amp is close to robust phase estimation (Kimmel, Low & Yoder 2015; Rudinger et al. 2017; metadata and abstracts checked 2026-11-20, full text not read). No novelty is claimed for the sensor. Whether to adopt the RPE estimator or RPE consistency checks instead of plain least squares is an owner decision that must be made before the week-4 freeze. |
+| Novelty boundary | P-amp is close to robust phase estimation (Kimmel, Low & Yoder 2015; Rudinger et al. 2017; metadata and abstracts checked 2026-11-20, full text not read). No novelty is claimed for the sensor. D4 freezes plain `atan2` plus equal-weight least squares; no RPE estimator or consistency check is implemented. |
 
 ### 3.5 Endpoints and policies
 
@@ -413,9 +413,9 @@ Decision IDs used in the work plan ([`schedule/research_schedule_v1.md`](schedul
 | D1 | Primary E2 placement | §3.3 (three models), §3.4 | Decided 2026-11-20: synthetic compiled-angle model (virtual-Z frames, sign-flip absorption) as primary; logical-angle model as regression/negative control; wrapped-Z absorption not adopted; physical-control model not modeled. |
 | D2 | `lambda_A`, `lambda_F` (or a constrained endpoint) | §3.5; §8 item 2 | Decided 2026-11-20: `lambda_A = 1/4` (owner-chosen normative loss ratio), `lambda_F = lambda_A = 1/4`, no answer after a failed correction. |
 | D3 | The single correction action | §3.5; §8 item 3 | Decided 2026-11-20: angle recalibration and full re-execution of both candidates; fixed shot reserve; corrected decision from corrected data only. |
-| D4 | P-amp estimator (least squares, RPE estimator, RPE-style checks) | §3.4.1, "Novelty boundary" row | Open; needed before M3. |
-| D5 | P2 reported as an alarm only, or also as a first-order `epsilon` estimate | Not stated in this plan; work plan Subtask B.3 | Open; needed before M3. |
-| D6 | Timing and scope of independent registration | Status paragraph; §3.2; acceptance checklist | Open; needed before M3 / M7. |
+| D4 | P-amp estimator (least squares, RPE estimator, RPE-style checks) | §3.4.1, "Novelty boundary" row | Decided 2026-11-20: `atan2` phase estimates plus equal-weight least squares; no RPE estimator or RPE-style check. |
+| D5 | P2 reported as an alarm only, or also as a first-order `epsilon` estimate | Work plan Subtask B.3; M3 lock | Decided 2026-11-20: predecessor alarm form only. |
+| D6 | Timing and scope of independent registration | Status paragraph; §3.2; acceptance checklist | Decided for M3 2026-11-20: Git commit plus SHA-256 manifest is an internal lock; independent registration is deferred to M7 before holdout. |
 | D7 | Writing target | §8 item 5 | Open; needed before M9. |
 
 **Revision note (dated 2026-11-20).** Made before any Gate 1 computation and not in response to any result.
@@ -425,14 +425,15 @@ Decision IDs used in the work plan ([`schedule/research_schedule_v1.md`](schedul
 3. Deployability: development-locked rule constants (thresholds, transfer coefficients, tie rules) are allowed policy inputs.
 4. Population: units whose ideal gap is exactly zero are excluded (no unique correct top-1 decision); only a numerical equality tolerance is allowed, never a scientific indifference region.
 5. Decision IDs are indexed as above. Part content, Gate order, the Gate 1A -> 1B routing, and the primary endpoint are unchanged.
+6. D4-D6 and the full M3 design are recorded in `docs/freeze/gate1_design_lock.md`; no Gate 1 computation preceded that lock.
 
 ## Planning acceptance checklist
 
 - [ ] User decisions in Section 8 recorded.
 - [ ] Full-text prior-art review completed without upgrading unverified entries prematurely.
 - [ ] Part 1 mathematical specification approved.
-- [ ] Frame-covariance draft (`docs/theory/gate1_frame_covariance_draft.md`) reviewed by the user: proved, corrected, or rejected.
-- [ ] P-amp specification (Section 3.4.1), `N`, `f`, and `epsilon_min` frozen and committed before any Gate 1A check is run.
+- [x] Frame-covariance draft (`docs/theory/gate1_frame_covariance_draft.md`) reviewed and corrected at M2.
+- [x] P-amp specification (Section 3.4.1), `N`, `f`, and `epsilon_min` frozen at M3 before any Gate 1A check.
 - [ ] Primary loss or constrained endpoint justified.
 - [ ] No noisy development data generated before the Part 1 prediction/model record is frozen and committed.
 - [ ] No confirmatory data generated before adversarial audit, clean lock, and independent registration.

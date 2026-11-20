@@ -55,7 +55,7 @@ evidence cannot distinguish latent error states that require different actions.
 | MT0 Preparatory audit and literature | before Part 1 | — | done (owner review of agent readings pending) | predecessor audit, literature library, RC assumption table, novelty draft |
 | MT1 Research contracts | Part 1 | — | done 2026-11-20 (M1 achieved at `8dc782c`; owner-review revision with D1–D3 recorded; proofs await the owner's line-by-line check) | [decision-problem contract](../contracts/decision_problem_v1.md), [three-action theory draft](../theory/three_action_theory_v1.md) |
 | MT2 Error and compilation semantics | Part 1 | — | **done (M2 committed 2026-11-20; no Gate-1 computation run)** | [E2 semantics](../theory/e2_semantics_v1.md), [RC construction](../theory/rc_construction_v1.md), [conditional likelihood](../theory/conditional_likelihood_v1.md), corrected [frame-covariance note](../theory/gate1_frame_covariance_draft.md) |
-| MT3 Gate 1A identifiability | Part 1 | 1A | not started | Gate 1 math spec, design lock, Gate 1A report |
+| MT3 Gate 1A identifiability | Part 1 | 1A | design locked at M3; Gate 1A computation not started | [Gate 1 math spec](../theory/gate1_math_spec_v1.md), [M3 design lock](../freeze/gate1_design_lock.md), Gate 1A report pending |
 | Branch A (1A passes) | Part 1 | — | conditional | sensor freeze record |
 | Branch B (1A fails: P-amp) | Part 1 | 1B | conditional (P-amp spec must be frozen in MT3) | Gate 1B report |
 | Branch C (1A and 1B fail) | Part 1 → theory chapter | — | conditional | negative-identifiability and lower-bound chapter |
@@ -122,7 +122,7 @@ predecessor project and on a mapped literature.
 | Predecessor E2 audit and review | [`../audits/predecessor_e2_audit.md`](../audits/predecessor_e2_audit.md), [`../audits/predecessor_e2_audit_review.md`](../audits/predecessor_e2_audit_review.md) | In `bias-probe-visibility`, E2 is equivalent to a logical-angle error; its frames never pass through the cost `RZ`; P3 is blind to E2 and the E2 improvement came from P2. Nothing there shows that RC labels sense `epsilon`. |
 | RC assumption table | [`../literature/rc_assumption_table.md`](../literature/rc_assumption_table.md) | Angle-proportional E2 sits on the easy-gate side and violates the gate-independence assumption of exact tailoring. |
 | Vyas audit | [`../literature/notes/vyas_2026.md`](../literature/notes/vyas_2026.md) | The paper's sign-flipping error maps to the additive `phi`, not `epsilon`; labels may give a deployable test for `phi != 0` but not an estimate. |
-| Frame-covariance draft | [`../theory/gate1_frame_covariance_draft.md`](../theory/gate1_frame_covariance_draft.md) | Draft prediction that Gate 1A fails under the compiled-angle model with virtual Z frames. Unreviewed. |
+| Frame-covariance note | [`../theory/gate1_frame_covariance_draft.md`](../theory/gate1_frame_covariance_draft.md) | Reviewed and corrected at M2: frame identity and zero I1 at `phi=0` proved; full Gate 1A failure remains a prediction. |
 | Sensor comparison and novelty draft | [`../literature/p2_cdr_pamp_comparison.md`](../literature/p2_cdr_pamp_comparison.md), [`../literature/novelty_claim_draft.md`](../literature/novelty_claim_draft.md) | P-amp is close to robust phase estimation; novelty cannot rest on the sensor. |
 | Literature library | [`../literature/library_notes.md`](../literature/library_notes.md), [`../literature/library.csv`](../literature/library.csv) | 63 entries in eight research threads, with a mind map. |
 
@@ -395,7 +395,7 @@ information about `epsilon`. Such an outcome is a Gate 1A failure for
 not correction.
 
 - **Depends on:** MT2.
-- **Deliverables:** Gate 1 math specification *(planned: `docs/theory/gate1_math_spec_v1.md`)*; Gate 1 design lock including the complete P-amp specification *(planned: `docs/freeze/gate1_design_lock.md`)*; minimal exact simulator and tests *(planned: `src/`, `tests/`)*; Gate 1A report with I1, I2, I3 tables and a signed prediction-mismatch list *(planned: `docs/results/gate1a_report.md`)*.
+- **Deliverables:** [Gate 1 math specification](../theory/gate1_math_spec_v1.md); [Gate 1 design lock including complete P-amp specification](../freeze/gate1_design_lock.md); minimal exact simulator and tests *(planned: `src/`, `tests/`)*; Gate 1A report with I1, I2, I3 tables and a signed prediction-mismatch list *(planned: `docs/results/gate1a_report.md`)*.
 - **Done when:** milestone M3 is committed before any Gate 1A computation; the report states pass or fail against the frozen criterion and names the information source behind every rank claim.
 
 ---
@@ -429,10 +429,9 @@ not correction.
 - Define negative-angle behavior and symmetry assumptions.
 - Define the minimum visibility and the handling of visibility decay.
 - Charge every reference and amplified circuit to the sensing budget.
-- Decide (owner decision D4) between the plain least-squares statistic and the
-  robust phase-estimation estimator, and whether to add RPE-style consistency
-  checks; record the noise-threshold assumption of the chosen ladder as a
-  prespecified failure condition.
+- Use the D4-frozen `atan2` phase estimates plus equal-weight least squares;
+  no RPE estimator or RPE-style consistency check may be added after M3.
+  Noise outside the ladder's assumed regime is a prespecified failure.
 
 ### Subtask B.2: Test P-amp identifiability
 
@@ -455,9 +454,8 @@ not correction.
 - Test whether twin bias transfers to target gap bias, flip risk, or correction
   benefit.
 - Report cases where P2 alarms without selectively identifying harmful units.
-- If, and only if, frozen before Gate 1A (owner decision D5), also report P2 as
-  a first-order `epsilon` estimate computed from the twin's classically
-  computable derivative.
+- Under D5, report P2 only in its predecessor alarm form; the unproved
+  first-order `epsilon` estimate is not implemented.
 
 ### Gate 1B decision
 
@@ -828,9 +826,9 @@ public document.
 | D1 | Primary E2 placement: logical-angle, compiled-angle, or physical-control model | M2 | **Decided 2026-11-20:** synthetic compiled-angle model (virtual-Z frames, sign-flip absorption) as primary; logical-angle model kept as regression/negative control; wrapped-Z not adopted; physical-control not modeled (contract §6). The draft predicts Gate 1A blindness under this model; Gate 1A is still tested formally. |
 | D2 | Abstention loss `lambda_A` (or a constrained endpoint) and failure loss `lambda_F` | M2 | **Decided 2026-11-20:** `lambda_A = 1/4` (owner-chosen normative ratio), `lambda_F = 1/4`, no answer after a failed correction (contract §4.1, §6). Program plan §3.5 and §8.1. |
 | D3 | The single concrete correction action | M2 | **Decided 2026-11-20:** angle recalibration and full re-execution of both candidates; fixed shot reserve, not reallocated on paths N and A; corrected decision from `X_C` only (contract §6). |
-| D4 | P-amp estimator: plain least squares, the robust phase-estimation estimator, and whether to add RPE-style consistency checks | M3 | Must be fixed before any Gate 1A computation. |
-| D5 | Whether P2 is reported only as an alarm or also as a first-order `epsilon` estimate | M3 | Only if frozen before Gate 1A. |
-| D6 | Timing and scope of independent registration (Gate 1 predictions, confirmatory protocol, Chapter 4 series) | M3 / M7 | "Preregistered" is used only with an independent timestamp. |
+| D4 | P-amp estimator: plain least squares, the robust phase-estimation estimator, and whether to add RPE-style consistency checks | M3 | **Decided 2026-11-20:** `atan2` phase estimates plus equal-weight least squares; no RPE estimator or RPE-style checks. |
+| D5 | Whether P2 is reported only as an alarm or also as a first-order `epsilon` estimate | M3 | **Decided 2026-11-20:** predecessor alarm form only. |
+| D6 | Timing and scope of independent registration (Gate 1 predictions, confirmatory protocol, Chapter 4 series) | M3 / M7 | **Decided for M3 2026-11-20:** Git commit plus SHA-256 manifest is an internal lock; independent registration is deferred to M7 before holdout. |
 | D7 | Writing target: standalone article first or dissertation chapter first | M9 | Program plan §8. |
 
 ---
