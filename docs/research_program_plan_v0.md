@@ -338,47 +338,14 @@ Monthly descriptive summaries may be generated, but the longitudinal hypothesis 
 
 ## 5. Schedule
 
-### 5.1 Assumptions
-
-- **Weekly effort:** 8--10 hours, pending user confirmation.
-- **Start date:** 2026-11-23, pending user confirmation.
-- **Calendar rule:** delays shift later work; they do not change Part contents, gates, endpoints, or data splits.
-- **External waiting:** independent review, registration, hardware authorization, queueing, and publication are not counted as research hours.
-
-### 5.2 Chapter 3 weekly plan
-
-| Week | Dates | Planned work | Gate or deliverable |
-|---:|---|---|---|
-| 1 | Nov 23--29 | Read the highest-priority sources in full; reproduce the predecessor E2 and P3 semantics on paper; write the logical/compiled/control model distinction | Annotated literature and model ledger |
-| 2 | Nov 30--Dec 6 | Define the label map `g_t(theta)`, outcome likelihood, direct rank lemma, and failure cases | Mathematical specification draft |
-| 3 | Dec 7--13 | Derive Fisher information and finite-separation lower-bound route; design negative controls | Theory review package |
-| 4 | Dec 14--20 | Adversarial review of identifiability; freeze the minimal noiseless grid, pass/fail implementation checks, and the complete P-amp specification (Section 3.4.1) including `N`, `f`, and `epsilon_min` | Gate-1 design lock candidate (covers Gate 1A and Gate 1B) |
-| 5 | Dec 21--27 | Run only the frozen analytic/noiseless Gate 1A checks; if and only if Gate 1A fails by its frozen criterion, run the frozen Gate 1B (P-amp) checks; reconcile prediction mismatches without changing the question | **Gate 1A/1B decision; earliest kill point** |
-| 6 | Dec 28--Jan 3 | If Gate 1A or 1B passed, specify development-only noisy model and gap-bias estimand for that sensor; if both failed, write the negative-identifiability chapter path | Part 1 report |
-| 7 | Jan 4--10 | Define the deployable estimator and correction uncertainty propagation | Part 2 method lock |
-| 8 | Jan 11--17 | Development simulations for parameter-to-gap transfer and required nulls | Gate-2 evidence collection |
-| 9 | Jan 18--24 | Out-of-sample development scoring; classify method/model/resource failures | **Gate 2 decision** |
-| 10 | Jan 25--31 | Freeze the three actions, total-budget accounting, fixed comparators, and candidate loss weights | Part 2 report |
-| 11 | Feb 1--7 | Power analysis for policy value and action frequencies; one-day CRN variance-component check | Power and CRN stop report |
-| 12 | Feb 8--14 | Development evaluation of net value under the primary proposed loss | **Gate 3 decision** |
-| 13 | Feb 15--21 | Policy non-degeneracy analysis across frozen development strata | **Gate 4 decision** |
-| 14 | Feb 22--28 | Adversarial pre-data audit: endpoint meaning, ties, degenerate rules, calibration sample, failure handling | Audit report |
-| 15 | Mar 1--7 | Final protocol, thresholds, manifests, hashes, single-run rules, and independent registration | Confirmatory lock and registration |
-| 16 | Mar 8--14 | Holdout preflight without outcomes; verify clean commit, environment, capacity, and marker behavior | Go/no-go for one-time holdout |
-| 17--18 | Mar 15--28 | Run frozen holdout exactly once; preserve failures and raw data | Part 4 raw evidence and marker |
-| 19 | Mar 29--Apr 4 | Score the sole primary endpoint and frozen secondary endpoints once | Confirmatory report |
-| 20--21 | Apr 5--18 | Independent recomputation, cross-platform checks, claim ledger, negative-results classification | Verification package |
-| 22--24 | Apr 19--May 9 | Paper draft, citation verification, figures/tables generated from results, limitations, hardware go/no-go review | Chapter/paper draft and release candidate |
-
-If any gate fails, the remaining empirical schedule is cancelled or delayed as specified in the gate table. Time is reassigned only to the already declared negative/theory deliverable, not to a new favorable method.
-
-### 5.3 Chapter 4 parallel calendar
-
-- Weeks 1--4: draft the longitudinal protocol and check platform feasibility; no job.
-- Week 5 or later: seek independent review and registration only if the user wants the series.
-- Earliest possible Month 1: after registration plus explicit authorization.
-- Months 1--6: one session every 28--35 days, each separately authorized.
-- Longitudinal scoring: at a frozen milestone, not after each favorable month.
+The detailed and editable schedule is maintained in
+[`docs/schedule/research_schedule_v1.md`](schedule/research_schedule_v1.md).
+It supersedes the earlier 24-week calendar in this section and expands the plan
+to 26 weeks so that Gate 1 model review, independent verification, negative
+branches, Chapter 4 preparation, and paper/reproducibility work are explicitly
+budgeted. The scientific Part order, Gate criteria, and primary endpoint are
+unchanged. Dates may move later; Part contents may not change in response to
+delay or observed results.
 
 ## 6. Risks and kill conditions
 
