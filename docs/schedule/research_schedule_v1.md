@@ -53,7 +53,7 @@ evidence cannot distinguish latent error states that require different actions.
 | Task | Research Part | Gate | Status | Main deliverable |
 |---|---|---|---|---|
 | MT0 Preparatory audit and literature | before Part 1 | — | done (owner review of agent readings pending) | predecessor audit, literature library, RC assumption table, novelty draft |
-| MT1 Research contracts | Part 1 | — | in progress (drafted in program plan §3.5) | decision-problem contract, three-action theory draft |
+| MT1 Research contracts | Part 1 | — | in progress (M1 drafts committed 2026-11-20; awaiting owner review and decisions D1–D3) | [decision-problem contract](../contracts/decision_problem_v1.md), [three-action theory draft](../theory/three_action_theory_v1.md) |
 | MT2 Error and compilation semantics | Part 1 | — | in progress (frame-covariance draft, unreviewed) | E2 semantics, RC construction, conditional likelihood |
 | MT3 Gate 1A identifiability | Part 1 | 1A | not started | Gate 1 math spec, design lock, Gate 1A report |
 | Branch A (1A passes) | Part 1 | — | conditional | sensor freeze record |
@@ -220,7 +220,7 @@ are reported separately.
   action.
 
 - **Depends on:** MT0.
-- **Deliverables:** decision-problem contract *(planned: `docs/contracts/decision_problem_v1.md`)* covering 1.1–1.4; three-action theory draft *(planned: `docs/theory/three_action_theory_v1.md`)* covering 1.5.
+- **Deliverables:** decision-problem contract [`docs/contracts/decision_problem_v1.md`](../contracts/decision_problem_v1.md) covering 1.1–1.4 (draft, unreviewed); three-action theory draft [`docs/theory/three_action_theory_v1.md`](../theory/three_action_theory_v1.md) covering 1.5 (draft, unreviewed).
 - **Done when:** the loss, `lambda_A`, `lambda_F`, the correction action, the comparators, and the deployability list are written down and approved by the owner (decisions D1–D3); the three-action risk identity is proved and reduces to the predecessor's Eq. (6) when correction is removed and `lambda_A = 0`, and to a Chow-type reject rule when correction is removed and `lambda_A > 0`.
 
 ---
