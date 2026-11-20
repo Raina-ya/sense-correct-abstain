@@ -96,7 +96,13 @@ hardware evidence.
    cost separately.
 5. Only then write the novelty sentence and the Gate 1 negative controls.
 
+Current synthesis documents:
+
+- [`rc_assumption_table.md`](rc_assumption_table.md)
+- [`notes/vyas_2026.md`](notes/vyas_2026.md)
+- [`p2_cdr_pamp_comparison.md`](p2_cdr_pamp_comparison.md)
+- [`novelty_claim_draft.md`](novelty_claim_draft.md)
+
 Stop expanding the queue when every Gate 1 assumption and comparator has at
 least one primary source and an explicit unresolved question. New papers enter
 only if they can change a gate criterion, comparator, or novelty claim.
-
