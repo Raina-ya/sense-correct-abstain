@@ -1,6 +1,6 @@
 # Sense, Correct, or Abstain: Research Program Plan v0
 
-**Status:** planning draft, 2026-11-19; revised 2026-11-20 (Gate 1A/1B routing, frame bookkeeping, separated information quantities; later the same day, owner-review revision of Main Task 1, see §8.1). This document contains no new experimental result. It is not a frozen protocol and has not been independently timestamped. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
+**Status:** planning draft, 2026-11-19; revised 2026-11-20 (Gate 1A/1B routing, Main Task 1 owner decisions, and M2 synthetic E2/RC/likelihood semantics). This document contains no new experimental result. It is not a frozen protocol and has not been independently timestamped. The words *preregistered* and *preregistration* are reserved for a future record with an independent timestamp such as OSF.
 
 **Planning assumption:** 8--10 hours per week, starting 2026-11-23. Dates move later if this assumption is not confirmed; Part contents do not change in response to delays or results.
 
@@ -97,7 +97,7 @@ Numerical thresholds below are **planning placeholders** unless a source is stat
 - The P-amp circuits, repetition counts, statistic, budget share, and pass thresholds in Section 3.4.1 are fixed before Gate 1A is run. They are not designed or tuned after Gate 1A results exist.
 - If the chapter proceeds through Gate 1B, the paper may not claim that RC labels sense `epsilon`. The claim becomes: whether a known-phase sensing structure can support a net-beneficial correct-or-abstain decision under a fixed budget. Novelty is placed in decision relevance, fixed-budget accounting, and the three-action policy, not in the P-amp sensor, which is close to known phase-estimation constructions.
 - In Gates 2--4 and the endpoints, "the sensor" means the sensor that passed Gate 1 (RC labels if Gate 1A passed, otherwise P-amp). If both could be evaluated, RC labels remain primary.
-- An analytic draft (`docs/theory/gate1_frame_covariance_draft.md`, unreviewed) predicts that Gate 1A fails under the compiled-angle model with virtual Z frames. This is a prediction to be reviewed, not a result, and it does not change the routing above.
+- The corrected frame-covariance note (`docs/theory/gate1_frame_covariance_draft.md`) proves that I1 for `epsilon` is zero at `phi = 0` under the frozen synthetic compiled-angle model. A full Gate 1A failure remains a pre-computation prediction until admissible I3 is frozen and evaluated; it is not a result and does not change the routing above.
 
 ### 3.3 Part 1 one-page mathematical problem
 
@@ -127,7 +127,7 @@ The project cannot infer one model from the identity `X RZ(theta) X = RZ(-theta)
 
 #### Frame bookkeeping: physical-frame versus logical-frame phase
 
-`delta_{k ell t}` above is defined in the physical (compiled) frame. The measurement likelihood depends on the phase after the label is undone, that is, in the logical frame. For a label Pauli `P_t` and a rotation generator `G`, write `s_t = -1` if `P_t G P_t = -G` and `s_t = +1` if they commute. Under the compiled-angle model with sign-flip absorption (`g_t(theta) = s_t * theta`) and virtual, error-free Z frames, the unreviewed draft derivation gives
+`delta_{k ell t}` above is defined in the physical (compiled) frame. The measurement likelihood depends on the phase after the label is undone, that is, in the logical frame. For a label Pauli `P_t` and a rotation generator `G`, write `s_t = -1` if `P_t G P_t = -G` and `s_t = +1` if they commute. Under the frozen synthetic compiled-angle model with sign-flip absorption (`g_t(theta) = s_t * theta`) and virtual, error-free Z frames, the proved frame-covariance identity gives
 
 ```text
 P_t RZ((1+epsilon) * (-theta) + phi) P_t = RZ((1+epsilon) * theta - phi),
@@ -146,7 +146,7 @@ Let `r` denote the unknown ideal response of the target circuits (the response c
 
 Gate 1A may pass only on I1 and the admissible part of I3. I2 may never be used as deployable evidence.
 
-**Analytic prediction written before simulation (draft, unreviewed).** Under the compiled-angle model with virtual Z frames, if `phi = 0`, every label-contrast statistic has zero mean for every `epsilon`, and the admissible information for `epsilon` from RC labels is zero (with a nonparametric nuisance `r`). Under the same model with `phi != 0`, labels carry first-order information about `phi` and information about `epsilon` only at order `phi`. Under the logical-angle model, labels carry no information about either parameter.
+**Analytic statement and prediction written before simulation.** Under the frozen synthetic compiled-angle model, if `phi = 0`, the full conditional outcome distribution is label invariant for every `epsilon`, so I1 for `epsilon` is exactly zero. Whether multiple known circuit contexts leave positive admissible I3 is open until the nuisance family is frozen. Under the same model with `phi != 0`, labels can carry first-order information about `phi`; the available information about `epsilon` is a later likelihood/rank question. Under the logical-angle control, labels carry no information about either parameter.
 
 #### Direct-phase identifiability
 
@@ -262,7 +262,7 @@ The deployable policy may use only runtime data from the Gate-1 sensor (label-co
 
 | Method or claim | It should fail when... |
 |---|---|
-| Label identification of `epsilon` (Gate 1A) | Only one effective angle is observed; the label map does not vary the relevant control; Z frames are virtual and the multiplicative term is label invariant in the logical frame (draft prediction: zero admissible information for `epsilon` at `phi = 0`); the error is defined on the logical angle; or the measurement score is zero. |
+| Label identification of `epsilon` (Gate 1A) | Only one effective angle is observed; the label map does not vary the relevant control; Z frames are virtual and the multiplicative term is label invariant in the logical frame (proved at M2: zero I1 for `epsilon` at `phi = 0`; admissible I3 still to be evaluated); the error is defined on the logical angle; or the measurement score is zero. |
 | P-amp identification of `(epsilon, phi)` (Gate 1B) | Visibility decays with repetition; the repeated block does not reproduce the target-context error; negative angles follow a different error law; drift between sensing and execution; or phase ambiguity at the largest repetition count. |
 | Parameter-to-decision transfer | The candidate gap is insensitive to the identified parameter, other unmeasured errors dominate, or equal parameter errors induce different biases across circuit contexts. |
 | Recalibration | The error drifts before re-execution, the correction model is misspecified, the correction uncertainty exceeds the margin, or re-execution consumes too much budget. |

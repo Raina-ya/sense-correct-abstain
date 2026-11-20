@@ -1,6 +1,6 @@
 # Gate 1 draft: frame bookkeeping for RC labels
 
-**Status: unreviewed draft (2026-11-20). Not a proof, not a result, not frozen.** Written by Claude as input to the Part 1 mathematical specification. Every statement below must be checked, proved, corrected, or rejected by the project owner before it is used. The only numerical evidence is one single-qubit **numerical check** (noiseless, exact state-vector arithmetic) of one example; it is not a proof of the general statements.
+**Status: reviewed and corrected for M2 (2026-11-20), on the project owner's instruction.** Section 3 is a proved algebraic identity for the frozen Pauli construction. Section 4 separates proved consequences from open Gate-1 questions. This is not an independent review and contains no Gate-1 result. The numerical example remains a **numerical check**, not a proof.
 
 ## 1. Setting
 
@@ -8,7 +8,7 @@ A QAOA cost edge compiles to `CX(c,t) - RZ(theta) on t - CX(c,t)`, where `theta`
 
 For a rotation `R_G(a) = exp(-i a G / 2)` with generator `G` (here `G = Z`), define `s_t = -1` if `P_t G P_t = -G` (labels X or Y on the target qubit) and `s_t = +1` if they commute (I or Z).
 
-## 2. Three candidate error models (one must be frozen in Part 1)
+## 2. Three candidate error models
 
 | Model | Implemented operation | Comment |
 |---|---|---|
@@ -16,17 +16,26 @@ For a rotation `R_G(a) = exp(-i a G / 2)` with generator `G` (here `G = Z`), def
 | Compiled-angle, virtual Z | Physical `RZ(a) -> RZ((1+epsilon)*a + phi)` with `a = s_t * theta`; Z labels are error-free frame updates | Error proportional to the commanded physical angle. |
 | Compiled-angle, wrapped Z | As above, but Z labels are absorbed as `a = wrap(s_t*theta + z_t*pi)` in `(-pi, pi]` before the error acts | A compiler-representation model; physically meaningful only if the representation is real. |
 
-The physical carrier of the error (pulse amplitude, native fractional two-qubit gate, or something else) is not established; on hardware where `RZ` is virtual there may be no `RZ` error at all. This must be checked against documentation, not assumed.
+The compiled-angle, virtual-Z row is frozen as the primary **synthetic** model in `e2_semantics_v1.md`. The logical-angle row is a regression/negative control; wrapped-Z is not adopted; physical control is not modeled. The physical carrier of the error is not established, and no hardware interpretation is claimed.
 
-## 3. Draft lemma (frame covariance)
+## 3. Frame-covariance lemma
 
-**Claim.** If `P G P = -G`, then for all `epsilon, phi, theta`:
+**Lemma (proved).** If `P` is a Hermitian Pauli and `P G P = sG` for
+`s in {-1,+1}`, then for every real `a`,
+
+```text
+P R_G(a) P = R_G(s a).
+```
+
+In particular, if `s=-1`, then for all `epsilon, phi, theta`:
 
 ```text
 P R_G((1+epsilon)*(-theta) + phi) P = R_G((1+epsilon)*theta - phi).
 ```
 
-**Sketch.** `P exp(-i a G/2) P = exp(-i a (P G P)/2) = exp(+i a G/2) = R_G(-a)`, with `a = -(1+epsilon)*theta + phi`.
+**Proof.** Since `P=P^dagger=P^{-1}`, conjugation commutes with the matrix exponential:
+`P exp(-iaG/2)P = exp[-ia(PGP)/2] = exp(-iasG/2)`. Substituting
+`a=-(1+epsilon)theta+phi` proves the displayed special case. QED.
 
 **Consequence under the compiled-angle, virtual-Z model.** The logical action for label `t` is
 
@@ -36,21 +45,19 @@ R_G((1+epsilon)*theta + s_t*phi),   logical phase error  epsilon*theta + s_t*phi
 
 In the physical frame the multiplicative error flips sign with the label; after the label is undone it flips back. The multiplicative term is therefore label invariant in the logical frame, while the additive term flips sign.
 
-## 4. Draft consequences for the three information quantities
+## 4. Consequences and open information questions
 
 Let `F_r(u)` denote the label-resolved outcome distribution as a function of the logical rotation angle `u`, where `r` is the unknown ideal response (nuisance). Under the compiled-angle, virtual-Z model, label `t` yields `F_r((1+epsilon)*theta + s_t*phi)`.
 
-1. **I1 (label contrast).** At `phi = 0` every label yields the same distribution, so every label-contrast statistic has mean zero for **every** `epsilon`: I1 for `epsilon` is identically zero there. At `phi != 0`, a contrast mean is approximately `2*phi*dF_r/du`, so labels carry first-order information about `phi` and information about `epsilon` only at order `phi`, and only where `dF_r/du != 0`.
+1. **I1 (proved for the frozen model).** At `phi = 0` every label yields the same implemented logical circuit for every `epsilon`. The complete conditional outcome distribution is therefore label invariant, so every label-contrast statistic has zero mean and I1 for `epsilon` is exactly zero. At `phi != 0`, a differentiable scalar response has contrast `2*phi*dF_r/du + O(phi^3)`; whether that slope is nonzero is circuit and measurement dependent.
 2. **I2 (known response).** If `F_r` is known, the label-pooled distribution depends on `(1+epsilon)*theta`, so I2 for `epsilon` can be positive. This uses ideal values and is diagnostic only.
-3. **I3 (nuisance `r`).** Suppose the nuisance class is closed under rescaling of the angle argument: for any `epsilon'` there is `r'` with `F_{r'}(x) = F_r(x * (1+epsilon)/(1+epsilon'))`. Then `(epsilon, phi, r)` and `(epsilon', phi*(1+epsilon')/(1+epsilon), r')` give identical label-resolved distributions at every frozen angle simultaneously, so `epsilon` is not identified and its efficient information is zero. Whether the QAOA response class satisfies this closure condition at the frozen angle set is an open question for Part 1; if it does not, I3 may be positive and must be computed.
-
-   **Caution added 2026-11-20 (review).** The closure condition is probably false as a global statement: the expectation of a circuit is a trigonometric polynomial of degree 1 in each single rotation angle (the parameter-shift structure), and rescaling the angle argument changes the frequency, which leaves that class. The non-identifiability argument should therefore not rest on closure. A more plausible route is a local equation count: at the operating point, the label patterns sample the multivariate response at most at `2^m` sign patterns of `phi` around one point `u`, while the unknown response has many more free coefficients, and at `phi = 0` all patterns coincide. Part 1 must replace item 3 with an argument of this kind or show positive I3.
+3. **I3 (open).** The earlier draft's global rescaling-closure premise is rejected: QAOA response functions need not be closed under rescaling their angle arguments. No global non-identifiability conclusion follows from that premise. Admissible profile/efficient information must instead be computed from the frozen multi-context likelihood and nuisance family at M3. At `phi=0`, label contrasts still add no information about `epsilon`; absolute variation across known circuit contexts may or may not leave admissible profile information.
 
 Under the logical-angle model all labels yield `F_r((1+epsilon)*theta + phi)`: labels carry no information about either parameter.
 
 Under the compiled-angle, wrapped-Z model, labels with `z_t = 1` acquire an extra logical term `epsilon * c_t`, `c_t = wrap(theta + pi) - theta` in `{+pi, -pi}`. This term is present at `phi = 0`, is linear in `epsilon`, and does not scale with `|theta|`; I1 for `epsilon` is then positive, but the signal comes from the compiler representation.
 
-**Draft prediction for Gate 1A.** If the compiled-angle, virtual-Z model is frozen as primary, Gate 1A fails (zero admissible information for `epsilon` at `phi = 0`), and the plan proceeds to the frozen Gate 1B.
+**Frozen pre-computation prediction for Gate 1A.** I1 for `epsilon` is zero at `phi=0`. A full Gate-1A failure remains a prediction, not a theorem, until the admissible I3 calculation is frozen and performed. If Gate 1A fails by its frozen criterion, routing proceeds to Gate 1B.
 
 **Remark on direct-phase rank counting.** Treating the physical angles `+theta` and `-theta` as two distinct effective angles in a design matrix `[a_i, 1]` gives full rank, but that count is made in the wrong frame. In the logical frame the design matrix has rows `(theta, s_t)`; the `epsilon` column is constant across labels and is absorbed by the nuisance `r`.
 
@@ -85,16 +92,17 @@ print(ex(rz(th)), ex(err(th)), ex(X @ err(-th) @ X),
       ex(Z @ err(th + np.pi)), ex(Z @ err(th - np.pi)))
 ```
 
-## 6. Not shown here (Part 1 work)
+## 6. Boundary after M2
 
-- A general proof for the full two- and three-qubit RC construction, including labels that do not commute or anticommute with the cost rotation in a single step.
-- The exact label-absorption rule of the chosen compiler and whether Z labels are virtual.
-- Whether the QAOA response class satisfies the closure condition in Section 4, item 3.
-- Whether this observation is already published (Vyas 2026 and the RC literature must be read in full first).
+- The full Pauli RC construction, correction closure, label table, and noiseless equivalence proof are in `rc_construction_v1.md`.
+- The exact conditional statistical model is in `conditional_likelihood_v1.md`.
+- I3, the parameter grid, estimator, tolerances, and finite-design rank remain M3/Gate-1 work. No computation has been run here.
+- The prior-art boundary remains that RC tailoring does not imply label-based identification; no novelty claim is established by this lemma alone.
 
-## 7. Review checklist for the project owner
+## 7. M2 review disposition
 
-- [ ] Section 3 sketch checked or replaced by a proof.
-- [ ] Section 4 items 1--3 checked; closure condition settled for the frozen design.
-- [ ] Primary error model chosen and frozen.
-- [ ] Prior-art check completed.
+- [x] Section 3 sketch replaced by a proof.
+- [x] I1 corrected to an exact distributional statement at `phi=0`.
+- [x] The unsupported global closure argument rejected; I3 left open for a frozen nuisance model.
+- [x] Primary error model and claim boundary frozen.
+- [x] RC/Vyas reading notes checked for the limited claim used here; no stronger novelty or tailoring claim added.

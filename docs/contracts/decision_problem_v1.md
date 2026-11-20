@@ -35,7 +35,7 @@ u = (G, c, nu, r)
 |---|---|---|
 | `G` | Graph (MaxCut instance). | Population frozen in Part 2 (development) and Part 3 (confirmatory). |
 | `c = (A, B)` | Candidate pair: two frozen QAOA parameter vectors for `G`, with their frozen logical cost angles `theta_{k ell}`. | Frozen with the graph; candidates are not chosen from simulated outcomes. |
-| circuit instance | The compiled circuits of both candidates, the sensor circuits, and (for RC) the realized label draws `t`, with circuit hashes. | Compilation rule frozen in MT2 (`rc_construction_v1.md`, planned). |
+| circuit instance | The compiled circuits of both candidates, the sensor circuits, and (for RC) the realized label draws `t`, with circuit hashes. | Compilation rule frozen in MT2 (`../theory/rc_construction_v1.md`). |
 | `nu` | Noise condition: the E2 model (primary: the synthetic compiled-angle model, §6 D1), the values `(epsilon, phi)`, and the nuisance noise `eta` (visibility, label-independent offset, any in-scope SPAM or control terms). | Grid frozen before the relevant Gate. |
 | `r` | Replicate: seed for label draws and shot sampling. | SeedSequence keys frozen with the protocol. |
 

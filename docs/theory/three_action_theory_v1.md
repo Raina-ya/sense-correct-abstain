@@ -51,7 +51,7 @@ hardware.
 | P1 | Pairwise switching conditions (when evidence changes the Bayes action) | proved (draft) |
 | L1 | Action-selection blindness lemma | proved (draft) |
 | E1 | Direct-phase example of L1 (single sensed angle) | proved (draft) within the direct-phase model; relevance to the QAOA likelihood not established |
-| E2 | RC-label example of L1 under the synthetic compiled-angle model | conditional example: premise is the unreviewed frame-covariance draft plus an unproved nuisance argument |
+| E2 | RC-label example of L1 under the synthetic compiled-angle model | conditional example: frame identity proved at M2; the required nuisance-class indistinguishability remains unproved |
 | T2 | Finite-pilot lower bound on wrong-action probability and regret | proved (draft); the two divergence inequalities are now proved in the note; their reference location in `tsybakov2009` unverified |
 | D1 | Value-of-information decomposition | corrected (comparator set updated; allocation cost now nonnegative at population level) |
 | P2 | Honest collapse | corrected and narrowed: proved (draft) for information-free policies at population level under the issue-only comparator; metadata-only policies and finite-sample selection not covered |
@@ -327,11 +327,12 @@ separate from `phi`. Whether the QAOA measurement likelihood inherits this
 direct-phase structure is a Gate 1A question, not established here.
 
 **Example E2 — RC labels under the synthetic compiled-angle model (primary
-model, contract §6 D1). conditional example (premise unproved).** The
-unreviewed draft
-[`gate1_frame_covariance_draft.md`](gate1_frame_covariance_draft.md) predicts
-that at `phi = 0` every label yields the same outcome law, depending on
-`(1+epsilon) theta` and the unknown ideal response. *If* Part 1 proves that the
+model, contract §6 D1). conditional example (nuisance premise unproved).** The
+reviewed and corrected
+[`gate1_frame_covariance_draft.md`](gate1_frame_covariance_draft.md) proves
+that at `phi = 0` every label yields the same outcome law for a fixed circuit,
+depending on `(1+epsilon) theta` and the unknown ideal response. *If* Gate 1
+also proves that the
 admissible information for `epsilon` is zero in the strong sense that there
 exist `(epsilon, r)` and `(epsilon', r')` in the frozen nuisance class with
 identical label-resolved laws (the draft's closure argument is flagged there as
@@ -568,8 +569,9 @@ positive `Delta_V`. (The first draft said "necessary"; that was too strong.)
    text of `chow1970`; the lemma numbers of Le Cam's inequality and
    Bretagnolle–Huber in `tsybakov2009`. Neither affects a proof here.
 3. Rule on the metadata-only policy gap left by P2 (§6; contract §7).
-4. Example E2 depends on Part 1 replacing the closure argument of the
-   frame-covariance draft; it stays conditional on that unreviewed draft.
+4. Example E2 remains conditional on Gate 1 establishing nuisance-class
+   indistinguishability or an equivalent zero-admissible-I3 result; M2 proves
+   only the frame identity and zero I1 at `phi = 0`.
 
 Resolved in the owner-review revision: the comparator loophole (P2, D1); the
 choice of `lambda_A`, `lambda_F`, post-failure semantics and shot path

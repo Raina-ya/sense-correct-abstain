@@ -13,6 +13,6 @@ The full scientific rationale and gate criteria are in [the research program pla
 
 The problem-oriented reading queue, verification rules, and source ledger are in [docs/literature/](docs/literature/README.md).
 
-An unreviewed analytic draft for Gate 1 (frame bookkeeping for RC labels, with one single-qubit numerical check) is in [docs/theory/gate1_frame_covariance_draft.md](docs/theory/gate1_frame_covariance_draft.md). It is not a proof and not a result.
+M2 freezes the synthetic E2 and RC semantics in the [E2 semantics note](docs/theory/e2_semantics_v1.md), [RC construction](docs/theory/rc_construction_v1.md), and [conditional likelihood](docs/theory/conditional_likelihood_v1.md). The corrected [frame-covariance note](docs/theory/gate1_frame_covariance_draft.md) proves the local Pauli identity and the zero-I1 statement at `phi=0`; it contains no Gate-1 result.
 
-Main Task 1 drafts (unreviewed, not frozen): the [decision-problem contract](docs/contracts/decision_problem_v1.md) (units, actions, loss, deployability boundary, primary endpoint, and the owner decisions D1–D3 laid out as options) and the [three-action theory draft](docs/theory/three_action_theory_v1.md) (risk identity, blindness lemma, finite-pilot lower bound, value of information, non-degeneracy).
+Main Task 1 is recorded in the [decision-problem contract](docs/contracts/decision_problem_v1.md) and [three-action theory draft](docs/theory/three_action_theory_v1.md). D1–D3 are decided; theorem proofs remain project drafts unless stated otherwise.

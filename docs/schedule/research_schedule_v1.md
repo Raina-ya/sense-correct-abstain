@@ -54,7 +54,7 @@ evidence cannot distinguish latent error states that require different actions.
 |---|---|---|---|---|
 | MT0 Preparatory audit and literature | before Part 1 | — | done (owner review of agent readings pending) | predecessor audit, literature library, RC assumption table, novelty draft |
 | MT1 Research contracts | Part 1 | — | done 2026-11-20 (M1 achieved at `8dc782c`; owner-review revision with D1–D3 recorded; proofs await the owner's line-by-line check) | [decision-problem contract](../contracts/decision_problem_v1.md), [three-action theory draft](../theory/three_action_theory_v1.md) |
-| MT2 Error and compilation semantics | Part 1 | — | in progress (frame-covariance draft, unreviewed) | E2 semantics, RC construction, conditional likelihood |
+| MT2 Error and compilation semantics | Part 1 | — | **done (M2 committed 2026-11-20; no Gate-1 computation run)** | [E2 semantics](../theory/e2_semantics_v1.md), [RC construction](../theory/rc_construction_v1.md), [conditional likelihood](../theory/conditional_likelihood_v1.md), corrected [frame-covariance note](../theory/gate1_frame_covariance_draft.md) |
 | MT3 Gate 1A identifiability | Part 1 | 1A | not started | Gate 1 math spec, design lock, Gate 1A report |
 | Branch A (1A passes) | Part 1 | — | conditional | sensor freeze record |
 | Branch B (1A fails: P-amp) | Part 1 | 1B | conditional (P-amp spec must be frozen in MT3) | Gate 1B report |
@@ -301,7 +301,7 @@ Explicitly model:
 - the angle set supplied by candidates and cost layers.
 
 - **Depends on:** MT1.
-- **Deliverables:** E2 semantics note *(planned: `docs/theory/e2_semantics_v1.md`)*; RC construction note with the label-to-dressed-gate table *(planned: `docs/theory/rc_construction_v1.md`)*; conditional likelihood *(planned: `docs/theory/conditional_likelihood_v1.md`)*; owner review of the frame-covariance draft (proved, corrected, or rejected).
+- **Deliverables:** [E2 semantics note](../theory/e2_semantics_v1.md); [RC construction note with the label-to-dressed-gate table](../theory/rc_construction_v1.md); [conditional likelihood](../theory/conditional_likelihood_v1.md); reviewed and corrected [frame-covariance note](../theory/gate1_frame_covariance_draft.md).
 - **Done when:** one primary E2 model is frozen with a stated physical justification (the virtual-Z question in the RC assumption table is answered or recorded as not modeled); every label pattern is checked for noiseless logical equivalence; the likelihood is derived from the implemented dressed circuit.
 
 ---
