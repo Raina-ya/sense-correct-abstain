@@ -27,6 +27,17 @@ Primary texts:
 | Gate-dependent non-Markovian noise | Not covered by the exact result. | Gives an adversarial failure mechanism: the environment can preserve coherent accumulation if gate-dependent errors reveal enough twirl-parity information. | Later noisy models must state whether labels can leak into the environment/control error. No universal suppression claim is allowed. |
 | Error metric | Tailoring can greatly improve nonlinear worst-case metrics while average infidelity is unchanged by averaging. | Explicitly separates linear and nonlinear metrics and the single/many-randomization effects. | The project endpoint is decision loss, so a channel-level improvement cannot be used as a proxy for decision improvement. |
 | Label retention | Labels are compiler bookkeeping used to form dressed gates; the papers analyze averaged noise, not estimation from label--outcome correlation. | Does not establish the Vyas estimator or identify `epsilon`. | Gate 1 identifiability requires a separate likelihood argument. |
+| Non-Clifford hard gate (added 2026-11-20, project derivation, unreviewed) | Correction `T^c = G T^dagger G^dagger` must be an easy gate. | Same. | If the whole cost `RZZ(theta)` were treated as the hard gate, `RZZ(theta) (X tensor I) RZZ(theta)^dagger` is not a Pauli for generic `theta` (it is a Pauli only for `theta` in multiples of `pi/2`), so a full local-Pauli twirl does not close. Restricting the twirl to Paulis that commute with `ZZ` (Z-type) closes trivially but does not twirl the `ZZ` direction. In practice the cost `RZ` must therefore sit in an easy round between two Clifford `CX` hard rounds, which places E2 on the easy-gate side. |
+| Virtual Z (added 2026-11-20) | Not addressed. | Not addressed. | On hardware where `RZ` is a frame update, the dressed easy gate's `RZ` part may carry no physical error at all. Whether E2 then exists, and where (pulse amplitude of `SX`/`X`, a native fractional two-qubit gate), is a hardware question; the papers do not settle it. |
+
+## Terminology used in this table (added 2026-11-20)
+
+`epsilon` always means an **angle-proportional** error (`epsilon * angle`).
+*Where* it acts is a separate choice, named as in the research plan §3.3:
+logical-angle model (acts before label absorption; labels blind by
+construction), compiled-angle model (acts on the label-absorbed angle), or
+control model. Phrases such as "logical-angle `epsilon`" are avoided because
+they mix the two meanings.
 
 ## Consequences for Gate 1
 
@@ -36,7 +47,9 @@ Primary texts:
 2. **E2 cannot be placed silently on the convenient side of the easy/hard
    split.** If it is easy-gate noise, its angle dependence threatens exact
    tailoring. If it is hard-gate noise, the correction group and actual
-   decomposition still have to close.
+   decomposition still have to close; for a non-Clifford `RZZ(theta)` hard gate
+   with full local-Pauli twirls they do not (row "Non-Clifford hard gate"), so
+   the easy-gate placement is the realistic case.
 3. **Gate 1A must test the implemented dressed circuit.** Algebraic frame
    identities, circuit equivalence, conditional likelihood, and the absence of
    target-ideal inputs are separate checks.

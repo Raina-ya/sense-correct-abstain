@@ -45,6 +45,20 @@ boundary.
   same field.
 - Replacing the frozen Gate 1A/1B route after observing results.
 
+## Who performed a check (added 2026-11-20)
+
+Several notes record full-text reading performed by an AI agent. Each ledger
+entry should state who read the source (agent or project owner) and on what
+date. An agent's reading is a working note; the project owner confirms it before
+any claim enters the paper. This does not change the state names below.
+
+## Terminology (added 2026-11-20)
+
+`epsilon` is an angle-proportional error; `phi` an additive, gate-independent
+phase. Where the error acts is a separate choice: logical-angle model,
+compiled-angle model, or control model (research plan §3.3). Avoid
+"logical-angle `epsilon`".
+
 ## Verification states
 
 Use only these states in the ledger:
@@ -81,11 +95,9 @@ hardware evidence.
 
 ## Bounded Part 1 workflow
 
-1. Reconcile the predecessor audit into the repository. The user reports an
-   audit at `docs/audits/predecessor_e2_audit.md` tied to predecessor commit
-   `cd5e576`, but that file was not present in this checkout when this library
-   was created. Until it is available, its conclusions are user-provided audit
-   summary, not locally reverified evidence.
+1. Reconcile the predecessor audit into the repository. Done: the audit is in
+   `docs/audits/predecessor_e2_audit.md` (commit `0aa627b`), with a review in
+   `docs/audits/predecessor_e2_audit_review.md`.
 2. Read Wallman--Emerson and Winick et al. for the exact easy/hard-cycle and
    gate-dependence assumptions.
 3. Read Vyas in full and reconstruct the label--outcome likelihood. Check

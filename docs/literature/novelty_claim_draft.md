@@ -4,6 +4,14 @@
 and not evidence of priority. No phrase such as "first" may be used until the
 remaining comparator literature has been read and searched systematically.
 
+## Terminology (added 2026-11-20)
+
+`epsilon` means an angle-proportional error. "Logical-angle model" is reserved
+for the E2 placement in which the error acts before label absorption; under it,
+labels are blind by construction, so Branch A cannot succeed under that
+placement. Earlier wording "logical-angle multiplicative error" is replaced by
+"angle-proportional error under the frozen placement".
+
 ## Shared contribution independent of the sensor outcome
 
 The proposed contribution is a fixed-budget, deployable action-selection
@@ -30,10 +38,17 @@ Candidate claim:
 > sufficient to support a fixed-budget choice among no action, recalibration,
 > and abstention.
 
+Branch A is reachable only if the frozen placement is not the logical-angle
+model and either (i) the compiler representation gives the label an
+angle-proportional term (for example Z labels absorbed as `theta + pi` with
+wrapping) or (ii) the admissible part of I3 is positive. The claim must name
+which of the two produced the information.
+
 What is distinct from Vyas, if supported:
 
-- logical-angle multiplicative error rather than an injected `s theta`
-  coherent phase;
+- an angle-proportional error `epsilon`, whereas the paper's `s theta` phase
+  corresponds to the project's additive `phi` (see the parameter mapping in
+  `notes/vyas_2026.md`);
 - explicit separation of label-contrast, absolute-level/oracle, and
   nuisance-profile information;
 - candidate-gap and top-1 decision relevance rather than coherent-angle
@@ -51,14 +66,16 @@ What must not be claimed:
 
 Candidate claim:
 
-> Retained RC labels are blind to the frozen logical-angle multiplicative error
+> Retained RC labels are blind to the frozen angle-proportional error
 > under the deployable contrast criterion, but a prespecified amplification and
 > echo reference can supply enough runtime evidence to test whether
 > recalibration or abstention has positive decision value under the same total
 > budget.
 
 Here the novelty is **not** the existence of phase amplification, echo, known
-references, or Clifford surrogate circuits. It is the decision-control layer:
+references, or Clifford surrogate circuits. Predecessor P2 can itself be read
+as a first-order `epsilon` estimator (see `p2_cdr_pamp_comparison.md`), which
+further rules out any claim based on the sensor. It is the decision-control layer:
 mapping bounded runtime evidence to actions, charging all costs, comparing with
 P2, and stating when the policy must abstain or collapse.
 
@@ -73,6 +90,14 @@ Candidate claim:
 This branch reports the RC-label construction as a negative identifiability
 example and the P-amp failure as a resource/model boundary. No third sensor is
 introduced after inspection.
+
+## A candidate theoretical contribution in every branch (added 2026-11-20, to be derived)
+
+Labels can give a deployable **test** for an additive error without giving an
+**estimate** of it, and give neither for an angle-proportional error at
+`phi = 0` (see `notes/vyas_2026.md`, "Testability versus estimability"). If this
+survives formal derivation, it supplies a clean decision-level statement: label
+evidence can license abstention but not correction. Its novelty is unchecked.
 
 ## Prior-art work still required before freezing wording
 

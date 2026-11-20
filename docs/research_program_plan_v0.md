@@ -405,6 +405,8 @@ If any gate fails, the remaining empirical schedule is cancelled or delayed as s
 
 Statuses below are copied exactly from the task specification and are not upgraded by inclusion in this plan.
 
+**Update note (2026-11-20).** Later reading notes in `docs/literature/` record full-text reading of Wallman & Emerson 2016, Winick et al. 2022, and Vyas 2026 by an AI agent; the project owner has not yet confirmed them. The arXiv abstract page gives Vyas's title as *Recovering Coherent Errors from Randomized-Compiling Labels*, matching this table. The canonical states in this table stay unchanged until the owner confirms; see `docs/literature/source_ledger.md` for the current working state.
+
 | Priority | Source and required status | Why it must be read | Relationship to Chapter 3 |
 |---:|---|---|---|
 | 1 | Wallman & Emerson 2016, *Physical Review A* 94, 052325 -- **verified (cited by the second project)** | Establish the actual randomized-compiling assumptions, easy/hard cycles, and gate-dependence bounds | Determines whether the proposed cost-rotation construction lies inside or outside the theorem and prevents an invalid claim that RC must fix or must fail on E2 |
