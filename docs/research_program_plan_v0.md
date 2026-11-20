@@ -338,14 +338,11 @@ Monthly descriptive summaries may be generated, but the longitudinal hypothesis 
 
 ## 5. Schedule
 
-The detailed and editable schedule is maintained in
+The public research work breakdown is maintained in
 [`docs/schedule/research_schedule_v1.md`](schedule/research_schedule_v1.md).
-It supersedes the earlier 24-week calendar in this section and expands the plan
-to 26 weeks so that Gate 1 model review, independent verification, negative
-branches, Chapter 4 preparation, and paper/reproducibility work are explicitly
-budgeted. The scientific Part order, Gate criteria, and primary endpoint are
-unchanged. Dates may move later; Part contents may not change in response to
-delay or observed results.
+It contains the main tasks, prespecified branches, subtasks, evidence boundaries,
+extension tracks, and stop rules without a personal or calendar-based schedule.
+The scientific Part order, Gate criteria, and primary endpoint are unchanged.
 
 ## 6. Risks and kill conditions
 

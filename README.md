@@ -9,7 +9,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 
 Planning only. No experiment has been run, no protocol has been independently registered, and no hardware execution is authorized.
 
-The thesis map, four-Part Chapter 3 plan, gate criteria, risks, and reading list are in [the research program plan](docs/research_program_plan_v0.md). The current editable 26-week schedule and Chapter 4 parallel-preparation plan are in [the research schedule v1](docs/schedule/research_schedule_v1.md).
+The full scientific rationale and gate criteria are in [the research program plan](docs/research_program_plan_v0.md). The public task hierarchy, research branches, subtasks, and extension tracks are in [the research work plan](docs/schedule/research_schedule_v1.md).
 
 The problem-oriented reading queue, verification rules, and source ledger are in [docs/literature/](docs/literature/README.md).
 
