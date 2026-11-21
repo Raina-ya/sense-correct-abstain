@@ -7,16 +7,27 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 
 ## Current status
 
-Planning only. No experiment has been run, no protocol has been independently registered, and no hardware execution is authorized.
+**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 PASS → Gate 3 FAIL → stop after M6.** The next task is MT7 synthesis. No confirmatory registration or holdout is authorized, and no hardware execution has been run or authorized. All evidence is analytic or synthetic simulation.
 
-The full scientific rationale and gate criteria are in [the research program plan](docs/research_program_plan_v0.md). The public task hierarchy, research branches, subtasks, and extension tracks are in [the research work plan](docs/schedule/research_schedule_v1.md).
+- Current status and supported claims: [docs/results/project_status.md](docs/results/project_status.md). The status tables inside the M3-locked plan files are frozen at M3 and stale.
+- Post-lock audit: [docs/audits/m2_m6_post_lock_audit.md](docs/audits/m2_m6_post_lock_audit.md).
+- **Errata E001–E005:** [docs/errata/](docs/errata/README.md). They correct the frozen Gate 1A–4 records without editing any frozen file. Read them before citing any gate report.
 
-The problem-oriented reading queue, verification rules, and source ledger are in [docs/literature/](docs/literature/README.md).
+Main documents:
 
-M2 freezes the synthetic E2 and RC semantics in the [E2 semantics note](docs/theory/e2_semantics_v1.md), [RC construction](docs/theory/rc_construction_v1.md), and [conditional likelihood](docs/theory/conditional_likelihood_v1.md). The corrected [frame-covariance note](docs/theory/gate1_frame_covariance_draft.md) proves the local Pauli identity and the zero-I1 statement at `phi=0`; it contains no Gate-1 result.
+- Scientific rationale and gate criteria: [research program plan](docs/research_program_plan_v0.md). Task hierarchy: [research work plan](docs/schedule/research_schedule_v1.md). Both are frozen by the M3 lock.
+- Main Task 1: [decision-problem contract](docs/contracts/decision_problem_v1.md) and [three-action theory draft](docs/theory/three_action_theory_v1.md).
+- M2 semantics: [E2 semantics](docs/theory/e2_semantics_v1.md), [RC construction](docs/theory/rc_construction_v1.md), [conditional likelihood](docs/theory/conditional_likelihood_v1.md), [frame-covariance note](docs/theory/gate1_frame_covariance_draft.md).
+- Gate records: [Gate 1A](docs/results/gate1a_report.md) (see E001), [Gate 1B](docs/results/gate1b_report.md) (E002), [Gate 2](docs/results/gate2_report.md) (E003), [Gates 3/4](docs/results/gate3_gate4_report.md) (E004).
+- Literature: [docs/literature/](docs/literature/README.md).
 
-M3 freezes the pre-computation [Gate 1 mathematical specification](docs/theory/gate1_math_spec_v1.md) and [Gate 1 design lock](docs/freeze/gate1_design_lock.md). These are protocol artifacts, not Gate 1 results; the committed SHA-256 manifest is an internal lock rather than an independent preregistration.
+## Reproducing the checks
 
-Gate 1 was then executed once against that lock. [Gate 1A](docs/results/gate1a_report.md) failed under the deployable unknown-response nuisance model; the prespecified [Gate 1B](docs/results/gate1b_report.md) P-amp fallback passed its analytic and exact-noiseless criteria and is the sole sensor routed to Gate 2. These are synthetic/noiseless findings, not noisy-simulation or hardware evidence.
-
-Main Task 1 is recorded in the [decision-problem contract](docs/contracts/decision_problem_v1.md) and [three-action theory draft](docs/theory/three_action_theory_v1.md). D1–D3 are decided; theorem proofs remain project drafts unless stated otherwise.
+```bash
+pip install -r requirements.txt
+python -m pytest -q tests
+python tools/check_errata_artifacts.py   # errata hashes + every frozen lock/artifact check
+python tools/check_rc_semantics.py
+python tools/check_pamp_semantics.py
+python tools/check_library.py
+```

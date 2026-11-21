@@ -1,0 +1,27 @@
+{
+  "corrected_delta_v_contribution_by_action": {
+    "A": 0.0003404883638928068,
+    "C": 0.0,
+    "N": -0.00010357898448519041
+  },
+  "corrected_estimand": {
+    "delta_v": 0.00023690937940761637,
+    "lower_bound": -0.0006249177977693602
+  },
+  "evaluation_units": 3545,
+  "frozen_reproduction": {
+    "delta_v": 8.043899858956277e-05,
+    "lower_bound": -0.0007431991212175871,
+    "matches_artifact": true
+  },
+  "graph_clusters": 66,
+  "note_on_C_units": "on C units the policy loss equals the selected C-always comparator loss exactly (same corrected-rerun probability), so they contribute zero",
+  "path_N": {
+    "mean_loss_used_in_frozen_run_unconditional": 0.0027798558215451578,
+    "mean_realized_conditional_loss": 0.002176278563656148,
+    "units": 919
+  },
+  "schema": "erratum_E004_gate34_estimand_v1",
+  "selected_comparator": "C-always",
+  "status": "POST-HOC corrected-estimand reanalysis of stored fields; the frozen Gate 3 verdict (FAIL) stands and this analysis cannot rescue it or authorize M7"
+}

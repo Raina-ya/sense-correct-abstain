@@ -1,0 +1,150 @@
+{
+  "nuisance_class": "literal first-order reading of gate1_math_spec_v1 section 5.3: per-candidate unknown distribution q and first-order directions D_ell; second-order response terms are NOT nuisance under this reading. Under the fully saturated reading (every label-sign-class distribution free whenever phi != 0) the efficient information is zero at every phi != 0 point by construction (erratum E001).",
+  "numerical_zero_threshold": 1e-09,
+  "records": [
+    {
+      "context": "G2-primary",
+      "design": "single",
+      "efficient_info_phi_phi_at_phi_zero_range": [
+        0.9999999998458865,
+        1.0000000002359375
+      ],
+      "efficient_rank_counts_literal_first_order_reading": {
+        "0": 72,
+        "1": 9,
+        "2": 0
+      },
+      "max_abs_efficient_info_epsilon_at_phi_zero": 4.81482614856088e-21,
+      "max_abs_efficient_info_epsilon_epsilon": 6.259267457445587e-21,
+      "max_abs_efficient_info_phi_phi_at_phi_nonzero": 7.125972414520378e-21,
+      "oracle_full_info_epsilon_at_phi_zero_range": [
+        0.6168502748579804,
+        0.6168502753632035
+      ],
+      "thetas": [
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G2-primary",
+      "design": "same",
+      "efficient_info_phi_phi_at_phi_zero_range": [
+        0.9999999998458866,
+        1.0000000002359373
+      ],
+      "efficient_rank_counts_literal_first_order_reading": {
+        "0": 72,
+        "1": 9,
+        "2": 0
+      },
+      "max_abs_efficient_info_epsilon_at_phi_zero": 4.814826792282934e-21,
+      "max_abs_efficient_info_epsilon_epsilon": 6.259270919427344e-21,
+      "max_abs_efficient_info_phi_phi_at_phi_nonzero": 7.12605729019525e-21,
+      "oracle_full_info_epsilon_at_phi_zero_range": [
+        0.6168502748579804,
+        0.6168502753632035
+      ],
+      "thetas": [
+        0.7853981633974483,
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G2-primary",
+      "design": "distinct",
+      "efficient_info_phi_phi_at_phi_zero_range": [
+        0.9999999998166698,
+        1.0000000000505795
+      ],
+      "efficient_rank_counts_literal_first_order_reading": {
+        "0": 72,
+        "1": 9,
+        "2": 0
+      },
+      "max_abs_efficient_info_epsilon_at_phi_zero": 2.7925990931742757e-21,
+      "max_abs_efficient_info_epsilon_epsilon": 4.6703827841975345e-21,
+      "max_abs_efficient_info_phi_phi_at_phi_nonzero": 4.671004079903826e-21,
+      "oracle_full_info_epsilon_at_phi_zero_range": [
+        0.3855314217952972,
+        0.385531422105528
+      ],
+      "thetas": [
+        0.39269908169872414,
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G3-primary",
+      "design": "single",
+      "efficient_info_phi_phi_at_phi_zero_range": [
+        1.1637979307204291,
+        1.3545713738029888
+      ],
+      "efficient_rank_counts_literal_first_order_reading": {
+        "0": 0,
+        "1": 45,
+        "2": 36
+      },
+      "max_abs_efficient_info_epsilon_at_phi_zero": 6.78964928688958e-21,
+      "max_abs_efficient_info_epsilon_epsilon": 3.5161576599036907e-06,
+      "max_abs_efficient_info_phi_phi_at_phi_nonzero": 0.02248655008674774,
+      "oracle_full_info_epsilon_at_phi_zero_range": [
+        0.24387447738330933,
+        0.4670239877413452
+      ],
+      "thetas": [
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G3-primary",
+      "design": "same",
+      "efficient_info_phi_phi_at_phi_zero_range": [
+        1.1637979307204291,
+        1.3545713738029899
+      ],
+      "efficient_rank_counts_literal_first_order_reading": {
+        "0": 0,
+        "1": 45,
+        "2": 36
+      },
+      "max_abs_efficient_info_epsilon_at_phi_zero": 6.789653484370886e-21,
+      "max_abs_efficient_info_epsilon_epsilon": 3.5161576599037724e-06,
+      "max_abs_efficient_info_phi_phi_at_phi_nonzero": 0.02248655008674627,
+      "oracle_full_info_epsilon_at_phi_zero_range": [
+        0.24387447738330928,
+        0.46702398774134507
+      ],
+      "thetas": [
+        0.7853981633974483,
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G3-primary",
+      "design": "distinct",
+      "efficient_info_phi_phi_at_phi_zero_range": [
+        1.5322361028076834,
+        1.63617904313061
+      ],
+      "efficient_rank_counts_literal_first_order_reading": {
+        "0": 0,
+        "1": 27,
+        "2": 54
+      },
+      "max_abs_efficient_info_epsilon_at_phi_zero": 3.9966763859370094e-21,
+      "max_abs_efficient_info_epsilon_epsilon": 1.8177362966854895e-06,
+      "max_abs_efficient_info_phi_phi_at_phi_nonzero": 0.013102540317690996,
+      "oracle_full_info_epsilon_at_phi_zero_range": [
+        0.2611156444580388,
+        0.3752501773321353
+      ],
+      "thetas": [
+        0.39269908169872414,
+        0.7853981633974483
+      ]
+    }
+  ],
+  "schema": "erratum_E001_efficient_information_v1",
+  "status": "post-lock deterministic audit; does not change the frozen Gate 1A verdict"
+}

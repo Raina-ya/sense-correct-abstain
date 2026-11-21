@@ -1,0 +1,83 @@
+{
+  "environment": {
+    "machine": "x86_64",
+    "note": "NumPy version equals the version recorded in both frozen artifacts; the original platform and Python version were not recorded",
+    "numpy": "2.3.5",
+    "os": "Linux",
+    "python": "3.13.18"
+  },
+  "gate2": {
+    "checked": 6600,
+    "first_mismatch": {
+      "fields": {
+        "p2_alarm": [
+          0.05020576131687243,
+          0.03539094650205754
+        ]
+      },
+      "key": "edge-2|2|0|2|0|0"
+    },
+    "mismatch_count_by_field": {
+      "corrected_correct_probability": 7,
+      "correction_benefit": 14,
+      "initial_gap_observed": 11,
+      "no_action_correct_probability": 7,
+      "p2_alarm": 391
+    },
+    "mismatched_units": 416,
+    "verdict_relevant_fields_changed": []
+  },
+  "gate34": {
+    "checked": 5940,
+    "first_mismatch": {
+      "fields": {
+        "corrected_correct_probability": [
+          0.80078125,
+          0.8046875
+        ],
+        "fixed_losses": [
+          {
+            "A-always": 0.25,
+            "C-always": 0.19921875,
+            "N-full": 1.0,
+            "N-sensor-allocation": 1.0
+          },
+          {
+            "A-always": 0.25,
+            "C-always": 0.1953125,
+            "N-full": 1.0,
+            "N-sensor-allocation": 1.0
+          }
+        ],
+        "policy_loss": [
+          0.19921875,
+          0.1953125
+        ]
+      },
+      "key": "4|0|4|6|4"
+    },
+    "mismatch_count_by_field": {
+      "corrected_correct_probability": 11,
+      "fixed_losses": 26,
+      "full_correct_probability": 5,
+      "initial_gap_observed": 5,
+      "initial_gap_se": 5,
+      "policy_loss": 9,
+      "sensor_correct_probability": 11
+    },
+    "mismatched_units": 31,
+    "verdict_relevant_fields_changed": [
+      "fixed_losses",
+      "policy_loss"
+    ]
+  },
+  "gate3_from_recomputed_rows": {
+    "delta_v": 8.043899858956277e-05,
+    "lower_bound": -0.0007431991212175871,
+    "selected_comparator_frozen": "C-always",
+    "verdict_same_as_frozen": true
+  },
+  "schema": "erratum_E005_reproducibility_v1",
+  "status": "post-lock full deterministic recomputation with the frozen per-unit functions; recomputed rows not saved",
+  "stride": 1
+}

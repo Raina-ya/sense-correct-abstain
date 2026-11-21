@@ -1,0 +1,74 @@
+{
+  "decomposition_balanced_accuracy": {
+    "frozen_rule": 0.5871272643271026,
+    "gap_bound_condition_only": 0.5955244870024408,
+    "oracle_error_present_indicator": 0.5118096075656058,
+    "significance_condition_only": 0.5215533443499599
+  },
+  "frozen_rule": {
+    "balanced_accuracy": 0.5871272643271026,
+    "base_rate": 0.07702630166398282,
+    "false_positive": 2660,
+    "n": 3726,
+    "negatives": 3439,
+    "positives": 287,
+    "precision": 0.0927694406548431,
+    "predicted_positive": 2932,
+    "sensitivity": 0.9477351916376306,
+    "specificity": 0.22651933701657456,
+    "true_positive": 272
+  },
+  "intermediate_accuracy_units": {
+    "balanced_accuracy": 0.5520902298307009,
+    "base_rate": 0.692063492063492,
+    "false_positive": 82,
+    "n": 315,
+    "negatives": 97,
+    "positives": 218,
+    "precision": 0.7162629757785467,
+    "predicted_positive": 289,
+    "sensitivity": 0.9495412844036697,
+    "specificity": 0.15463917525773196,
+    "true_positive": 207
+  },
+  "label_noise": {
+    "clearly_harmed_units_benefit_below_minus_2sd": 91,
+    "clearly_harmed_units_predicted_positive": 85,
+    "matched_null_intermediate_accuracy_units": 18,
+    "matched_null_intermediate_positive_labels": 9,
+    "matched_null_positive_labels": 13,
+    "matched_null_units": 250,
+    "positive_labels": 287,
+    "positive_labels_within_2_mc_sd_of_zero": 126
+  },
+  "p2_comparator": {
+    "balanced_accuracy": 0.5223547684735352,
+    "base_rate": 0.07702630166398282,
+    "false_positive": 14,
+    "n": 3726,
+    "negatives": 3439,
+    "positives": 287,
+    "precision": 0.5,
+    "predicted_positive": 28,
+    "sensitivity": 0.04878048780487805,
+    "specificity": 0.9959290491421925,
+    "true_positive": 14
+  },
+  "p2_structural_blindness": {
+    "blind_beta_indices": [
+      0,
+      1
+    ],
+    "blind_beta_values": [
+      0.19634954084936207,
+      0.39269908169872414
+    ],
+    "generated_units_total": 6600,
+    "generated_units_with_structurally_blind_p2": 3300,
+    "max_abs_difference_noisy_vs_ideal_twin_distribution": 1.1102230246251565e-16,
+    "twin_distributions_checked": 6600,
+    "twin_mixer_after_rounding": 0.0
+  },
+  "schema": "erratum_E003_gate2_diagnostics_v1",
+  "status": "EXPLORATORY post-hoc diagnostics; cannot change or support the frozen Gate 2 verdict"
+}

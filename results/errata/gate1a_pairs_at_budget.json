@@ -1,0 +1,174 @@
+{
+  "pairs": [
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.9632197013996334,
+      "budget_n": 2430,
+      "context": "G2-primary",
+      "kl_n": 0.15022751459051045,
+      "one_minus_tv_n_lower_bound": 0.4638960965821995,
+      "single_shot": {
+        "bc": 0.9999845788223949,
+        "kl": 6.182202246523064e-05,
+        "tv": 0.003616114567422668
+      },
+      "theta_ref": 0.39269908169872414,
+      "tv_n_upper_bound": 0.2687151034750392,
+      "two_point_error_lower_bound_equal_prior": 0.23194804829109975,
+      "two_point_wrong_action_sum_lower_bound": 0.4638960965821995,
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.007853981633974483
+      }
+    },
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.9632197013996334,
+      "budget_n": 2430,
+      "context": "G2-primary",
+      "kl_n": 0.149577221796609,
+      "one_minus_tv_n_lower_bound": 0.4638960965821995,
+      "single_shot": {
+        "bc": 0.9999845788223949,
+        "kl": 6.155441226197902e-05,
+        "tv": 0.0036397199201029934
+      },
+      "theta_ref": 0.39269908169872414,
+      "tv_n_upper_bound": 0.2687151034750392,
+      "two_point_error_lower_bound_equal_prior": 0.23194804829109975,
+      "two_point_wrong_action_sum_lower_bound": 0.4638960965821995,
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.007853981633974483
+      }
+    },
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.8607973587816706,
+      "budget_n": 2430,
+      "context": "G2-primary",
+      "kl_n": 0.6061111851733209,
+      "one_minus_tv_n_lower_bound": 0.37048604644275007,
+      "single_shot": {
+        "bc": 0.9999383162408303,
+        "kl": 0.0002494284712647411,
+        "tv": 0.005465461558715988
+      },
+      "theta_ref": 0.7853981633974483,
+      "tv_n_upper_bound": 0.5089478432162768,
+      "two_point_error_lower_bound_equal_prior": 0.18524302322137504,
+      "two_point_wrong_action_sum_lower_bound": 0.37048604644275007,
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.015707963267948967
+      }
+    },
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.8607973587816706,
+      "budget_n": 2430,
+      "context": "G2-primary",
+      "kl_n": 0.5935393736146612,
+      "one_minus_tv_n_lower_bound": 0.37048604644275007,
+      "single_shot": {
+        "bc": 0.9999383162408303,
+        "kl": 0.00024425488626117747,
+        "tv": 0.005639918814464746
+      },
+      "theta_ref": 0.7853981633974483,
+      "tv_n_upper_bound": 0.5089478432162768,
+      "two_point_error_lower_bound_equal_prior": 0.18524302322137504,
+      "two_point_wrong_action_sum_lower_bound": 0.37048604644275007,
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.015707963267948967
+      }
+    },
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.9326272784291829,
+      "budget_n": 2430,
+      "context": "G3-primary",
+      "kl_n": 0.28012324980564174,
+      "one_minus_tv_n_lower_bound": 0.43489682023511234,
+      "single_shot": {
+        "bc": 0.999971296854262,
+        "kl": 0.0001152770575331859,
+        "tv": 0.005418190664339474
+      },
+      "theta_ref": 0.39269908169872414,
+      "tv_n_upper_bound": 0.36084118325071396,
+      "two_point_error_lower_bound_equal_prior": 0.21744841011755617,
+      "two_point_wrong_action_sum_lower_bound": 0.43489682023511234,
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.007853981633974483
+      }
+    },
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.9323148007958414,
+      "budget_n": 2430,
+      "context": "G3-primary",
+      "kl_n": 0.27926806659381304,
+      "one_minus_tv_n_lower_bound": 0.4346054438914947,
+      "single_shot": {
+        "bc": 0.9999711589540865,
+        "kl": 0.00011492513028551977,
+        "tv": 0.005457702508433424
+      },
+      "theta_ref": 0.39269908169872414,
+      "tv_n_upper_bound": 0.3616477736928718,
+      "two_point_error_lower_bound_equal_prior": 0.21730272194574735,
+      "two_point_wrong_action_sum_lower_bound": 0.4346054438914947,
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.007853981633974483
+      }
+    },
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.880023733805279,
+      "budget_n": 2430,
+      "context": "G3-primary",
+      "kl_n": 0.5143786559553388,
+      "one_minus_tv_n_lower_bound": 0.38722088603029226,
+      "single_shot": {
+        "bc": 0.9999474061560922,
+        "kl": 0.00021167845924088016,
+        "tv": 0.0069508657653071975
+      },
+      "theta_ref": 0.7853981633974483,
+      "tv_n_upper_bound": 0.47492970841948334,
+      "two_point_error_lower_bound_equal_prior": 0.19361044301514613,
+      "two_point_wrong_action_sum_lower_bound": 0.38722088603029226,
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.015707963267948967
+      }
+    },
+    {
+      "action_relevance": "nonevaluable_no_frozen_action_map",
+      "bc_n": 0.8650266371349834,
+      "budget_n": 2430,
+      "context": "G3-primary",
+      "kl_n": 0.5751371917019712,
+      "one_minus_tv_n_lower_bound": 0.3741355414765291,
+      "single_shot": {
+        "bc": 0.9999403330648549,
+        "kl": 0.00023668197189381532,
+        "tv": 0.007266718134635451
+      },
+      "theta_ref": 0.7853981633974483,
+      "tv_n_upper_bound": 0.5017259381843256,
+      "two_point_error_lower_bound_equal_prior": 0.18706777073826455,
+      "two_point_wrong_action_sum_lower_bound": 0.3741355414765291,
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.015707963267948967
+      }
+    }
+  ],
+  "schema": "erratum_E001_pairs_at_budget_v1",
+  "status": "post-lock restatement of stored single-shot quantities at the frozen sensing budget"
+}

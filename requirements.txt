@@ -1,0 +1,7 @@
+# Environment pin added by erratum E005 (2026-11-21).
+# NumPy 2.3.5 is the version recorded in results/dev/gate2_results.json and
+# results/gate34/gate34_results.json. The original Python version and platform
+# were not recorded; full recomputation on Linux x86-64 with Python 3.13.18
+# reproduces every verdict-level quantity but not every stored float (E005 §4).
+numpy==2.3.5
+pytest>=8
