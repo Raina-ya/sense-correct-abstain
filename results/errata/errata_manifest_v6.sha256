@@ -1,0 +1,4 @@
+# Post-lock errata manifest v6 (2026-11-21); append-only; SHA-256 after CRLF-to-LF canonicalization.
+# Round-1 review draft (Claude), added for the review trail; superseded by S1prime_B_rigorous (E007). docs/theory/REVIEW_TRAIL.md is a living index and is not hashed.
+c576aa91c01bdf3edf9c4f8bbfa804e1e1e234f773042010dfcfe4ae8338dedf  docs/theory/S1prime_B_review_draft.tex
+d33f6acd3426daa47850b885ef794eed92d14cf6d6ef3c64cfba13cf4bef8a52  docs/theory/S1prime_B_review_draft.pdf

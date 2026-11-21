@@ -1,0 +1,360 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,left=28mm,right=38mm,top=25mm,bottom=25mm,marginparwidth=30mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,tabularx,array,enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\setstretch{1.18}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+
+\definecolor{boxgray}{gray}{0.93}
+\newcommand{\statusbox}[1]{\par\smallskip\noindent\colorbox{boxgray}{\parbox{\dimexpr\linewidth-2\fboxsep}{\small #1}}\par\smallskip}
+
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{lemmaSone}{Lemma S1$'$}
+\newtheorem*{lemmaB}{Lemma B}
+\newtheorem*{corollary}{Corollary (Gate 1A FAIL)}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\eps}{\epsilon}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Pc}{P_{c}}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small sense-correct-abstain}
+\rhead{\small Lemma S1$'$ and Lemma B --- draft for review}
+\cfoot{\small \thepage}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Lemma S1$'$ and Lemma B}\\[4pt]
+{\large Draft proofs for owner review}\\[8pt]
+{\small Source: \texttt{docs/errata/E006\_audit\_of\_9201ba9.md}, \S2--\S3, commit \texttt{4867fe3} (2026-11-21)}
+\end{center}
+
+\statusbox{\textbf{Status.} Both lemmas are \emph{proved (draft, owner review pending)}. Numerical checks are deterministic
+evaluations of frozen circuits and are \emph{not} proofs. Scope: the synthetic compiled-angle E2 model
+(no physical carrier established), the frozen Gate 1A designs (Lemma S1$'$), and the frozen
+$p=1$ QAOA MaxCut circuits (Lemma B). Nothing here is a hardware claim. This document only
+typesets E006; if the two disagree, the repository file governs.}
+
+\tableofcontents
+\vspace{6pt}
+
+%=====================================================================
+\section{Three different notions}
+
+Let $\{P_{\eps,\eta}\}$ be a statistical model with parameter of interest $\eps$ and nuisance $\eta$,
+and let $(\eps_0,\eta_0)$ be the true point.
+
+\begin{definition}[Zero local efficient information]
+The score for $\eps$ at $(\eps_0,\eta_0)$ lies in the closed span of the nuisance tangent set,
+so its projection onto the orthocomplement vanishes. This is a \emph{first-order} statement.
+It does \emph{not} by itself imply non-identification: a parameter can be identified at higher
+order while having zero Fisher information.
+\end{definition}
+
+\begin{definition}[Local non-identification]
+Every neighbourhood of $\eps_0$ contains some $\eps'\neq\eps_0$ for which there is an $\eta'$ with
+$P_{\eps',\eta'}=P_{\eps_0,\eta_0}$ \emph{exactly}.
+\end{definition}
+
+\begin{definition}[Global non-identification]
+For every $\eps'$ in the parameter set there is an $\eta'$ with $P_{\eps',\eta'}=P_{\eps_0,\eta_0}$.
+\end{definition}
+
+\textbf{Rule used throughout.} Every non-identification claim below is proved by an
+\emph{explicit construction of observationally equivalent parameter points}, never from
+Fisher information alone.
+
+%=====================================================================
+\section{\texorpdfstring{Lemma S1$'$ (RC labels at $\phi=0$)}{Lemma S1' (RC labels at phi=0)}}
+
+\subsection{Setting}
+
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \textbf{Data.} For each candidate circuit $c$ (tagged logical angles $\theta_{c,\ell}$, $\ell=1,\dots,L_c$)
+and each Pauli label pattern $t$ with sign vector $s(t)\in\{\pm1\}^{L_c}$, i.i.d.\ draws from an outcome
+law $P_{c,t}$ on the $2^n$ bitstrings. Labels are drawn uniformly and recorded.
+\item \textbf{Primary synthetic model.} Each physical tagged rotation with commanded angle
+$a=s_\ell(t)\theta_{c,\ell}$ is implemented as $R_Z\big((1+\eps)a+\phi\big)$, and Z labels are
+error-free virtual frames.
+\item \textbf{Frame covariance (proved at M2).} Undoing the label gives logical angles
+\[
+u_{c,\ell}(t) = (1+\eps)\,\theta_{c,\ell} + s_\ell(t)\,\phi .
+\]
+\item \textbf{Key fact.} At $\phi=0$, $u_c(t)=(1+\eps)\theta_c$ for every $t$, so
+\[
+P_{c,t}=P_c\quad\text{for all label patterns } t.
+\]
+That is, the label-resolved laws are label invariant (verified to $0$ in the frozen run).
+\end{itemize}
+
+\subsection{Three nuisance parameterizations}
+
+The frozen specification (\S5.3) calls its nuisance class ``saturated'' but describes it through
+``local response directions'', so it admits more than one reading. The lemma is therefore stated
+for three explicit parameterizations.
+
+\medskip
+\noindent\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Name & Law of $(c,t)$ & Nuisance \\
+\midrule
+\textbf{N-free} & $P_{c,t}=R_c\big(u_c(t)\big)$ & for each $c$, an arbitrary map $R_c$ from angle vectors to strictly positive distributions (the exact quantum kernel is one member) \\[3pt]
+\textbf{N-loc} & $P_{c,t}=q_c+\sum_\ell\big(\eps\theta_{c,\ell}+s_\ell(t)\phi\big)D_{c,\ell}$ & $q_c$ in the open simplex; $D_{c,\ell}$ sum-zero vectors, free; positivity of $P_{c,t}$ required \\[3pt]
+\textbf{N-q} & as N-loc & only $q_c$ unknown; $D_{c,\ell}$ fixed or known \\
+\bottomrule
+\end{tabularx}
+
+\medskip
+N-q is \emph{not} a reading of the frozen class. It is the weakest assumption under which the
+Gate 1A failure still follows, which is why it is included.
+
+Throughout, write $v_c := \sum_\ell \theta_{c,\ell} D_{c,\ell}$ (a sum-zero vector). At $\phi=0$,
+N-loc and N-q give $P_c = q_c + \eps\, v_c$.
+
+\subsection{Statement}
+
+\begin{lemmaSone}
+At every parameter point with $\phi=0$:
+\begin{enumerate}[label=\textup{(\arabic*)},itemsep=3pt]
+\item \textbf{Local non-identification} under N-q, and hence under N-loc.
+\item \textbf{Global non-identification} under N-loc.
+\item \textbf{Global non-identification} under N-free (over all $\eps'$ with $1+\eps'\neq0$).
+\item \textbf{Zero local efficient information} for $\eps$ under N-q, N-loc and N-free, assuming the law is
+differentiable in $\eps$ and strictly positive (true for the frozen kernel).
+\end{enumerate}
+\end{lemmaSone}
+
+\subsection{Proofs}
+
+\paragraph{Proof of (1): local construction under N-q.}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=2pt]
+\item Let $\delta := \min_c \min_b q_c(b) \,/\, \max_c \norm{v_c}_\infty$. If every $v_c=0$, take $\delta=\infty$.
+Then $\delta>0$, because each $q_c$ lies in the \emph{open} simplex.
+\item Fix any $\eps'$ with $|\eps'-\eps_0|<\delta$. Define $q'_c := q_c + (\eps_0-\eps')\,v_c$ and keep $D$ unchanged.
+\item $q'_c$ sums to one, because $v_c$ sums to zero. It is strictly positive, because
+$|(\eps_0-\eps')v_c(b)| < \delta\norm{v_c}_\infty \le q_c(b)$.
+\item For every $t$: $\;q'_c+\eps' v_c = q_c + \eps_0 v_c$. Hence $P'_{c,t}=P_{c,t}$ for all $c,t$.
+\end{enumerate}
+Every $\eps'$ in the open interval $(\eps_0-\delta,\eps_0+\delta)$ is therefore observationally equivalent to $\eps_0$. \qed
+
+\paragraph{Proof of (2): global construction under N-loc.}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=2pt]
+\item If $\eps'\neq0$: set $D'_{c,\ell}:=(\eps_0/\eps')D_{c,\ell}$ and $q'_c:=q_c$. Then $\eps' v'_c=\eps_0 v_c$,
+so $q'_c+\eps' v'_c = P_c$ for every $t$.
+\item If $\eps'=0$: set $q'_c := P_c$ (strictly positive) and $D':=0$. Again $P'_{c,t}=P_c$.
+\item Positivity is automatic in both cases, because the resulting laws equal the true, strictly positive laws.
+\end{enumerate}
+So every real $\eps'$ is observationally equivalent to $\eps_0$. \qed
+
+\paragraph{Proof of (3): global construction under N-free.}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=2pt]
+\item At $\phi=0$ the data reveal $R_c$ only at the single point $(1+\eps_0)\theta_c$.
+\item For any $\eps'$ with $1+\eps'\neq0$, define $R'_c$ to equal $R_c\big((1+\eps_0)\theta_c\big)$ at the
+point $(1+\eps')\theta_c$, and to be any strictly positive distribution elsewhere.
+\item Then $P'_{c,t}=R'_c\big((1+\eps')\theta_c\big)=R_c\big((1+\eps_0)\theta_c\big)=P_{c,t}$ for every $t$. \qed
+\end{enumerate}
+
+\begin{remark}
+No global rescaling-closure property of the response class is used. That premise appeared in an
+earlier draft and was rejected at M2. Only one point per candidate is ever observed at $\phi=0$.
+\end{remark}
+
+\paragraph{Proof of (4): zero efficient information.}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=2pt]
+\item At $\phi=0$, the derivative of $P_{c,t}$ with respect to $\eps$ is $v_c$ (N-loc, N-q) or
+$\theta_c\cdot\nabla R_c$ (N-free). In both cases it is \emph{the same for every label} $t$ and sums
+to zero over outcomes.
+\item A label-independent, sum-zero perturbation of the per-candidate distribution is a nuisance
+tangent direction in every one of the three classes (free $q_c$, or free $R_c$).
+\item The $\eps$ score therefore lies in the nuisance tangent span, and its efficient projection is zero. \qed
+\end{enumerate}
+
+\subsection{\texorpdfstring{From Lemma S1$'$ to the Gate 1A verdict}{From Lemma S1' to the Gate 1A verdict}}
+
+\begin{corollary}
+Under every reading of the frozen nuisance class, Gate 1A fails its frozen rule.
+\end{corollary}
+\begin{proof}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=2pt]
+\item The frozen Gate 1A estimator is the profile maximum-likelihood estimator under the I3 class
+(specification \S7). It is applied to \emph{exact probabilities} at every grid point and must reach
+``the same identified solution'' from all starts, within $10^{-8}$.
+\item The frozen $9\times9$ grid contains nine points with $\phi=0$. At each of them, item (1)
+gives an open interval of $\eps'$ whose laws equal the truth exactly. The profile likelihood is
+therefore maximal on that whole interval, and the maximiser is not unique.
+\item Specification \S7 states that a flat profile or nonunique solution ``is a failure'';
+specification \S9 requires recovery ``at every required grid point''.
+\item Hence Gate 1A fails. Only item (1) is needed: it holds under N-q, and N-loc and N-free
+are larger classes.
+\end{enumerate}
+The argument uses no Fisher-information or regularity assumption. It needs only that the
+frozen class contains a free, label-independent, per-candidate distribution in the open simplex,
+which is how specification \S5.3 describes it.
+\end{proof}
+
+\subsection{\texorpdfstring{What Lemma S1$'$ does \emph{not} claim}{What Lemma S1' does not claim}}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item It makes no claim under a \emph{structured} nuisance class. For example, if the circuit is
+known and visibility is fixed at $1$, $\eps$ can be identified from absolute levels: the oracle
+information is $0.24$--$0.62$ per shot at $\phi=0$. No structured deployable class was frozen,
+and none is claimed blind.
+\item Global non-identification is \emph{not} claimed for an arbitrary class that merely contains
+a free $q_c$. That is where E006 narrows E001 \S2: under N-q (known directions), positivity can
+bound the equivalence set, so only local non-identification is guaranteed.
+\item It is not a statement about hardware, or about $\phi\neq0$.
+\end{itemize}
+
+\subsection{Numerical check (not a proof)}
+Tool: \path{tools/audit_gate1a_efficient_information.py}; output: \path{results/errata/gate1a_efficient_information.json}.
+At $\phi=0$, the largest efficient $\eps$ information over all frozen contexts and designs is
+$6.8\times10^{-21}$ per shot (numerically zero). The oracle (known-response) information at the
+same points is $0.24$--$0.62$ per shot.
+
+%=====================================================================
+\section{Lemma B (gap-shift bound)}
+
+\subsection{Setting}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \textbf{Circuits.} Candidate $j\in\{A,B\}$ is the frozen $p=1$ QAOA circuit on $|+\rangle^{\otimes n}$.
+Its tagged angles $x_{j,1},\dots,x_{j,m_j}$ each enter through their own $R_Z(x_{j,i})$, inside a
+compiled $\mathrm{CX}$--$R_Z$--$\mathrm{CX}$ block.
+\item \textbf{Score.} The normalised cut score is $s(b)\in[0,1]$. The expected score and the expected gap are
+\[
+E_j(x_j)=\sum_b s(b)\,\big|\langle b|U_j(x_j)|{+}^{n}\rangle\big|^2\in[0,1],\qquad
+g(x)=E_A(x_A)-E_B(x_B).
+\]
+\item \textbf{Error.} Target circuits carry no RC labels. Under the primary model, each tagged angle
+$\theta_{j,i}>0$ becomes $\theta_{j,i}+\delta_{j,i}$ with
+\[
+\delta_{j,i}=\eps\,\theta_{j,i}+\phi\qquad\text{exactly (no linearisation).}
+\]
+\item \textbf{Notation.} $A:=\sum_{j,i}|\theta_{j,i}|$ and $M:=m_A+m_B$. The frozen threshold quantity is
+$B(\eps,\phi):=|\eps|A+|\phi|M$.
+\end{itemize}
+
+\subsection{Statement}
+\begin{lemmaB}
+For all real $\eps,\phi$:
+\[
+\big|g(\theta+\delta)-g(\theta)\big| \;\le\; \tfrac12\,\norm{\delta}_1 \;\le\; \tfrac12\big(|\eps|A+|\phi|M\big) \;=\; \tfrac12 B(\eps,\phi).
+\]
+\end{lemmaB}
+
+\subsection{Proof}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=4pt]
+\item \textbf{Trigonometric degree in one angle.} Fix every argument except $x=x_{j,i}$. Then
+$U_j=V_2\,R_Z(x)\,V_1$ with $R_Z(x)=\cos(x/2)\,I-i\sin(x/2)\,Z$. Each amplitude is
+$\cos(x/2)\,\alpha_b-i\sin(x/2)\,\beta_b$ for some $\alpha_b,\beta_b$ independent of $x$. Its squared modulus is a linear
+combination of $\cos^2(x/2)$, $\sin^2(x/2)$ and $\sin(x/2)\cos(x/2)$, so
+\[
+E_j = a+b\cos x+c\sin x = a + \rho\cos(x-x_0),\qquad \rho=\sqrt{b^2+c^2}.
+\]
+\item \textbf{Uniform derivative bound.} Since $0\le E_j\le1$ for \emph{all} $x$, the oscillation
+$\max_x E_j-\min_x E_j = 2\rho \le 1$. Hence
+\[
+\Big|\tfrac{\partial E_j}{\partial x_{j,i}}\Big| \le \rho \le \tfrac12 \quad\text{at every point,}
+\]
+not only at $\theta$.
+\item \textbf{Exact integral identity.} The two candidates depend on disjoint arguments, so every component of
+$\nabla g(y)$ is $\pm$ one of the derivatives in Step 2, and $\norm{\nabla g(y)}_\infty\le\tfrac12$ for all $y$.
+Along the segment $y(t)=\theta+t\delta$, $t\in[0,1]$, the fundamental theorem of calculus gives
+\[
+g(\theta+\delta)-g(\theta)=\int_0^1 \nabla g\big(y(t)\big)\cdot\delta\,dt,
+\]
+so, by H\"older's inequality,
+\[
+\big|g(\theta+\delta)-g(\theta)\big|\le \sup_y\norm{\nabla g(y)}_\infty\,\norm{\delta}_1 \le \tfrac12\norm{\delta}_1 .
+\]
+\item \textbf{Size of the perturbation.} $|\delta_{j,i}|\le|\eps|\,\theta_{j,i}+|\phi|$. Summing over all tagged rotations
+gives $\norm{\delta}_1\le|\eps|A+|\phi|M$. \qed
+\end{enumerate}
+
+\subsection{Properties}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \textbf{Norms:} $\ell_\infty$ on the gradient, $\ell_1$ on the perturbation (H\"older pairing).
+\item \textbf{Constant:} $\tfrac12$ is \emph{uniform}. It is independent of the instance, the angles, $\eps$, $\phi$,
+and the perturbation size, and depends only on the score range $[0,1]$.
+\item \textbf{Remainder:} none. The bound is exact and \emph{global}; it is \emph{not} a first-order approximation.
+\item \textbf{Consequence:} $B(\eps,\phi)$ is exactly twice a global bound at the \emph{true} parameters.
+This corrects E003 \S6, which called it ``not a bound beyond first order''.
+\end{itemize}
+
+\subsection{Numerical check (not a proof)}
+Tool: \path{tools/audit_gap_shift_bound.py}; output: \path{results/errata/gap_shift_bound_check.json}.
+This is an exact evaluation of the frozen probability functions, with no sampling.
+
+\medskip
+\noindent\begin{tabular}{@{}lrr@{}}
+\toprule
+Population & Units with $(\eps,\phi)\neq0$ & $\max\,|\Delta g| \,/\, \big(B/2\big)$ \\
+\midrule
+Gate 2 & 6160 & 0.431 \\
+Gate 3/4 & 4752 & 0.213 \\
+\bottomrule
+\end{tabular}
+
+\medskip
+The bound holds everywhere, with at least about $2.3\times$ slack in these populations.
+
+\subsection{\texorpdfstring{What is \emph{not} proved about the frozen decision rule}{What is not proved about the frozen decision rule}}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item $\hat B=B(\hat\eps,\hat\phi)$ uses \emph{estimates}. No coverage statement
+$\Pr\big(B(\eps,\phi)\le\hat B\big)\ge1-\alpha$ has been proved for the frozen P-amp estimator.
+\item The rule compares the \emph{sampled} initial gap $|\hat g_0|$ with $\hat B$. Lemma B concerns the
+\emph{expected} gap. Nothing links that comparison to the probability of a decision flip, or to
+correction benefit, under shot noise.
+\item Lemma B says nothing about the residual error after recalibration with estimated parameters,
+or about how tight the bound is.
+\item It covers only the noiseless synthetic E2 model, with errors on tagged rotations only.
+\end{enumerate}
+\textbf{Correct description:} $\hat B$ is a \emph{heuristic plug-in alarm threshold built from a provable
+population bound}, not a guarantee about the rule.
+
+%=====================================================================
+\newpage
+\section{Review checklist}
+\renewcommand{\arraystretch}{1.6}
+\noindent\begin{tabularx}{\linewidth}{@{}c>{\raggedright\arraybackslash}Xc@{}}
+\toprule
+& Item to check & Initials / date \\
+\midrule
+$\square$ & S1$'$ setting: frame covariance gives label invariance at $\phi=0$. & \\
+$\square$ & The three nuisance parameterizations faithfully cover the readings of specification \S5.3. & \\
+$\square$ & (1) N-q construction: $\delta>0$; $q'_c$ in the open simplex; laws equal. & \\
+$\square$ & (2) N-loc construction for $\eps'\neq0$ and for $\eps'=0$. & \\
+$\square$ & (3) N-free construction uses only the single observed point per candidate. & \\
+$\square$ & (4) The $\eps$ score is label independent and lies in the nuisance tangent span. & \\
+$\square$ & Corollary: the nonunique profile MLE at the nine $\phi=0$ points implies FAIL under \S7 and \S9. & \\
+$\square$ & ``Does not claim'' list accepted (structured classes; N-q only local). & \\
+$\square$ & Lemma B Step 1: degree-1 trigonometric dependence on each tagged angle. & \\
+$\square$ & Lemma B Step 2: oscillation $\le1$ implies $|\partial E|\le\tfrac12$ everywhere. & \\
+$\square$ & Lemma B Step 3: disjoint arguments; the integral identity gives the global bound. & \\
+$\square$ & Lemma B Step 4: $\delta_{j,i}=\eps\theta_{j,i}+\phi$ is exact in the target circuits (no labels). & \\
+$\square$ & The unproved items about $\hat B$ are stated correctly and are not overclaimed elsewhere. & \\
+\bottomrule
+\end{tabularx}
+
+\vspace{14pt}
+\textbf{Decision:}\quad $\square$ accept as proved\quad $\square$ accept with corrections\quad $\square$ reject
+
+\vspace{10pt}
+\textbf{Notes:}
+
+\end{document}
