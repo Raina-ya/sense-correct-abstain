@@ -1,0 +1,8 @@
+# Post-lock errata manifest v2 (E006, 2026-11-21); append-only; SHA-256 after CRLF-to-LF canonicalization.
+# MT7 drafts, living status documents, README and check_errata_artifacts.py are deliberately not hashed.
+e153ff3102b1c547b10f393eee650ad626e5a1cc43313f894f1b9c67ae08309e  docs/errata/E006_audit_of_9201ba9.md
+821f354d262f0a95f42a56f0c2b0c4746ce2ada6c1429e47e6e9709790ac7be2  docs/protocols/lock_template_v2.md
+c73411e8610a0d4ca33b42d12b8cdc308ab47bc3d944b847c6121721654c1667  tools/audit_gap_shift_bound.py
+d0d66b5d3b330b501fbfe13f022e0a607446da5120a45623b4bb617efafde223  tools/check_protocol_lock.py
+d783f5772757001404c35b2cac1bebeb6c93be725cc397da670c89829a21da6c  tests/test_protocol_lock.py
+f64e6c9dec7d9ee84a51adab84a9cc04d867be7b0ce880d0fbaaab1a41ec1b38  results/errata/gap_shift_bound_check.json

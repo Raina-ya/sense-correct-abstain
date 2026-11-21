@@ -1,0 +1,38 @@
+{
+  "gate2_population": {
+    "bound_holds_everywhere": true,
+    "max_ratio_shift_to_half_B": 0.43105219124293553,
+    "units_checked": 6160,
+    "worst_case": {
+      "beta": 0.39269908169872414,
+      "epsilon": 0.04,
+      "gammas": [
+        0.7853981633974483,
+        1.1780972450961724
+      ],
+      "graph": "edge-2",
+      "half_B": 0.07853981633974483,
+      "phi": 0.0,
+      "shift": 0.03385475993306472
+    }
+  },
+  "gate34_population": {
+    "bound_holds_everywhere": true,
+    "max_ratio_shift_to_half_B": 0.21264074407232575,
+    "units_checked": 4752,
+    "worst_case": {
+      "beta": 0.5890486225480862,
+      "epsilon": 0.02,
+      "gammas": [
+        0.5890486225480862,
+        0.9817477042468103
+      ],
+      "graph": "split99-72-n4",
+      "half_B": 0.1884955592153876,
+      "phi": 0.0,
+      "shift": 0.04008183596588916
+    }
+  },
+  "schema": "erratum_E006_gap_shift_bound_v1",
+  "status": "deterministic numerical check of an analytically proved bound; not a proof"
+}

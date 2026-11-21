@@ -7,11 +7,12 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 
 ## Current status
 
-**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 PASS → Gate 3 FAIL → stop after M6.** The next task is MT7 synthesis. No confirmatory registration or holdout is authorized, and no hardware execution has been run or authorized. All evidence is analytic or synthetic simulation.
+**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 formal PASS (not evidence of useful benefit selection) → Gate 3 FAIL → stop after M6.** MT7 synthesis is in progress. The method is not claimed to work. No confirmatory registration or holdout is authorized, and no hardware execution has been run or authorized. All evidence is analytic or synthetic simulation.
 
 - Current status and supported claims: [docs/results/project_status.md](docs/results/project_status.md). The status tables inside the M3-locked plan files are frozen at M3 and stale.
 - Post-lock audit: [docs/audits/m2_m6_post_lock_audit.md](docs/audits/m2_m6_post_lock_audit.md).
-- **Errata E001–E005:** [docs/errata/](docs/errata/README.md). They correct the frozen Gate 1A–4 records without editing any frozen file. Read them before citing any gate report.
+- **Errata E001–E006:** [docs/errata/](docs/errata/README.md) and [E006](docs/errata/E006_audit_of_9201ba9.md), which governs where it narrows or corrects E001 and E003. They correct the frozen Gate 1A–4 records without editing any frozen file. Read them before citing any gate report.
+- **MT7 synthesis:** [claim ledger](docs/claim_ledger.md), [technical report draft](paper/technical_report_v1.md), and [reproducibility package](docs/reproducibility.md). The citation and novelty audit (MT7.4) is still open. Future locks follow [lock template v2](docs/protocols/lock_template_v2.md).
 
 Main documents:
 
@@ -26,7 +27,7 @@ Main documents:
 ```bash
 pip install -r requirements.txt
 python -m pytest -q tests
-python tools/check_errata_artifacts.py   # errata hashes + every frozen lock/artifact check
+python tools/check_errata_artifacts.py   # errata manifests v1+v2 + every frozen lock/artifact check
 python tools/check_rc_semantics.py
 python tools/check_pamp_semantics.py
 python tools/check_library.py

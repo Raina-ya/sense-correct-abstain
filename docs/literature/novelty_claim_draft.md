@@ -108,3 +108,36 @@ evidence can license abstention but not correction. Its novelty is unchecked.
 - Verify whether any existing work already separates label-only Fisher
   information from ideal-response information in a variational algorithm.
 
+
+## MT7 status after the gate sequence (added 2026-11-21)
+
+**Route taken:** Branch B (Gate 1A FAIL, Gate 1B PASS), then Gate 2 formal
+PASS and Gate 3 FAIL. The Branch B candidate claim above ("can supply enough
+runtime evidence to test whether recalibration or abstention has positive
+decision value") was tested. Its answer is **negative** in the frozen
+synthetic setting: no detectable net value, with power about 0.0004
+(`docs/claim_ledger.md`, B5).
+
+**What may be offered as a contribution** (still no priority claim):
+
+1. a boundary result: under the synthetic compiled-angle model, retained RC
+   labels do not identify the angle-proportional error at `phi = 0` under
+   response-free nuisance classes (Lemma S1′, E006 §2);
+2. sensor-independent decision theory: the three-action risk identity,
+   blindness lemma, finite-pilot bound, and collapse result (draft proofs);
+3. a documented negative result: a P-amp-guided three-action policy shows no
+   detectable value over always correcting at the frozen budget.
+
+**MT7.4 citation and novelty audit: NOT complete.** Outstanding:
+
+- owner confirmation of the AI-agent full-text readings (Wallman & Emerson,
+  Winick, Vyas);
+- full-text reading of the robust phase-estimation papers, pseudo-twirling and
+  KIK papers, and the closest decision-level QEM work (`scavino2026`);
+- a systematic, documented search for fixed-budget calibrate-or-abstain
+  policies and for label-only versus ideal-response information separation;
+- full-text verification of the Chow (1970) rule form and the Tsybakov lemma
+  locations.
+
+Until these are done, the report uses only the verification states recorded
+in `library.csv`, and no novelty wording is frozen.
