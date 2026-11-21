@@ -55,6 +55,11 @@ unsigned big-endian integer. Streams for P-amp, initial target, corrected
 target, P2, and scoring are separate. There is no confirmatory or holdout data
 in M5.
 
+Sampling uses NumPy `Generator(PCG64(seed)).multinomial`; the NumPy version is
+recorded in the result artifact. A sampled equality between candidate scores
+selects canonical candidate A. This deterministic tie rule applies to initial,
+corrected, and P2 twin observations.
+
 ## 3. Fixed budget ledger
 
 The total budget remains `N = 24,300` shots per unit.
@@ -170,8 +175,10 @@ change the Gate 1 route and cannot rescue a failed primary P-amp Gate 2 result.
 - Matched nulls: `epsilon = phi = 0`.
 - Decision-insensitive controls: metadata bound `A_A + A_B = 0` if generated,
   ideal-gap ties, and zero realized correction benefit.
-- Misspecification control: scoring-only asymmetric negative-angle error. It is
-  reported separately and cannot contribute to a pass.
+- Misspecification control: for negative commanded P-amp blocks only, replace
+  the primary error law `(1 + epsilon) * a + phi` by
+  `(1 + epsilon) * a - phi`; positive commands and targets retain the primary
+  law. It is reported separately and cannot contribute to a pass.
 - Graph identity, error labels, ideal gaps, true parameters, and scoring-layer
   fields are forbidden policy features.
 - No machine learning, threshold search, graph-specific rule, replacement
