@@ -1,0 +1,2 @@
+# Gate-3/4 design lock; SHA-256 after CRLF-to-LF canonicalization.
+1669d926e7ef425c5a91ac8b66c01a0db1ca937bb2fba9328395a4186cd6eb0d  docs/freeze/gate3_gate4_design.md
