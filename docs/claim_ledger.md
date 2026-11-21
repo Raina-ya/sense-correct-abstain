@@ -62,6 +62,7 @@ the project; nothing here is third-party validated.
 | C1 | All verdict-level quantities of Gates 2–4 reproduce under full internal recomputation (Linux, Python 3.13.18, NumPy 2.3.5) and sampled recomputation (every 50th unit; Python 3.10.12, NumPy 2.2.6). | finding | internal recomputation | **Not third-party validation.** Original Python version and platform unknown. | E005 §4 |
 | C2 | Stored per-unit floats are not bit-reproducible across platforms: 416 of 6600 (Gate 2) and 31 of 5940 (Gate 3/4) units differ, from last-bit differences in input probabilities. | boundary | internal recomputation | Verdicts unaffected; cause identified, not removed. | E005 §4 |
 | C3 | Analysis code was outside every lock, so code precedence over results cannot be shown for any gate. | boundary | repository history | Remedied for future work only (lock template v2). | E005 §1, E006 §7 |
+| C4 | The scoped MT7.4 audit found adjacent prior art for every component (RPE sensing, CDR references, PST/KIK mitigation, reject rules, and decision-aware QEM), but no searched source combining the full frozen pipeline. | boundary, not priority | primary-source records and publisher/full-text pages | Not a systematic review; cannot support “first” or an absence claim. | `docs/literature/novelty_claim_draft.md` |
 
 ## D. Statements that must NOT be made
 

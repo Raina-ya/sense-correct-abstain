@@ -20,7 +20,7 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 | Gate 3 | **FAIL**, under both the frozen and the corrected estimand (the latter a post-lock reanalysis) | `docs/results/gate3_gate4_report.md` | E004 |
 | Gate 4 | PASS (moot) | same | E004 |
 | Stop rule | **stopped after M6 → MT7** | — | — |
-| MT7 | **in progress.** Done: 7.1 claim ledger, 7.2 report draft, 7.3 reproducibility package. **Open:** 7.4 citation and novelty audit. | see below | — |
+| MT7 | **complete with declared open reviews.** 7.1 claim ledger, 7.2 report, 7.3 reproducibility package, and 7.4 scoped citation/novelty audit are complete. | see below | — |
 
 **Gate 2 (authoritative wording):**
 
@@ -37,15 +37,15 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
   and may not be claimed.
 - Technical report draft: [`../../paper/technical_report_v1.md`](../../paper/technical_report_v1.md)
 - Reproducibility package: [`../reproducibility.md`](../reproducibility.md)
-- Citation and novelty status:
+- Citation and novelty audit:
   [`../literature/novelty_claim_draft.md`](../literature/novelty_claim_draft.md),
-  section "MT7 status" (**open**).
+  section "MT7.4 citation and novelty audit".
 - Future-lock policy: [`../protocols/lock_template_v2.md`](../protocols/lock_template_v2.md)
 
 ## What is and is not authorized
 
-- **Allowed:** finishing MT7.4 and owner review of the draft proofs (Lemma
-  S1′, Lemma B, theory note).
+- **Allowed:** later owner review of the draft proofs (Lemma S1′, Lemma B,
+  theory note) and correction of explicitly unverified citation attributions.
 - **Not allowed:** M7 registration, a holdout, any adaptive-policy or
   "method works" claim, any rerun or redesign of Gates 1–4 presented as the
   same study, calling internal recomputation third-party validation, or any
@@ -53,6 +53,8 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 
 ## Open owner items
 
-1. Review the Lemma S1′ and Lemma B proofs (E006 §2–3).
-2. Complete MT7.4 (novelty draft, "MT7 status" section).
+1. Review the Lemma S1′ and Lemma B proofs when available; until then they
+   remain proved drafts and are not represented as owner-approved.
+2. Verify the exact Chow rule attribution and Tsybakov lemma numbering if the
+   full texts become available.
 3. Use lock template v2 for any new study.

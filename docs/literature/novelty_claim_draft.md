@@ -128,16 +128,60 @@ synthetic setting: no detectable net value, with power about 0.0004
 3. a documented negative result: a P-amp-guided three-action policy shows no
    detectable value over always correcting at the frozen budget.
 
-**MT7.4 citation and novelty audit: NOT complete.** Outstanding:
+## MT7.4 citation and novelty audit (completed 2026-11-21)
 
-- owner confirmation of the AI-agent full-text readings (Wallman & Emerson,
-  Winick, Vyas);
-- full-text reading of the robust phase-estimation papers, pseudo-twirling and
-  KIK papers, and the closest decision-level QEM work (`scavino2026`);
-- a systematic, documented search for fixed-budget calibrate-or-abstain
-  policies and for label-only versus ideal-response information separation;
-- full-text verification of the Chow (1970) rule form and the Tsybakov lemma
-  locations.
+**Method and scope.** The audit searched the project library and primary-source
+records for randomized-compiling labels, robust phase estimation, CDR/vnCDR,
+pseudo twirling, Adaptive/Layered KIK, decision-aware QEM, fixed-budget
+calibration, and reject/abstain policies. It is a scoped prior-art audit, not a
+systematic review and not evidence of priority. Verification levels in
+`library.csv` remain controlling; an abstract or publisher HTML reading is not
+silently promoted to a reproduced theorem.
 
-Until these are done, the report uses only the verification states recorded
-in `library.csv`, and no novelty wording is frozen.
+**Primary-source comparison.** The audit establishes the following boundaries:
+
+1. Kimmel--Low--Yoder RPE already estimates amplitude and off-resonance errors
+   with a repetition ladder and a known single-qubit reference. Russo et al.
+   already add consistency checks that flag when later RPE estimates should
+   not be trusted. P-amp therefore carries no novelty as an estimator or as a
+   sensor-level trust check.
+2. CDR and vnCDR already use classically tractable near-Clifford training
+   circuits and learned transfer maps from noisy to ideal observables. The
+   project's P2 twin belongs to this known-reference neighborhood, but one
+   deterministic twin does not inherit CDR's transfer evidence and was
+   structurally blind on half of the frozen Gate 2 units.
+3. Pseudo twirling changes control-pulse signs for general non-Clifford gates,
+   distinguishes controlled over/under-rotation from other coherent errors,
+   and explicitly does not eliminate the controlled rotation error. It is a
+   pulse-level mitigation/calibration method, not evidence that retained RC
+   labels identify the project's compiled-angle `epsilon`.
+4. Adaptive KIK uses pulse-based inverse evolutions and polynomial
+   combinations of expectation values under a time-local-noise assumption;
+   Layered KIK extends that mitigation architecture to dynamic circuits. These
+   methods mitigate observables rather than choose among issue, recalibrate,
+   and abstain under the project's fixed budget.
+5. Scavino's decision-kernel work is the closest decision-level QEM source: it
+   independently shows that expectation-value accuracy need not improve
+   downstream gap-based decisions and studies fixed-allocation finite-shot
+   limits. Therefore neither “decision-aware QEM” nor “fixed-budget decision
+   relevance” is novel by itself.
+
+**Search result.** Within this scoped search, no primary source was found that
+combines all of: retained-label identifiability with the ideal target response
+treated as nuisance; a fixed total sensing/re-execution budget; and a
+three-action issue/recalibrate/abstain policy evaluated against locked fixed
+policies. This is only a description of the searched neighborhood. It must not
+be rewritten as “first”, “unique”, or a comprehensive absence claim.
+
+**Final novelty boundary.** The report may present the work as a documented
+combination and negative boundary study: it separates deployable
+identifiability, benefit selection, and net policy value, then shows that the
+frozen combination fails to produce detectable value. The sensor mechanisms,
+decision-aware evaluation, rejection option, and fixed-budget analysis each
+have prior art. No priority claim is made.
+
+**Unresolved attributions that do not block synthesis.** The exact Chow (1970)
+rule attribution and Tsybakov lemma numbering remain unverified because the
+relevant full texts were not available. The project proofs are self-contained,
+so the report labels those attributions unverified instead of relying on them.
+Owner review of Lemma S1′ and Lemma B is deferred; both remain proved drafts.

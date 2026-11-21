@@ -199,13 +199,18 @@ models, larger circuits, and hardware are untested.
 - Score the policy loss conditional on the evidence the policy saw.
 - Specify nuisance classes unambiguously.
 
-**Open items.**
+**Prior-art and review status.** The scoped MT7.4 audit places P-amp inside the
+robust-phase-estimation family, P2 inside the known-reference/CDR
+neighborhood, and the project beside prior decision-aware QEM work. Pseudo
+twirling and KIK are pulse-level or estimator-level mitigation comparators,
+not evidence for label identifiability. The contribution is therefore framed
+as a documented combination and negative boundary study, not as a new sensor,
+a new rejection rule, or a priority claim.
 
-- Owner review of the draft proofs (A3–A7).
-- Full-text verification of the Chow and Tsybakov attributions.
-- The MT7.4 citation and novelty audit: a systematic search; full-text
-  comparison with Vyas (2026), the robust phase-estimation papers, pseudo
-  twirling, KIK, and CDR/P2.
+**Open reviews.** Owner review of Lemma S1′ and Lemma B is deferred; they
+remain proved drafts. The exact Chow rule attribution and Tsybakov lemma
+numbering remain unverified, but the corresponding project proofs are
+self-contained and do not depend on those attributions.
 
 ## 8. References
 
@@ -236,3 +241,13 @@ are not upgraded here.
   project are self-contained.*
 - Predecessor projects: `Raina-ya/adaptive-qem-benchmark` and
   `Raina-ya/bias-probe-visibility` (commit `cd5e576`).
+- Czarnik, P., et al. (2021). Error mitigation with Clifford quantum-circuit
+  data. *Quantum* 5, 592; Lowe, A., et al. (2021). Unified approach to
+  data-driven quantum error mitigation. *Phys. Rev. Research* 3, 033098.
+- Santos, J. P., Bar, B., & Uzdin, R. (2024). Pseudo twirling mitigation of
+  coherent errors in non-Clifford gates. *npj Quantum Information* 10, 100;
+  Henao, I., Santos, J. P., & Uzdin, R. (2023). Adaptive quantum error
+  mitigation using pulse-based inverse evolutions. *npj Quantum Information*
+  9, 120.
+- Scavino, V. (2026). Decision kernels for quantum error mitigation: why
+  accuracy gains need not improve downstream decisions. arXiv:2607.02888.
