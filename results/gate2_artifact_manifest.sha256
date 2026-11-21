@@ -1,0 +1,7 @@
+# Gate-2 artifact manifest; SHA-256 after CRLF-to-LF canonicalization.
+66383617473101d7c37d1fc962f3da5762dcac2925235cbb394c92d699544126  docs/freeze/gate2_dev_design_manifest.sha256
+ca1bb6c935da1b0cec6fea1bb3bfa125ee701c2140c4bd3f7cf28720712c08df  src/sense_correct_abstain/gate2.py
+73cde956ae142ae3059b84910e7e57f711eb49ff6e2ea8cd049552ac3d9eec59  tests/test_gate2.py
+f4061c26fdb8e57d166e598a40750e4f62b8c6e08e6dc67f13538e38091c36bf  tools/run_gate2.py
+8a6c5e0eb54ce8f5e158c7d824f82becd330f020616495cde7005b30baa1b8b5  results/dev/gate2_results.json
+2010c533ea07ab025ac58acc120d7b0b0bdd21bfa3c7f154794bc560b3e5ee2f  docs/results/gate2_report.md
