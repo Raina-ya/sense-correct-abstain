@@ -1,0 +1,8 @@
+# Post-lock errata manifest v4 (E008, 2026-11-21); append-only; SHA-256 after CRLF-to-LF canonicalization.
+# The owner-supplied A4-A6 proof note (.tex, .pdf) is byte-identical to the files supplied on 2026-11-21.
+# S1doubleprime_review_draft.* is Claude's typeset review sheet for S1'' (draft, owner review pending).
+4405f8c7ab50ca5da0ec09789751c85f654edd3560020955d1a714e56800e770  docs/errata/E008_owner_review_A4_A6.md
+db3f6409b585cbcbe2e6b222510be7ca8572fbdb546c412d7972e4f7c3cf308f  docs/theory/A4_A6_rigorous.tex
+457bd83b2d9815adc37f6816db7a6020c34c8726dfa5366616971ff265818489  docs/theory/A4_A6_rigorous.pdf
+8d9d2bca7d57f6197f59a80507c887fa31decfc600d71171ebee5b5251def36f  docs/theory/S1doubleprime_review_draft.tex
+4d9b05ae9b7ec0986e5eb6c3f42230812dd9a43855cef1c3b362522b08714ccc  docs/theory/S1doubleprime_review_draft.pdf

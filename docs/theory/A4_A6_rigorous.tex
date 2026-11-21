@@ -1,0 +1,346 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black]{hyperref}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}{Assumption}
+\renewcommand{\theassumption}{S\arabic{assumption}}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{correction}{Correction to the draft}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\vt}{\vartheta}
+\newcommand{\lA}{\lambda_A}
+\newcommand{\lF}{\lambda_F}
+\newcommand{\TV}{\mathrm{TV}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\BC}{\mathrm{BC}}
+
+\title{Claims A4--A6: rigorous proofs\\[2pt]
+\large three-action risk identity, blindness lemma, finite-pilot bound, honest collapse\\
+\normalsize audit of \texttt{docs/theory/three\_action\_theory\_v1.md} at commit \texttt{d6814a9}}
+\date{2026-11-21}
+\author{}
+
+\begin{document}
+\maketitle
+
+\paragraph{Scope.} Claim ledger rows A4 (T1, C1, C2), A5 (L1, T2) and A6 (P2, with the
+D1 identity it relies on). Definitions follow \texttt{decision\_problem\_v1.md}
+(§1.3--§1.7, §4.1, §6). Statements about the predecessor paper (Eq.~(6)) and about
+Chow (1970) are attributions, not mathematics, and are not checked here.
+
+\paragraph{Audit summary.}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Result & Verdict & What changes \\
+\midrule
+T1 (A4) & correct & stage-2 model formalized (potential outcomes); measurability\\
+C1 (A4) & correct & none\\
+C2 (A4) & correct & regular conditional law needed; tie set stated\\
+L1 (A5) & correct & metadata must be part of $X$; wrong-action form needs no\\
+& & optimality hypothesis\\
+T2 (A5) & correct & a.e.\ suffices for $\Gamma_{\min}$; KL in either direction\\
+E1 (uses L1) & \textbf{gap} & equal \emph{sensor} laws do not give equal \emph{stage-1} laws:\\
+& & $X_{T0}$ is part of $X$\\
+E2 (uses L1) & update & first ``if'' now discharged by S1$'$(2)/(3), under a stated\\
+& & condition\\
+D1, P2 (A6) & correct & two implicit assumptions made explicit (same correction\\
+& & procedure; always-correct comparator exists when C is usable)\\
+\bottomrule
+\end{tabular}
+\end{center}
+No correction changes the statement of T1, C1, C2, L1, T2, D1 or P2.
+
+%=====================================================================
+\section{Setting, made explicit}
+
+$\Theta$ is the state space; $k^*:\Theta\to K$ with $K$ finite. Stage-1 evidence $X$ takes
+values in a standard Borel space $(\mathcal X,\mathcal A)$ with law $P_\vt\ll\mu$, density
+$p_\vt$.
+
+\begin{assumption}[What $X$ contains]\label{S:X}
+$X$ contains everything the policy may use: the metadata $m$ and
+$X_1=(X_S,X_{T0})$ (contract §1.3). In particular $\delta_0=\delta_0(X)$ and the
+correction estimate $\hat\kappa=\kappa(X)$ are measurable functions of $X$.
+\end{assumption}
+
+\begin{assumption}[Policy]\label{S:pol}
+A policy is a measurable $\pi:\mathcal X\to\Delta(\{N,C,A\})$, realized as
+$a=\alpha(X,U)$ with $U\sim\mathrm{Unif}[0,1]$ independent of $(\vt,X,Y)$ below, and
+$\Pr(\alpha(x,U)=a)=\pi_a(x)$.
+\end{assumption}
+
+\begin{assumption}[Stage 2 as a potential outcome]\label{S:st2}
+For each $\vt$ there is a random pair $Y=(F,\delta_C)\in\{0,1\}\times K$, defined on every
+path (it is \emph{observed} only on path C), with a regular conditional law
+$Q_\vt(\cdot\mid x)$ given $X=x$. $U$ is independent of $(X,Y)$. Under fixed reserve
+(D3) the stage-1 allocation, $X$ and $\delta_0$ do not depend on the action.
+\end{assumption}
+
+\ref{S:st2} is the precise form of the draft's ``stage-2 randomness is conditionally
+independent of the policy's private randomization given $x$''. Realized loss
+(contract §4.1, D2 no-fallback semantics):
+\[
+L=\mathbf 1\{a=N\}\,\mathbf 1\{\delta_0\neq k^*\}+\mathbf 1\{a=A\}\,\lA
++\mathbf 1\{a=C\}\bigl[\lF F+(1-F)\mathbf 1\{\delta_C\neq k^*\}\bigr].
+\]
+Action-conditional losses: $l_N(\vt,x)=\mathbf 1\{\delta_0(x)\neq k^*(\vt)\}$,
+$l_A=\lA$, $l_C(\vt,x)=\lF\rho(\vt,x)+c(\vt,x)$ with
+$\rho=Q_\vt(F=1\mid x)$, $c=Q_\vt(F=0,\delta_C\neq k^*\mid x)$. All three are measurable
+in $x$ (regular conditional laws) and take values in $[0,\max(1,\lA,\lF)]$, so every
+expectation below is finite.
+
+%=====================================================================
+\section{A4: three-action risk identity and reductions}
+
+\begin{theorem}[T1]\label{thm:T1}
+For every policy $\pi$ and state $\vt$, with $q(\vt)=\E_\vt[l_N(\vt,X)]$,
+\begin{align*}
+R(\pi;\vt)&=\E_\vt\!\left[\pi_N(X)l_N+\pi_C(X)l_C+\pi_A(X)l_A\right] \tag{T1a}\\
+&=q(\vt)+\E_\vt[\pi_C(X)(l_C-l_N)]+\E_\vt[\pi_A(X)(\lA-l_N)]. \tag{T1b}
+\end{align*}
+Also $R=\Pr(\text{issue}\wedge\text{wrong})+\lA\Pr(A)+\lF\Pr(C\wedge F=1)$ (T1c), and
+(T1d) is (T1b) minus any constant $q_0$.
+\end{theorem}
+\begin{proof}
+Condition on $X=x$. By \ref{S:pol}--\ref{S:st2}, $a=\alpha(x,U)$ is independent of $Y$
+given $X=x$, so
+\[\E[\mathbf 1\{a=C\}(\lF F+(1-F)\mathbf 1\{\delta_C\neq k^*\})\mid X=x]
+=\pi_C(x)\,l_C(\vt,x).\] The N and A terms are $\pi_N(x)l_N(\vt,x)$ and $\pi_A(x)\lA$
+since $l_N$ is a function of $x$. Summing and taking $\E_\vt$ (tower property; all terms
+bounded) gives (T1a). Substituting $\pi_N=1-\pi_C-\pi_A$ gives (T1b). (T1c): the three
+summands of $L$ are $\lA$ times, $\lF$ times, or equal to indicators of disjoint events
+``issue and wrong'' (paths N and C-without-failure), ``abstain'', ``C and fail''.
+\end{proof}
+\noindent\emph{Where independence enters.} Only in the C term. Without \ref{S:st2}
+(e.g.\ a policy that peeks at a preliminary corrected shot) T1 fails. No independence
+between $X_S$ and $X_{T0}$ is used, as the draft says.
+
+\begin{corollary}[C1]
+With $\pi_C\equiv0$, $\lA=0$, $\pi_A=\mathbf 1_{\mathrm{Alarm}}$ ($\mathrm{Alarm}\in\mathcal A$),
+$R=q_f-d_f$ with $q_f=P(W_f)$, $d_f=P(\mathrm{Alarm}\cap W_f)$, $W_f=\{\delta_0\neq k^*\}$;
+hence $R<q_0\iff d_f>q_f-q_0$.
+\end{corollary}
+\begin{proof}
+(T1b): $R=q_f+\E[\mathbf 1_{\mathrm{Alarm}}(0-\mathbf 1_{W_f})]=q_f-d_f$.
+\end{proof}
+
+\begin{corollary}[C2]\label{cor:C2}
+Let $\Pi$ be a prior on $\Theta$ and $e_N(x)=\Pi(\delta_0(x)\neq k^*\mid X=x)$ (a version of
+the regular conditional probability, which exists on standard Borel spaces). Among
+policies with $\pi_C\equiv0$, the Bayes risk is minimized exactly by the policies with
+$\pi_A(x)=1$ for a.e.\ $x$ with $e_N(x)>\lA$, $\pi_A(x)=0$ for a.e.\ $x$ with
+$e_N(x)<\lA$, and $\pi_A(x)$ arbitrary on $\{e_N=\lA\}$.
+\end{corollary}
+\begin{proof}
+Averaging (T1b) over $\Pi$ and using $\E[l_N(\vt,X)\mid X]=e_N(X)$ and the tower property
+on $\E[\pi_A(X)l_N(\vt,X)]$, the Bayes risk is
+$r(\pi)=\E[e_N(X)]+\E[\pi_A(X)(\lA-e_N(X))]$. For each $x$,
+$\pi_A(x)(\lA-e_N(x))\ge\min(0,\lA-e_N(x))$ with equality iff $\pi_A(x)$ is as stated;
+the stated policy is measurable, so it attains the pointwise minimum and every other
+policy is strictly worse unless it agrees a.e.\ off the tie set.
+\end{proof}
+If $\delta_0$ is the posterior mode and $|K|=2$, then $e_N\le\tfrac12$, so abstention is
+never strictly optimal when $\lA\ge\tfrac12$. The draft's remark that this fails for the
+project's fixed empirical $\delta_0$ is correct: $e_N$ can then exceed $\tfrac12$.
+
+%=====================================================================
+\section{A5: blindness lemma and finite-pilot bound}
+
+$R^*(\vt)=\E_\vt[\min_al_a(\vt,X)]$,
+$D_a(\vt,x)=l_a(\vt,x)-\min_bl_b(\vt,x)\ge0$,
+$\mathrm{Reg}(\pi;\vt)=R(\pi;\vt)-R^*(\vt)=\E_\vt[\sum_a\pi_a(X)D_a(\vt,X)]$ (by (T1a)
+and $\sum_a\pi_a=1$). For a pair $\vt,\vt'$:
+$\Gamma(x)=\min_a[D_a(\vt,x)+D_a(\vt',x)]$, measurable as a finite minimum.
+
+\begin{lemma}[L1]\label{lem:L1}
+If $P_\vt=P_{\vt'}=:P$, then for every policy
+$\mathrm{Reg}(\pi;\vt)+\mathrm{Reg}(\pi;\vt')\ge\E_P[\Gamma(X)]$ and
+$\max\{\mathrm{Reg}(\pi;\vt),\mathrm{Reg}(\pi;\vt')\}\ge\tfrac12\E_P[\Gamma(X)]$.
+Moreover $\Gamma(x)>0\iff A^*(\vt,x)\cap A^*(\vt',x)=\emptyset$, so if the optimal sets
+are disjoint on a set of positive $P$-probability, the bound is strictly positive.
+\end{lemma}
+\begin{proof}
+Both regrets integrate against the same $P$ with the same $\pi_a(\cdot)$, so their sum is
+\[\E_P\Bigl[\textstyle\sum_a\pi_a(X)\bigl(D_a(\vt,X)+D_a(\vt',X)\bigr)\Bigr]\ge\E_P[\Gamma(X)],\]
+because a convex
+combination of numbers is at least their minimum. The max is at least half the sum.
+Since $D\ge0$, $\Gamma(x)=0$ iff some $a$ has $D_a(\vt,x)=D_a(\vt',x)=0$, i.e.\
+$a\in A^*(\vt,x)\cap A^*(\vt',x)$. If $\Gamma>0$ on a set of positive measure,
+$\E_P\Gamma>0$.
+\end{proof}
+
+\begin{proposition}[Wrong-action form, strengthened]\label{prop:wrong}
+If $P_\vt=P_{\vt'}$, then for \emph{any} two actions $a_0\neq a_1$ and every policy,
+$P_\vt(a\neq a_0)+P_{\vt'}(a\neq a_1)\ge1$.
+\end{proposition}
+\begin{proof}
+$P_{\vt'}(a\neq a_1)\ge P_{\vt'}(a=a_0)=\E_P[\pi_{a_0}(X)]=P_\vt(a=a_0)=1-P_\vt(a\neq a_0)$.
+\end{proof}
+\noindent The draft's hypothesis ``unique, $x$-independent optimal actions'' is not used;
+it only gives the inequality its meaning (``wrong action'').
+
+\begin{remark}[Metadata]\label{rem:meta}
+By \ref{S:X}, $P_\vt=P_{\vt'}$ is equality of the joint law of $(m,X_S,X_{T0})$. Two
+states with different metadata (different circuits) are therefore never covered by L1;
+the lemma applies to states of the \emph{same} unit that differ in latent error
+parameters or responses. The draft should say so, since the contract's policy is
+$\pi(m,X_1)$.
+\end{remark}
+
+\begin{theorem}[T2]\label{thm:T2}
+For any pair $\vt_0,\vt_1$ with densities $p_0,p_1$:
+\begin{align*}
+&\mathrm{Reg}_0+\mathrm{Reg}_1\ge\textstyle\int\Gamma\min(p_0,p_1)\,d\mu, \tag{T2a}\\
+&\max_j\mathrm{Reg}_j\ge\tfrac{\Gamma_{\min}}2(1-\TV(P_0,P_1))\quad
+\text{if }\Gamma\ge\Gamma_{\min}\ \mu\text{-a.e.\ on }\{\min(p_0,p_1)>0\}, \tag{T2b}\\
+&P_0(a\neq a_0)+P_1(a\neq a_1)\ge1-\TV(P_0,P_1)\quad\text{for any }a_0\neq a_1, \tag{T2c}\\
+&1-\TV(P_0^{\otimes},P_1^{\otimes})\ge\tfrac12\exp\!\bigl(-\textstyle\sum_i\KL_i\bigr),\quad
+1-\TV\ge\tfrac12\prod_i\BC_i^2, \tag{T2d--e}
+\end{align*}
+where in (T2d) $\KL_i$ may be taken as $\KL(P_{0,i}\|P_{1,i})$ or
+$\KL(P_{1,i}\|P_{0,i})$, chosen once for all $i$.
+\end{theorem}
+\begin{proof}
+(T2a) $\mathrm{Reg}_0+\mathrm{Reg}_1=\int\sum_a\pi_a(D^0_ap_0+D^1_ap_1)\,d\mu
+\ge\int\sum_a\pi_a(D^0_a+D^1_a)\min(p_0,p_1)\,d\mu\ge\int\Gamma\min(p_0,p_1)\,d\mu$,
+using $D\ge0$ and the convex-combination bound.
+(T2b) From (T2a) and $\int\min(p_0,p_1)=1-\TV$ (with $\TV=\frac12\int|p_0-p_1|$).
+(T2c) $P_0(a\neq a_0)+P_1(a=a_0)=\int[(1-\pi_{a_0})p_0+\pi_{a_0}p_1]\ge\int\min(p_0,p_1)$,
+and $P_1(a\neq a_1)\ge P_1(a=a_0)$.
+(T2e) \emph{Le Cam:} $\sqrt{p_0p_1}=\sqrt{\min\cdot\max}$, so by Cauchy--Schwarz
+$\BC^2\le\int\min\int\max=(1-\TV)(1+\TV)\le2(1-\TV)$.
+(T2d) \emph{Bretagnolle--Huber:} if $\KL(P_0\|P_1)<\infty$ then $P_0\ll P_1$, so
+$Z=\sqrt{p_1/p_0}>0$ $P_0$-a.s.\ and $\BC=\E_{P_0}[Z]$. Jensen for the concave $\log$:
+$\log\BC\ge\E_{P_0}\log Z=-\tfrac12\KL(P_0\|P_1)$; then Le Cam gives
+$1-\TV\ge\tfrac12\BC^2\ge\tfrac12e^{-\KL}$. Since $\BC$ and $\TV$ are symmetric, the same
+holds with $\KL(P_1\|P_0)$. \emph{Products:} by Fubini, $\BC$ multiplies and $\KL$ adds
+over independent coordinates.
+\end{proof}
+\noindent\emph{Sample size.} If $P_0(a\neq a_0)+P_1(a\neq a_1)\le\beta<\tfrac12$, then
+$\sum_i\KL_i\ge\log(1/(2\beta))$; for i.i.d.\ shots
+$n\ge\log(1/(2\beta))/\min\{\KL(P_0\|P_1),\KL(P_1\|P_0)\}$, slightly sharper than the
+draft's one-direction statement.
+
+\subsection{Applicability of L1 in the examples}
+
+\begin{correction}[Example E1]
+E1 shows that $(\epsilon,\phi)$ and $(\epsilon',\phi+(\epsilon-\epsilon')a_S)$ give the
+same \emph{sensor} law. L1 needs the same \emph{stage-1} law, and stage-1 evidence also
+contains $X_{T0}$ (contract §1.3). The target circuits' outcome law depends on the target
+angle errors, and E1 itself chooses the pair so that the candidate-gap biases
+$\epsilon(a_A-a_B)\neq\epsilon'(a_A-a_B)$ differ. In general, then, the two $X_{T0}$ laws
+differ and L1 does not apply as stated. Two valid repairs:
+\begin{enumerate}[nosep]
+\item restrict E1 to policies that use $X_S$ only (then L1 applies to the
+$X_S$-marginal); or
+\item keep $X_{T0}$ and use T2 with $1-\TV(P_0,P_1)$ computed on $(X_S,X_{T0})$; only the
+target shots then separate the states, and (T2d) gives the required $n_{T0}$.
+\end{enumerate}
+The same caveat applies to any use of L1 where only the sensor marginal is shown to agree.
+\end{correction}
+
+\begin{remark}[Example E2 after Lemma S1$'$]
+E2's first ``if'' (two states in the frozen nuisance class with identical label-resolved
+laws) is discharged by Lemma S1$'$(2) under N-loc and S1$'$(3) under N-free, \emph{provided}
+the stage-1 evidence consists only of label-resolved draws of those candidate circuits
+(target shots counting as one label pattern). Under N-free the alternative state is the
+translate $R'_c=R_c(\cdot+(\epsilon_0-\epsilon')\theta_c)$, whose ideal response at
+$\theta_c$, and hence $k^*$, may differ. The second ``if'' (different optimal actions)
+remains open. The theory note's status line for E2 can be updated accordingly.
+\end{remark}
+
+%=====================================================================
+\section{A6: allocation decomposition and honest collapse}
+
+Let $\Pi$ be the unit distribution and $\bar R(\pi)=\E_\Pi[R(\pi;\vt)]$. Comparator
+population risks (contract §1.7): $\bar q_0$ (issue-only, full target), $\bar q_f$
+(issue-only, sensor allocation), $\bar r_C$ (always correct), $\lA$ (always abstain), and
+$R_{\rm fix}=\min\{\bar q_0,\bar q_f,\bar r_C,\lA\}$.
+
+\begin{assumption}[Comparator consistency]\label{S:comp}
+(a) The issue-only comparator at the sensor allocation uses the same split and the same
+$\delta_0$ as the policy's path N. (b) Whenever the policy can take C, the always-correct
+comparator exists and uses the \emph{same} correction procedure ($\kappa$, recalibration
+rule, $n_C$, $\delta_C$) as the policy's path C. (c) Population level (draft A2):
+$\Delta_V(\pi):=R_{\rm fix}-\bar R(\pi)$.
+\end{assumption}
+(a) holds by the contract's definition. (b) is implicit in the contract (§1.7: ``C is
+always taken'' at the policy's allocation; §5: C has no sensor iff the always-correct
+comparator is undefined), but the proof of P2 uses it, so it should be stated. If the
+policy's correction rule differed from the comparator's, $\bar r_C$ would not be the risk of
+the policy's C path and P2 could fail.
+
+\begin{proposition}[D1]
+$\Delta_V(\pi)=G(\pi)-K$, where
+$G(\pi)=\E_\Pi\E_\vt[\pi_C(l_N-l_C)+\pi_A(l_N-\lA)]$ and $K=\bar q_f-R_{\rm fix}\ge0$.
+\end{proposition}
+\begin{proof}
+Averaging (T1b) over $\Pi$ gives $\bar R(\pi)=\bar q_f-G(\pi)$, since by
+\ref{S:comp}(a) $\E_\Pi[q(\vt)]=\bar q_f$. Then $R_{\rm fix}-\bar R=G-(\bar q_f-R_{\rm fix})$.
+$K\ge0$ because $R_{\rm fix}\le\bar q_f$.
+\end{proof}
+
+\begin{proposition}[P2, honest collapse]\label{prop:P2}
+Assume \ref{S:comp} and that $\pi$ is information-free: $\pi_a(x)\equiv w_a$ for all $x$
+(including the metadata component), with $U$ independent of $(\vt,X,Y)$. Then
+$\Delta_V(\pi)\le0$. Contrapositive: $\Delta_V(\pi)>0$ implies that $x\mapsto\pi(x)$ is not
+$P$-a.s.\ constant, where $P=\int P_\vt\,\Pi(d\vt)$.
+\end{proposition}
+\begin{proof}
+By (T1a) with constant weights,
+$R(\pi;\vt)=w_N\E_\vt l_N+w_C\E_\vt l_C+w_A\lA$. Averaging over $\Pi$:
+$\bar R(\pi)=w_N\bar q_f+w_C\bar r_C+w_A\lA$, where $\E_\Pi\E_\vt l_C=\bar r_C$ by
+\ref{S:comp}(b) and (T1a) applied to the always-C policy. If $w_C>0$, (b) guarantees that
+$\bar r_C$ is a comparator. Each of $\bar q_f$, $\bar r_C$ (when $w_C>0$), $\lA$ is
+$\ge R_{\rm fix}$, so their convex combination is too.
+\end{proof}
+
+\begin{remark}[Scope, as in the draft]
+The two open items the draft lists are correct and are the only gaps:
+\begin{enumerate}[nosep]
+\item \emph{Metadata-only policies} violate the hypothesis. If the owner wants P2 to cover
+them, one option is to select comparators per prespecified metadata stratum; the proof
+above then applies within each stratum and, averaging, gives $\Delta_V\le0$ for every
+policy whose action depends on metadata only through those strata.
+\item \emph{Finite samples}: with comparators selected on estimated development losses,
+$\E[L_{\rm fixed}]\ge R_{\rm fix}$ and can be strictly larger, so a holdout
+$\Delta_V>0$ is possible for an information-free policy through mis-selection. P2 says
+nothing there.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[Strict version]
+If $w_N\bar q_f+w_C\bar r_C+w_A\lA>R_{\rm fix}$, i.e.\ the mixture puts positive weight on
+an action whose fixed risk exceeds $R_{\rm fix}$, then $\Delta_V<0$; equality
+$\Delta_V=0$ holds iff every action with $w_a>0$ attains $R_{\rm fix}$.
+\end{remark}
+
+%=====================================================================
+\section{Suggested ledger outcomes}
+\begin{center}
+\begin{tabular}{@{}p{0.2\textwidth}p{0.73\textwidth}@{}}
+\toprule
+Row & Suggested outcome\\
+\midrule
+A4 & accept as proved; add \ref{S:st2} (potential-outcome form) to T1's assumptions.\\
+A5 & accept as proved; add Remark~\ref{rem:meta}; state the strengthened wrong-action form;
+\textbf{correct E1} (separate row in the theory note); update E2's status line.\\
+A6 & accept as proved; add \ref{S:comp}(b) to P2's assumptions.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

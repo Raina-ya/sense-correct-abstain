@@ -1,5 +1,15 @@
 # Three-action theory v1 (Main Task 1, Subtask 1.5)
 
+> **Owner review (2026-11-21, E008).** T1, C1, C2, L1, the wrong-action form,
+> T2, D1, and P2 are **proved and owner-reviewed**; their statements are
+> unchanged. Rigorous proofs with the implicit assumptions made explicit are in
+> [`A4_A6_rigorous.pdf`](A4_A6_rigorous.pdf). **Example E1 has a gap as stated**:
+> L1 needs equal stage-1 laws, including `X_T0`. See E008 §2 for the two valid
+> repairs. Example E2's first condition is discharged conditionally by Lemma
+> S1′; its second condition is open (E008 §3). Where the status lines below
+> differ, `docs/errata/E008_owner_review_A4_A6.md` governs. The text below is
+> otherwise unchanged.
+
 **Status: draft, written by Claude 2026-11-20 (commit `8dc782c`); revised
 2026-11-20 after owner review of Main Task 1 (direction approved; decisions
 D1–D3 and the issue-only comparator recorded in the contract). Not frozen. The

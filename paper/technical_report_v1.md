@@ -209,7 +209,9 @@ a new rejection rule, or a priority claim.
 
 **Open reviews.** Lemma S1′ and Lemma B were owner-reviewed and accepted with
 corrections (E007; `docs/theory/S1prime_B_rigorous.pdf`). The theory-note
-results A4–A6 and the per-context extension S1″ (E007 §3.2) remain drafts. The exact Chow rule attribution and Tsybakov lemma
+results A4–A6 were owner-reviewed (E008; `docs/theory/A4_A6_rigorous.pdf`).
+Example E1 in the theory note has a gap as stated and is corrected in E008 §2.
+The per-context extension S1″ (E007 §3.2) remains a draft. The exact Chow rule attribution and Tsybakov lemma
 numbering remain unverified, but the corresponding project proofs are
 self-contained and do not depend on those attributions.
 

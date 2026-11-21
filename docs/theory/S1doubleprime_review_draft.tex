@@ -1,0 +1,191 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,left=28mm,right=38mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,tabularx,array,enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\setstretch{1.18}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\definecolor{boxgray}{gray}{0.93}
+\newcommand{\statusbox}[1]{\par\smallskip\noindent\colorbox{boxgray}{\parbox{\dimexpr\linewidth-2\fboxsep}{\small #1}}\par\smallskip}
+\theoremstyle{plain}
+\newtheorem{claim}{Claim}
+\newtheorem*{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem*{setting}{Setting}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newcommand{\eps}{\epsilon}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\simp}{\Delta^{\circ}}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small sense-correct-abstain}
+\rhead{\small S1$''$ --- draft for owner review}
+\cfoot{\small \thepage}
+
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Extension S1$''$}\\[4pt]
+{\large Per-context shared response and visibility/offset readings of spec \S5.3}\\[8pt]
+{\small Source: \texttt{docs/errata/E007\_owner\_review\_lemmas.md} \S3.2 (local commit \texttt{630ef91}); this sheet adds the exceptional-point and enlargement proofs in full. 2026-11-21.}
+\end{center}
+
+\statusbox{\textbf{Status.} Proved (draft, Claude); \emph{owner review pending}. Notation and the
+classes N-loc, N-free follow \texttt{S1prime\_B\_rigorous.pdf} (owner note). Scope: synthetic
+compiled-angle model, frozen Gate 1A designs, true points with $\phi_0=0$ and
+$|\eps_0|\le 0.04$. Whether the readings below exhaust spec \S5.3 is a specification
+question and is \emph{not} proved here.}
+
+\section{Why an extension is needed}
+Spec \S5.3: ``treats \emph{each target context's} ideal outcome distribution and its local
+response directions as unknown \dots\ Visibility and label-independent offset are also nuisance
+quantities.'' The owner note and E006 parameterize the nuisance \emph{per candidate}. Two
+readings fall outside that:
+\begin{enumerate}[label=(\alph*),itemsep=2pt]
+\item \textbf{per-context shared response}: in the \texttt{distinct} design the two candidates
+belong to one context and could share one response map;
+\item \textbf{visibility and offset}: laws $vP+(1-v)o$.
+\end{enumerate}
+In the \texttt{single} and \texttt{same} designs every candidate has the same angle, so a shared
+response is evaluated at one point only and the per-candidate results apply unchanged.
+
+\section{Shared response (distinct design)}
+
+\begin{setting}
+One context, candidates $k=1,2$. Candidate $k$ uses one tagged angle $\theta_k$ for all its
+$L$ tagged blocks, with $\theta_1\neq\theta_2$; write $\Theta_k:=\theta_k\mathbf 1_L$. A single
+map $R:\R^L\to\simp$ from a class $\mathcal F$ serves both candidates. By frame covariance
+(owner note, Lemma 2), at $\phi=0$:
+\[
+P_{k,t}=R\big((1+\eps)\Theta_k\big)=:P_k\qquad\text{for every label pattern } t,\ k=1,2 .
+\]
+Observational equivalence means equality of $(P_1,P_2)$ (labels and candidate mix are known).
+Assume $1+\eps_0\neq0$ (true on the grid).
+\end{setting}
+
+\begin{claim}[S1$''$(a), nonlinear shared class]\label{c:a}
+Suppose $\mathcal F$ is closed under rescaling of the argument, $R\mapsto R(c\,\cdot)$ for
+every $c\neq0$ (true for all maps, continuous maps, and $C^k$ maps). Then every
+$\eps'\neq-1$ belongs to the identified set $I$.
+\end{claim}
+\begin{proof}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=2pt]
+\item Fix $\eps'\neq-1$ and put $c:=(1+\eps_0)/(1+\eps')$, so $c\neq0$. Define
+$R'(u):=R(cu)$. By closure $R'\in\mathcal F$, and $R'$ has the regularity of $R$.
+\item For $k=1,2$:
+$R'\big((1+\eps')\Theta_k\big)=R\big((1+\eps_0)\Theta_k\big)=P_k$.
+\item With $\phi'=0$, the point $(\eps',R')$ reproduces $(P_1,P_2)$. \qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{claim}[S1$''$(b), the exceptional point $\eps'=-1$]\label{c:b}
+Under the setting, $-1\in I$ implies $P_1=P_2$. Conversely, if $P_1=P_2$ and $\mathcal F$
+contains the constant maps, then $-1\in I$. Hence, with constants in $\mathcal F$,
+$I=\R$ if $P_1=P_2$ and $I=\R\setminus\{-1\}$ if $P_1\neq P_2$.
+\end{claim}
+\begin{proof}
+At $\eps'=-1$ both candidates are evaluated at $u=0$, so any equivalent point has
+$P_1=R'(0)=P_2$. Conversely, if $P_1=P_2$, the constant map $R'\equiv P_1$ works.
+Combine with Claim~\ref{c:a}.
+\end{proof}
+
+\begin{remark}
+This is the reading in which the draft condition $1+\eps'\neq0$ is genuinely needed. The
+owner's correction (``unnecessary'') is correct for the \emph{per-candidate} class, where the
+translation $R_c(\cdot+(\eps_0-\eps')\theta_c)$ is available for each candidate separately.
+With a shared map, a single translation cannot serve two candidates, because the required
+shifts $(\eps_0-\eps')\theta_k$ differ.
+\end{remark}
+
+\begin{claim}[S1$''$(c), first-order shared class]\label{c:c}
+Let $P_{k,t}=q+\sum_\ell\big(\eps\theta_k+s_\ell(t)\phi\big)D_\ell$ with one $q\in\simp$ and
+shared, unknown $D_\ell\in\Sigma_0$ (positivity required). Then every $\eps'\neq0$ belongs
+to $I$, and $0\in I$ iff $P_1=P_2$.
+\end{claim}
+\begin{proof}
+At $\phi=0$, $P_k=q+\eps_0\theta_k d$ with $d:=\sum_\ell D_\ell\in\Sigma_0$.
+For $\eps'\neq0$, set $D'_\ell:=(\eps_0/\eps')D_\ell$ and $q':=q$; then
+$\eps'\theta_kd'=\eps_0\theta_kd$, so $P'_k=P_k$ for $k=1,2$, and positivity holds because
+the laws are the true ones. At $\eps'=0$ every equivalent point has $P'_1=q'=P'_2$, which
+requires $P_1=P_2$; conversely, if $P_1=P_2$, take $q'=P_1$ and $D'=0$.
+\end{proof}
+
+\begin{remark}
+If the shared directions $D_\ell$ were \emph{known}, then
+$P_1-P_2=\eps(\theta_1-\theta_2)d$ would identify $\eps$ whenever $d\neq0$. That class is not
+a reading of \S5.3, which declares the response directions unknown, but it shows that the
+conclusion depends on that clause.
+\end{remark}
+
+\section{Visibility and label-independent offset}
+
+\begin{claim}[S1$''$(d), enlargement]\label{c:d}
+Let $\mathcal M$ be any of the classes above, with identified set $I_{\mathcal M}(\eps_0,\eta_0)$.
+Let $\mathcal M'$ have laws $vP_{k,t}+(1-v)o$ with $v\in(0,1]$ and $o\in\simp$
+label- and candidate-independent (extra nuisance $(v,o)$). Then for every true $(v_0,o_0)$,
+\[
+I_{\mathcal M'}(\eps_0,\eta_0,v_0,o_0)\supseteq I_{\mathcal M}(\eps_0,\eta_0).
+\]
+\end{claim}
+\begin{proof}
+If $\eps'\in I_{\mathcal M}$, there is $\eta'$ with $P'_{k,t}=P_{k,t}$ for all $(k,t)$. Then
+$(\eps',\eta',v_0,o_0)$ gives $v_0P'_{k,t}+(1-v_0)o_0=v_0P_{k,t}+(1-v_0)o_0$, the true
+$\mathcal M'$-law. Positivity is inherited.
+\end{proof}
+
+\section{Consequence for Gate 1A}
+
+\begin{corollary}
+In each of the six primary designs (G2, G3 $\times$ single, same, distinct), at each of the nine
+grid points with $\phi_0=0$, under the per-candidate classes (owner note) and under the
+shared and visibility/offset readings (a)--(d), the identified set contains an open interval
+around $\eps_0$. Hence the profile maximiser is not unique.
+\end{corollary}
+\begin{proof}
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=*,itemsep=2pt]
+\item \texttt{single}, \texttt{same}: owner note, Theorem S1$'$(1)--(3); Claim~\ref{c:d} for
+visibility/offset.
+\item \texttt{distinct}, shared nonlinear: Claims~\ref{c:a}--\ref{c:b} give
+$I\supseteq\R\setminus\{-1\}$, an open set containing $\eps_0\in[-0.04,0.04]$.
+\item \texttt{distinct}, shared first order: Claim~\ref{c:c} gives $I\supseteq\R\setminus\{0\}$.
+If $\eps_0\neq0$ this contains an open interval around $\eps_0$. If $\eps_0=0$ then
+$P_1=P_2=q$ and $I=\R$.
+\item Visibility/offset: Claim~\ref{c:d} preserves every inclusion.
+\item By the owner note's Gibbs corollary, profile maximisers attaining $\Lambda^*$ form
+exactly $I$; within the spec box $[-0.05,0.05]$, an open interval around an interior
+$\eps_0$ remains a non-degenerate interval.
+\end{enumerate}
+\end{proof}
+The final step from non-uniqueness to FAIL is the specification inference already checked
+against spec \S7 and \S9 (E007 \S3.1); it is not a mathematical statement.
+
+\section{Review checklist}
+\renewcommand{\arraystretch}{1.6}
+\noindent\begin{tabularx}{\linewidth}{@{}c>{\raggedright\arraybackslash}Xc@{}}
+\toprule
+& Item to check & Initials / date \\
+\midrule
+$\square$ & Readings (a)--(b) are fair interpretations of \S5.3 (spec question). & \\
+$\square$ & Claim (a): rescaling construction; closure under $R\mapsto R(c\,\cdot)$, $c\neq0$. & \\
+$\square$ & Claim (b): exceptional point $\eps'=-1$, iff condition $P_1=P_2$. & \\
+$\square$ & Remark after (b): consistent with the owner's per-candidate correction. & \\
+$\square$ & Claim (c): first-order shared version; exceptional point $\eps'=0$. & \\
+$\square$ & Claim (d): enlargement by visibility/offset preserves equivalences. & \\
+$\square$ & Corollary: open interval around $\eps_0$ in all six designs, including $\eps_0=0$. & \\
+\bottomrule
+\end{tabularx}
+
+\vspace{14pt}
+\textbf{Decision:}\quad $\square$ accept as proved\quad $\square$ accept with corrections\quad $\square$ reject
+
+\vspace{10pt}
+\textbf{Notes:}
+\end{document}
