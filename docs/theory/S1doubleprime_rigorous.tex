@@ -1,0 +1,180 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black]{hyperref}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{correction}{Correction to the draft}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\simp}{\Delta^{\circ}}
+\newcommand{\eps}{\epsilon}
+
+\title{Extension S1$''$: rigorous proofs and review\\[2pt]
+\large audit of \texttt{S1doubleprime\_review.pdf} and E007 §3.2 (local commit 630ef91)}
+\date{2026-11-21}
+\author{}
+
+\begin{document}
+\maketitle
+
+\paragraph{Scope and notation.} As in \texttt{S1prime\_B\_rigorous.pdf} (owner note):
+frame covariance (its Lemma 2), $\simp$, $\Sigma_0$, observational equivalence = equality
+of all label-resolved laws. True points have $\phi_0=0$ and $|\eps_0|\le0.04$. Whether
+readings (a)--(b) exhaust spec §5.3 is a specification question, not proved here.
+
+\paragraph{Audit summary.}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Item & Verdict & What changes\\
+\midrule
+Claim 1 (shared nonlinear) & correct & holds for arbitrary angle vectors and any\\
+& & number of candidates (Remark~\ref{rem:gen})\\
+Claim 2 ($\eps'=-1$) & correct, \textbf{gap} & proof assumes $\phi'=0$; the case $\phi'\neq0$ added\\
+Claim 3 (shared first order) & correct, \textbf{gap} & same gap at $\eps'=0$; added\\
+Claim 4 (visibility/offset) & correct & stated as a general monotonicity lemma\\
+Corollary & correct & feasibility of $\phi'=0$ in the box made explicit\\
+E007 §3.2(a) & same gap & the ``$u=0$'' sentence needs the same patch\\
+\bottomrule
+\end{tabular}
+\end{center}
+No correction changes a conclusion.
+
+%=====================================================================
+\section{Shared response (distinct design)}
+
+\paragraph{Setting.} One context, candidates $k=1,\dots,K$ (the design has $K=2$),
+tagged angle vectors $\Theta_k\in\R^L$ (the design has $\Theta_k=\theta_k\mathbf 1_L$,
+$\theta_1\neq\theta_2$), one map $R:\R^L\to\simp$ from a class $\mathcal F$. By frame
+covariance, $P_{k,t}=R\bigl((1+\eps)\Theta_k+s(t)\phi\bigr)$, where $s(t)\in\{\pm1\}^L$ and
+the product with $\phi$ is entrywise. At the truth ($\phi_0=0$),
+$P_{k,t}=R((1+\eps_0)\Theta_k)=:P_k$ for every $t$. Assume $1+\eps_0\neq0$.
+
+\begin{theorem}[S1$''$(a)]\label{c:1}
+If $\mathcal F$ is closed under $R\mapsto R(c\,\cdot)$ for every $c\neq0$, then every
+$\eps'\neq-1$ lies in the identified set $I$.
+\end{theorem}
+\begin{proof}
+Put $c=(1+\eps_0)/(1+\eps')\neq0$, $R'=R(c\,\cdot)\in\mathcal F$, $\phi'=0$. For every $k$
+and $t$, $P'_{k,t}=R'((1+\eps')\Theta_k)=R((1+\eps_0)\Theta_k)=P_k$. $R'$ maps into $\simp$
+and has the regularity of $R$.
+\end{proof}
+
+\begin{theorem}[S1$''$(b)]\label{c:2}
+If $-1\in I$, then $P_1=P_2=\dots=P_K$. Conversely, if all $P_k$ are equal and $\mathcal F$
+contains the constant maps, $-1\in I$. Hence, with constants in $\mathcal F$ and the closure
+of Claim~\ref{c:1}: $I=\R$ if all $P_k$ coincide, and $I=\R\setminus\{-1\}$ otherwise.
+\end{theorem}
+\begin{proof}
+Let $(\eps'=-1,\phi',R')$ be equivalent to the truth. Then
+$P'_{k,t}=R'(s(t)\phi')$, which does \emph{not} depend on $k$ for any fixed $t$ and any
+$\phi'$. Fix one $t$. Equivalence gives $P_k=P'_{k,t}=R'(s(t)\phi')$ for every $k$, so all
+$P_k$ coincide. Conversely, $R'\equiv P_1$, $\phi'=0$ reproduces every law.
+\end{proof}
+
+\begin{correction}
+The draft proves the first half by ``both candidates are evaluated at $u=0$'', which is the
+case $\phi'=0$ only. An equivalent point may have $\phi'\neq0$; then the evaluation points
+are $s(t)\phi'$, not $0$. The conclusion survives because those points do not depend on the
+candidate. The same sentence in E007 §3.2(a) (``both candidates would be evaluated at
+$u=0$'') needs this patch.
+\end{correction}
+
+\begin{theorem}[S1$''$(c)]\label{c:3}
+Let $P_{k,t}=q+\sum_\ell(\eps\Theta_{k,\ell}+s_\ell(t)\phi)D_\ell$ with one $q\in\simp$,
+shared unknown $D_\ell\in\Sigma_0$, positivity required, and $v_k:=\sum_\ell\Theta_{k,\ell}D_\ell$.
+Then every $\eps'\neq0$ lies in $I$, and $0\in I$ iff all $P_k$ coincide.
+\end{theorem}
+\begin{proof}
+At the truth $P_k=q+\eps_0v_k$. For $\eps'\neq0$: $D'_\ell=(\eps_0/\eps')D_\ell$, $q'=q$,
+$\phi'=0$ give $\eps'v'_k=\eps_0v_k$, so $P'_{k,t}=P_k\in\simp$, and $q'\in\simp$.
+For $\eps'=0$ and any $\phi'$: $P'_{k,t}=q'+\phi'\sum_\ell s_\ell(t)D'_\ell$ does not depend on
+$k$, so equivalence forces all $P_k$ equal, as in Claim~\ref{c:2}. Conversely, if they are
+equal, $q'=P_1$, $D'=0$, $\phi'=0$ works.
+\end{proof}
+\noindent The draft's ``at $\eps'=0$ every equivalent point has $P'_1=q'=P'_2$'' has the same
+$\phi'=0$ gap and the same fix.
+
+\begin{remark}[Generality]\label{rem:gen}
+Claims~\ref{c:1}--\ref{c:3} never use $\Theta_k=\theta_k\mathbf 1_L$, $\theta_1\neq\theta_2$
+or $K=2$. The conclusion therefore does not depend on how the distinct design assigns
+angles within a candidate. If the shared directions $D$ were known, the remark in the draft
+applies with $P_1-P_2=\eps(v_1-v_2)$; that class is not a reading of §5.3.
+\end{remark}
+
+%=====================================================================
+\section{Visibility and offset}
+
+\begin{lemma}[Monotonicity]\label{lem:mono}
+Let $M\subseteq M''$ be two models with the same parameter of interest $\eps$, in the sense
+that every $(\eps,\eta)\in M$ has some $(\eps,\eta'')\in M''$ with the same laws. Then for
+every true point of $M$, its identified set in $M''$ contains its identified set in $M$.
+\end{lemma}
+\begin{proof}
+If $(\eps',\eta')\in M$ has the true laws, its image $(\eps',\eta'')\in M''$ has them too.
+\end{proof}
+
+\begin{theorem}[S1$''$(d)]\label{c:4}
+For any class $M$ above, let $M'$ have laws $vP_{k,t}+(1-v)o$, $v\in(0,1]$, $o\in\simp$
+independent of $t$ (and of $k$, or not: either reading). Then
+$I_{M'}(\eps_0,\eta_0,v_0,o_0)\supseteq I_M(\eps_0,\eta_0)$.
+\end{theorem}
+\begin{proof}
+If $(\eps',\eta')$ is $M$-equivalent to $(\eps_0,\eta_0)$, then
+$(\eps',\eta',v_0,o_0)$ gives $v_0P'_{k,t}+(1-v_0)o_0=v_0P_{k,t}+(1-v_0)o_0$, which lies in
+$\simp$ because $P'_{k,t}\in\simp$ and $v_0>0$. (Equivalently, apply
+Lemma~\ref{lem:mono} to the $M$-submodel of $M'$ with $(v,o)$ fixed at $(v_0,o_0)$.)
+A per-candidate offset is a further enlargement and is covered by Lemma~\ref{lem:mono}.
+\end{proof}
+
+%=====================================================================
+\section{Consequence for Gate 1A}
+
+\begin{corollary}
+In each of the six primary designs, at each of the nine grid points with $\phi_0=0$,
+under the per-candidate classes and readings (a)--(d), $I$ contains an open interval around
+$\eps_0$, and every point of it is realised with $\phi'=0$.
+\end{corollary}
+\begin{proof}
+\emph{single, same:} all candidates share one angle vector, so a shared map is evaluated at
+one point and the per-candidate results (owner note, Theorem~1(1)--(3)) apply.
+\emph{distinct, nonlinear shared:} Claims~\ref{c:1}--\ref{c:2} give
+$I\supseteq\R\setminus\{-1\}$, an open set containing $\eps_0\in[-0.04,0.04]$.
+\emph{distinct, first-order shared:} Claim~\ref{c:3}; if $\eps_0\neq0$,
+$\R\setminus\{0\}$ contains an open interval around $\eps_0$; if $\eps_0=0$, then
+$P_k=q$ for all $k$ and $I=\R$. \emph{Visibility/offset:} Claim~\ref{c:4}. Every
+construction above uses $\phi'=0$.
+\end{proof}
+
+\paragraph{Profile and box.} By the owner note's Gibbs lemma, which does not depend on the
+class, the profile maximisers attaining $\Lambda^*$ are exactly $I$. The optimiser is
+constrained to $(\eps',\phi')\in[-0.05,0.05]^2$. Because every equivalent point used here has
+$\phi'=0$, it is feasible as soon as $\eps'\in[-0.05,0.05]$, so $I\cap[-0.05,0.05]$
+contains a non-degenerate interval: for example $(0,0.05]$ when $\eps_0\in(0,0.04]$ in the
+first-order shared reading. The draft's Step~5 states this only for $\eps'$; the $\phi'$
+coordinate should be mentioned too. The step from non-uniqueness to FAIL remains the
+specification inference of E007 §3.1.
+
+\section*{Suggested checklist outcomes}
+\begin{tabular}{@{}p{0.55\textwidth}p{0.38\textwidth}@{}}
+\toprule
+Readings (a)--(b) fair to §5.3 & spec question\\
+Claim (a) rescaling & accept\\
+Claim (b) $\eps'=-1$ & accept with correction ($\phi'\neq0$)\\
+Remark after (b) & accept\\
+Claim (c) first order, $\eps'=0$ & accept with correction ($\phi'\neq0$)\\
+Claim (d) enlargement & accept\\
+Corollary, all six designs, incl.\ $\eps_0=0$ & accept; mention $\phi'=0$ feasibility\\
+\bottomrule
+\end{tabular}
+
+\medskip\noindent Overall: \textbf{accept with corrections}.
+
+\end{document}

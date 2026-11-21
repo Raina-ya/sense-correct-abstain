@@ -1,8 +1,8 @@
 # Project status (authoritative, living document)
 
 **Updated:** 2026-11-21, after the audit of `9201ba9` (E006), the MT7
-synthesis, and the owner reviews of Lemma S1′ and Lemma B (E007) and of A4–A6
-(E008).
+synthesis, and the owner reviews of Lemma S1′ and Lemma B (E007), of A4–A6
+(E008), and of S1″ (E009). No draft proof remains open.
 
 This is a **living document** (E006 §6). Its `9201ba9` snapshot is hash-checked
 against git history; this working copy may change. The status tables inside
@@ -45,9 +45,8 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 
 ## What is and is not authorized
 
-- **Allowed:** owner review of the remaining draft proof (extension S1″ in E007
-  §3.2) and correction of explicitly unverified citation
-  attributions.
+- **Allowed:** correction of the explicitly unverified citation attributions
+  (Chow 1970 rule form; Tsybakov lemma locations).
 - **Not allowed:** M7 registration, a holdout, any adaptive-policy or
   "method works" claim, any rerun or redesign of Gates 1–4 presented as the
   same study, calling internal recomputation third-party validation, or any
@@ -56,8 +55,8 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 ## Open owner items
 
 1. ~~Review the Lemma S1′ and Lemma B proofs.~~ Done: accepted with corrections
-   (E007). A4–A6 accepted as proved (E008); Example E1 corrected. Remaining:
-   review S1″ (E007 §3.2).
+   (E007). A4–A6 accepted as proved (E008); Example E1 corrected. S1″
+   accepted with corrections (E009). No proof review remains.
 2. Verify the exact Chow rule attribution and Tsybakov lemma numbering if the
    full texts become available.
 3. Use lock template v2 for any new study.

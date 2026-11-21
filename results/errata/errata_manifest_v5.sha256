@@ -1,0 +1,5 @@
+# Post-lock errata manifest v5 (E009, 2026-11-21); append-only; SHA-256 after CRLF-to-LF canonicalization.
+# The owner-supplied S1'' proof note (.tex, .pdf) is byte-identical to the files supplied on 2026-11-21.
+062712f186bd16a97e81d4bc69360834b0d478328c946788462a01eb9a396110  docs/errata/E009_owner_review_S1doubleprime.md
+3ab1e058bf2d2250e6662a6c66613d8db105bfce34bf8b71666f5180c53eb5e1  docs/theory/S1doubleprime_rigorous.tex
+4737bf130e6e226ae55fd047c9f47e357c040baac1e5021fd590d3c0e70cdba2  docs/theory/S1doubleprime_rigorous.pdf
