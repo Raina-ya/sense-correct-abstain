@@ -17,4 +17,6 @@ M2 freezes the synthetic E2 and RC semantics in the [E2 semantics note](docs/the
 
 M3 freezes the pre-computation [Gate 1 mathematical specification](docs/theory/gate1_math_spec_v1.md) and [Gate 1 design lock](docs/freeze/gate1_design_lock.md). These are protocol artifacts, not Gate 1 results; the committed SHA-256 manifest is an internal lock rather than an independent preregistration.
 
+Gate 1 was then executed once against that lock. [Gate 1A](docs/results/gate1a_report.md) failed under the deployable unknown-response nuisance model; the prespecified [Gate 1B](docs/results/gate1b_report.md) P-amp fallback passed its analytic and exact-noiseless criteria and is the sole sensor routed to Gate 2. These are synthetic/noiseless findings, not noisy-simulation or hardware evidence.
+
 Main Task 1 is recorded in the [decision-problem contract](docs/contracts/decision_problem_v1.md) and [three-action theory draft](docs/theory/three_action_theory_v1.md). D1–D3 are decided; theorem proofs remain project drafts unless stated otherwise.

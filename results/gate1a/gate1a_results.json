@@ -1,0 +1,1495 @@
+{
+  "controls": {
+    "distinct_angle_pair": {
+      "reason": "I2 can gain rank but frozen I3 remains nonunique",
+      "status": "oracle_information_only"
+    },
+    "label_shuffle": {
+      "reason": "M3 did not freeze a scalar shuffle statistic or permutation realization",
+      "status": "nonevaluable_protocol_defect"
+    },
+    "logical_angle": {
+      "status": "passed_label_blindness"
+    },
+    "matched_no_error": {
+      "status": "passed_label_invariance"
+    },
+    "p2_extension": {
+      "reason": "cannot rescue primary p=1",
+      "status": "secondary_not_run"
+    },
+    "phi_zero_balanced_label": {
+      "max_probability_difference": 0.0,
+      "status": "passed"
+    },
+    "same_angle_pair": {
+      "reason": "duplicate sensitivity direction",
+      "status": "failed_identification_as_predicted"
+    },
+    "score_zero": {
+      "oracle_I2": {
+        "condition_number": null,
+        "eigenvalues": [
+          0.0,
+          0.0
+        ],
+        "matrix": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "rank": 0
+      },
+      "status": "passed"
+    },
+    "single_angle": {
+      "reason": "epsilon-phi phase confounding",
+      "status": "failed_identification_as_predicted"
+    }
+  },
+  "finite_pairs": [
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G2-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 1.542117760514306e-05,
+        "kl_z0_to_z1": 6.182202246523064e-05,
+        "le_cam_equal_prior_error_lower_bound": 0.49819194271628864,
+        "tv": 0.003616114567422668
+      },
+      "theta_ref": 0.39269908169872414,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.007853981633974483
+      }
+    },
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G2-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 1.5421177605144794e-05,
+        "kl_z0_to_z1": 6.155441226197902e-05,
+        "le_cam_equal_prior_error_lower_bound": 0.4981801400399485,
+        "tv": 0.0036397199201029934
+      },
+      "theta_ref": 0.39269908169872414,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.007853981633974483
+      }
+    },
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G2-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 6.168375916970078e-05,
+        "kl_z0_to_z1": 0.0002494284712647411,
+        "le_cam_equal_prior_error_lower_bound": 0.497267269220642,
+        "tv": 0.005465461558715988
+      },
+      "theta_ref": 0.7853981633974483,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.015707963267948967
+      }
+    },
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G2-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 6.168375916970143e-05,
+        "kl_z0_to_z1": 0.00024425488626117747,
+        "le_cam_equal_prior_error_lower_bound": 0.4971800405927676,
+        "tv": 0.005639918814464746
+      },
+      "theta_ref": 0.7853981633974483,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.015707963267948967
+      }
+    },
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G3-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 2.870314573801686e-05,
+        "kl_z0_to_z1": 0.0001152770575331859,
+        "le_cam_equal_prior_error_lower_bound": 0.49729090466783027,
+        "tv": 0.005418190664339474
+      },
+      "theta_ref": 0.39269908169872414,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.007853981633974483
+      }
+    },
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G3-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 2.88410459134863e-05,
+        "kl_z0_to_z1": 0.00011492513028551977,
+        "le_cam_equal_prior_error_lower_bound": 0.49727114874578326,
+        "tv": 0.005457702508433424
+      },
+      "theta_ref": 0.39269908169872414,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.007853981633974483
+      }
+    },
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G3-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 5.259384390776209e-05,
+        "kl_z0_to_z1": 0.00021167845924088016,
+        "le_cam_equal_prior_error_lower_bound": 0.4965245671173464,
+        "tv": 0.0069508657653071975
+      },
+      "theta_ref": 0.7853981633974483,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": 0.02,
+        "phi": -0.015707963267948967
+      }
+    },
+    {
+      "action_relevance_status": "nonevaluable_no_frozen_target_action_map",
+      "context": "G3-primary",
+      "different_optimal_actions": null,
+      "distances": {
+        "hellinger_squared": 5.966693514514631e-05,
+        "kl_z0_to_z1": 0.00023668197189381532,
+        "le_cam_equal_prior_error_lower_bound": 0.4963666409326823,
+        "tv": 0.007266718134635451
+      },
+      "theta_ref": 0.7853981633974483,
+      "z0": {
+        "epsilon": 0.0,
+        "phi": 0.0
+      },
+      "z1": {
+        "epsilon": -0.02,
+        "phi": 0.015707963267948967
+      }
+    }
+  ],
+  "gate1b_executed": false,
+  "information": [
+    {
+      "context": "G2-primary",
+      "design": "single",
+      "grid_points": 81,
+      "profile_recovery": {
+        "reason": "saturated unknown response and response directions absorb parameter location/scale",
+        "recovered": 0,
+        "required": 81,
+        "status": "failed_nonunique"
+      },
+      "rank_counts": {
+        "I1": {
+          "0": 0,
+          "1": 9,
+          "2": 72
+        },
+        "I2": {
+          "0": 0,
+          "1": 0,
+          "2": 81
+        },
+        "I3": {
+          "0": 81,
+          "1": 0,
+          "2": 0
+        }
+      },
+      "representative": {
+        "+0.000,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -6.661338147750939e-16,
+              1.0000000001489162
+            ],
+            "matrix": [
+              [
+                -5.551115123125783e-16,
+                2.6020852139652106e-18
+              ],
+              [
+                2.6020852139652106e-18,
+                1.0000000001489162
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 1.6211389386388517,
+            "eigenvalues": [
+              0.6168502750224116,
+              1.0000000001489162
+            ],
+            "matrix": [
+              [
+                0.6168502750224117,
+                2.6020852139652106e-18
+              ],
+              [
+                2.6020852139652106e-18,
+                1.0000000001489162
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -8.881784197001252e-16,
+              1.0000000002359382
+            ],
+            "matrix": [
+              [
+                -8.881784197001252e-16,
+                4.336808689942018e-18
+              ],
+              [
+                4.336808689942018e-18,
+                1.0000000002359382
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 1.6211389389347497,
+            "eigenvalues": [
+              0.6168502749635008,
+              1.0000000002359382
+            ],
+            "matrix": [
+              [
+                0.6168502749635008,
+                4.336808689942018e-18
+              ],
+              [
+                4.336808689942018e-18,
+                1.0000000002359382
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.020": {
+          "I1": {
+            "condition_number": 4053.7909883771626,
+            "eigenvalues": [
+              0.0002466424277550727,
+              0.9998368509849792
+            ],
+            "matrix": [
+              [
+                0.0005091986929928183,
+                0.016198139897365786
+              ],
+              [
+                0.016198139897365786,
+                0.9995742947197414
+              ]
+            ],
+            "rank": 2
+          },
+          "I2": {
+            "condition_number": 1.621138938721026,
+            "eigenvalues": [
+              0.6168502749849678,
+              1.0000000001389038
+            ],
+            "matrix": [
+              [
+                0.6168502749849679,
+                -2.93960949332428e-12
+              ],
+              [
+                -2.93960949332428e-12,
+                1.0000000001389038
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        }
+      },
+      "smallest_eigenvalue_range": {
+        "I1": [
+          -8.881784197001252e-16,
+          0.000985577368113666
+        ],
+        "I2": [
+          0.6168502748434448,
+          0.6168502754661643
+        ]
+      },
+      "thetas": [
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G2-primary",
+      "design": "same",
+      "grid_points": 81,
+      "profile_recovery": {
+        "reason": "saturated unknown response and response directions absorb parameter location/scale",
+        "recovered": 0,
+        "required": 81,
+        "status": "failed_nonunique"
+      },
+      "rank_counts": {
+        "I1": {
+          "0": 0,
+          "1": 9,
+          "2": 72
+        },
+        "I2": {
+          "0": 0,
+          "1": 0,
+          "2": 81
+        },
+        "I3": {
+          "0": 81,
+          "1": 0,
+          "2": 0
+        }
+      },
+      "representative": {
+        "+0.000,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              1.000000000148916
+            ],
+            "matrix": [
+              [
+                0.0,
+                1.3010426069826053e-18
+              ],
+              [
+                1.3010426069826053e-18,
+                1.000000000148916
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 1.6211389386388497,
+            "eigenvalues": [
+              0.6168502750224123,
+              1.000000000148916
+            ],
+            "matrix": [
+              [
+                0.6168502750224123,
+                1.3010426069826053e-18
+              ],
+              [
+                1.3010426069826053e-18,
+                1.000000000148916
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -4.440892098500626e-16,
+              1.000000000235937
+            ],
+            "matrix": [
+              [
+                -4.440892098500626e-16,
+                2.168404344971009e-18
+              ],
+              [
+                2.168404344971009e-18,
+                1.000000000235937
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 1.6211389389347466,
+            "eigenvalues": [
+              0.6168502749635012,
+              1.000000000235937
+            ],
+            "matrix": [
+              [
+                0.6168502749635012,
+                2.168404344971009e-18
+              ],
+              [
+                2.168404344971009e-18,
+                1.000000000235937
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.020": {
+          "I1": {
+            "condition_number": 4053.790988386287,
+            "eigenvalues": [
+              0.0002466424277545176,
+              0.9998368509849793
+            ],
+            "matrix": [
+              [
+                0.0005091986929923742,
+                0.01619813989736579
+              ],
+              [
+                0.01619813989736579,
+                0.9995742947197416
+              ]
+            ],
+            "rank": 2
+          },
+          "I2": {
+            "condition_number": 1.6211389387210269,
+            "eigenvalues": [
+              0.6168502749849676,
+              1.000000000138904
+            ],
+            "matrix": [
+              [
+                0.6168502749849675,
+                -2.939608192281673e-12
+              ],
+              [
+                -2.939608192281673e-12,
+                1.000000000138904
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        }
+      },
+      "smallest_eigenvalue_range": {
+        "I1": [
+          -9.992007221626409e-16,
+          0.0009855773681130553
+        ],
+        "I2": [
+          0.6168502748434441,
+          0.6168502754661638
+        ]
+      },
+      "thetas": [
+        0.7853981633974483,
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G2-primary",
+      "design": "distinct",
+      "grid_points": 81,
+      "profile_recovery": {
+        "reason": "saturated unknown response and response directions absorb parameter location/scale",
+        "recovered": 0,
+        "required": 81,
+        "status": "failed_nonunique"
+      },
+      "rank_counts": {
+        "I1": {
+          "0": 0,
+          "1": 9,
+          "2": 72
+        },
+        "I2": {
+          "0": 0,
+          "1": 0,
+          "2": 81
+        },
+        "I3": {
+          "0": 81,
+          "1": 0,
+          "2": 0
+        }
+      },
+      "representative": {
+        "+0.000,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -4.440892098500626e-16,
+              1.0000000001097735
+            ],
+            "matrix": [
+              [
+                -3.3306690738754696e-16,
+                -2.168404344971009e-18
+              ],
+              [
+                -2.168404344971009e-18,
+                1.0000000001097735
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 2.5938223020950306,
+            "eigenvalues": [
+              0.385531421833359,
+              1.0000000001097735
+            ],
+            "matrix": [
+              [
+                0.385531421833359,
+                -2.168404344971009e-18
+              ],
+              [
+                -2.168404344971009e-18,
+                1.0000000001097735
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -5.551115123125783e-16,
+              0.9999999999840944
+            ],
+            "matrix": [
+              [
+                -5.551115123125783e-16,
+                2.168404344971009e-18
+              ],
+              [
+                2.168404344971009e-18,
+                0.9999999999840944
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 2.593822301250739,
+            "eigenvalues": [
+              0.3855314219103966,
+              0.9999999999840944
+            ],
+            "matrix": [
+              [
+                0.3855314219103966,
+                2.168404344971009e-18
+              ],
+              [
+                2.168404344971009e-18,
+                0.9999999999840944
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.020": {
+          "I1": {
+            "condition_number": 5110.700425449658,
+            "eigenvalues": [
+              0.00019563788466003817,
+              0.9998466203661281
+            ],
+            "matrix": [
+              [
+                0.00029096464799543975,
+                0.009761373132563844
+              ],
+              [
+                0.009761373132563844,
+                0.9997512936027928
+              ]
+            ],
+            "rank": 2
+          },
+          "I2": {
+            "condition_number": 2.5938223017793156,
+            "eigenvalues": [
+              0.3855314218936361,
+              1.0000000001444036
+            ],
+            "matrix": [
+              [
+                0.38553142189363615,
+                -1.9153881172101483e-11
+              ],
+              [
+                -1.9153881172101483e-11,
+                1.0000000001444036
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        }
+      },
+      "smallest_eigenvalue_range": {
+        "I1": [
+          -5.551115123125783e-16,
+          0.0007932855699393504
+        ],
+        "I2": [
+          0.38553142176848065,
+          0.38553142218787273
+        ]
+      },
+      "thetas": [
+        0.39269908169872414,
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G3-primary",
+      "design": "single",
+      "grid_points": 81,
+      "profile_recovery": {
+        "reason": "saturated unknown response and response directions absorb parameter location/scale",
+        "recovered": 0,
+        "required": 81,
+        "status": "failed_nonunique"
+      },
+      "rank_counts": {
+        "I1": {
+          "0": 0,
+          "1": 9,
+          "2": 72
+        },
+        "I2": {
+          "0": 0,
+          "1": 0,
+          "2": 81
+        },
+        "I3": {
+          "0": 81,
+          "1": 0,
+          "2": 0
+        }
+      },
+      "representative": {
+        "+0.000,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -6.439293542825908e-15,
+              1.2538650140172984
+            ],
+            "matrix": [
+              [
+                -6.328271240363392e-15,
+                -2.72405795836983e-17
+              ],
+              [
+                -2.72405795836983e-17,
+                1.2538650140172984
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 3.598183543692838,
+            "eigenvalues": [
+              0.3484716659924605,
+              1.2538650140172984
+            ],
+            "matrix": [
+              [
+                0.34847166599246043,
+                -2.72405795836983e-17
+              ],
+              [
+                -2.72405795836983e-17,
+                1.2538650140172984
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              3.9968028886505635e-15,
+              1.2062979956036344
+            ],
+            "matrix": [
+              [
+                3.941291737419306e-15,
+                -1.100465205072787e-17
+              ],
+              [
+                -1.100465205072787e-17,
+                1.2062979956036344
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 4.117919925059522,
+            "eigenvalues": [
+              0.2929386723288938,
+              1.2062979956036344
+            ],
+            "matrix": [
+              [
+                0.29293867232889387,
+                -1.100465205072787e-17
+              ],
+              [
+                -1.100465205072787e-17,
+                1.2062979956036344
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.020": {
+          "I1": {
+            "condition_number": 388.69394754162715,
+            "eigenvalues": [
+              0.0031047351192073913,
+              1.2067917495558453
+            ],
+            "matrix": [
+              [
+                0.0032693851474876467,
+                -0.014076931176068702
+              ],
+              [
+                -0.014076931176068702,
+                1.2066270995275652
+              ]
+            ],
+            "rank": 2
+          },
+          "I2": {
+            "condition_number": 4.126473069778436,
+            "eigenvalues": [
+              0.2937763804053299,
+              1.2122603222795791
+            ],
+            "matrix": [
+              [
+                0.2955452136113621,
+                -0.04026805340072686
+              ],
+              [
+                -0.04026805340072686,
+                1.210491489073547
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        }
+      },
+      "smallest_eigenvalue_range": {
+        "I1": [
+          -1.5987211554602254e-14,
+          0.016557086101471885
+        ],
+        "I2": [
+          0.24387447733594175,
+          0.46702398776974285
+        ]
+      },
+      "thetas": [
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G3-primary",
+      "design": "same",
+      "grid_points": 81,
+      "profile_recovery": {
+        "reason": "saturated unknown response and response directions absorb parameter location/scale",
+        "recovered": 0,
+        "required": 81,
+        "status": "failed_nonunique"
+      },
+      "rank_counts": {
+        "I1": {
+          "0": 0,
+          "1": 9,
+          "2": 72
+        },
+        "I2": {
+          "0": 0,
+          "1": 0,
+          "2": 81
+        },
+        "I3": {
+          "0": 81,
+          "1": 0,
+          "2": 0
+        }
+      },
+      "representative": {
+        "+0.000,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              4.6629367034256575e-15,
+              1.2538650140173218
+            ],
+            "matrix": [
+              [
+                4.718447854656915e-15,
+                -2.7498077599663606e-17
+              ],
+              [
+                -2.7498077599663606e-17,
+                1.2538650140173218
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 3.59818354369279,
+            "eigenvalues": [
+              0.3484716659924716,
+              1.2538650140173218
+            ],
+            "matrix": [
+              [
+                0.3484716659924716,
+                -2.7498077599663606e-17
+              ],
+              [
+                -2.7498077599663606e-17,
+                1.2538650140173218
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              4.440892098500626e-16,
+              1.2062979956036362
+            ],
+            "matrix": [
+              [
+                5.551115123125783e-16,
+                -1.157385819128276e-17
+              ],
+              [
+                -1.157385819128276e-17,
+                1.2062979956036362
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 4.117919925059575,
+            "eigenvalues": [
+              0.2929386723288905,
+              1.2062979956036362
+            ],
+            "matrix": [
+              [
+                0.2929386723288905,
+                -1.157385819128276e-17
+              ],
+              [
+                -1.157385819128276e-17,
+                1.2062979956036362
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.020": {
+          "I1": {
+            "condition_number": 388.6939475423991,
+            "eigenvalues": [
+              0.003104735119201174,
+              1.2067917495558254
+            ],
+            "matrix": [
+              [
+                0.0032693851474815405,
+                -0.014076931176068622
+              ],
+              [
+                -0.014076931176068622,
+                1.206627099527545
+              ]
+            ],
+            "rank": 2
+          },
+          "I2": {
+            "condition_number": 4.126473069778454,
+            "eigenvalues": [
+              0.29377638040532367,
+              1.212260322279559
+            ],
+            "matrix": [
+              [
+                0.295545213611356,
+                -0.04026805340072678
+              ],
+              [
+                -0.04026805340072678,
+                1.2104914890735268
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        }
+      },
+      "smallest_eigenvalue_range": {
+        "I1": [
+          -2.6645352591003757e-14,
+          0.016557086101475438
+        ],
+        "I2": [
+          0.24387447733593892,
+          0.46702398776973203
+        ]
+      },
+      "thetas": [
+        0.7853981633974483,
+        0.7853981633974483
+      ]
+    },
+    {
+      "context": "G3-primary",
+      "design": "distinct",
+      "grid_points": 81,
+      "profile_recovery": {
+        "reason": "saturated unknown response and response directions absorb parameter location/scale",
+        "recovered": 0,
+        "required": 81,
+        "status": "failed_nonunique"
+      },
+      "rank_counts": {
+        "I1": {
+          "0": 0,
+          "1": 9,
+          "2": 72
+        },
+        "I2": {
+          "0": 0,
+          "1": 0,
+          "2": 81
+        },
+        "I3": {
+          "0": 81,
+          "1": 0,
+          "2": 0
+        }
+      },
+      "representative": {
+        "+0.000,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -6.661338147750939e-16,
+              1.5816976150845603
+            ],
+            "matrix": [
+              [
+                -6.106226635438361e-16,
+                -5.612101495328092e-17
+              ],
+              [
+                -5.612101495328092e-17,
+                1.5816976150845603
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 5.025444347168396,
+            "eigenvalues": [
+              0.31473786312563057,
+              1.5816976150845603
+            ],
+            "matrix": [
+              [
+                0.3147378631256307,
+                -5.612101495328092e-17
+              ],
+              [
+                -5.612101495328092e-17,
+                1.5816976150845603
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.000": {
+          "I1": {
+            "condition_number": null,
+            "eigenvalues": [
+              -3.3306690738754696e-15,
+              1.5557390014440102
+            ],
+            "matrix": [
+              [
+                -3.3861802251067274e-15,
+                1.531435568635775e-17
+              ],
+              [
+                1.531435568635775e-17,
+                1.5557390014440102
+              ]
+            ],
+            "rank": 1
+          },
+          "I2": {
+            "condition_number": 5.433550325312182,
+            "eigenvalues": [
+              0.28632089670663463,
+              1.5557390014440102
+            ],
+            "matrix": [
+              [
+                0.2863208967066345,
+                1.531435568635775e-17
+              ],
+              [
+                1.531435568635775e-17,
+                1.5557390014440102
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        },
+        "+0.020,+0.020": {
+          "I1": {
+            "condition_number": 904.3592684190476,
+            "eigenvalues": [
+              0.0017198991089331095,
+              1.5554066999093188
+            ],
+            "matrix": [
+              [
+                0.001727196032367706,
+                -0.0033670581197410322
+              ],
+              [
+                -0.0033670581197410322,
+                1.5553994029858842
+              ]
+            ],
+            "rank": 2
+          },
+          "I2": {
+            "condition_number": 5.4238852042821515,
+            "eigenvalues": [
+              0.2872261876757707,
+              1.557881869616981
+            ],
+            "matrix": [
+              [
+                0.2875908664652981,
+                -0.02152320109501999
+              ],
+              [
+                -0.02152320109501999,
+                1.5575171908274537
+              ]
+            ],
+            "rank": 2
+          },
+          "I3": {
+            "condition_number": null,
+            "eigenvalues": [
+              0.0,
+              0.0
+            ],
+            "matrix": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "rank": 0
+          }
+        }
+      },
+      "smallest_eigenvalue_range": {
+        "I1": [
+          -2.020605904817785e-14,
+          0.008837894926681633
+        ],
+        "I2": [
+          0.2611156444343561,
+          0.3752501773179817
+        ]
+      },
+      "thetas": [
+        0.39269908169872414,
+        0.7853981633974483
+      ]
+    }
+  ],
+  "lock_commit": "14432b26f00309fee7529c61b7ec884a491b9fc9",
+  "routing": "Gate1B",
+  "run_utc": "2026-11-20T08:04:15.687938+00:00",
+  "schema": "gate1a_results_v1",
+  "verdict": "fail"
+}

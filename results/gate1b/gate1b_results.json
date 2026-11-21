@@ -1,0 +1,54 @@
+{
+  "analytic_rank": {
+    "eigenvalues": [
+      141.3843631775228,
+      1707.115793189461
+    ],
+    "rank": 2
+  },
+  "lock_commit": "14432b26f00309fee7529c61b7ec884a491b9fc9",
+  "p2": {
+    "form": "predecessor_alarm_only",
+    "status": "reported_nonevaluable"
+  },
+  "pass_conditions": {
+    "a_analytic_rank": {
+      "detail": "rank 2 known-reference design",
+      "passed": true
+    },
+    "b_noiseless_recovery": {
+      "detail": "81/81 within 1e-8",
+      "passed": true
+    },
+    "c_budget": {
+      "detail": "SE 0.00709019 <= 0.00714286",
+      "passed": true
+    },
+    "d_no_phase_ambiguity": {
+      "detail": "all 81 frozen grid points",
+      "passed": true
+    },
+    "e_p2_reported": {
+      "detail": "alarm-only comparator reported nonevaluable; no post-lock substitute",
+      "passed": true
+    },
+    "f_no_target_oracle": {
+      "detail": "P-amp uses its own known reference only",
+      "passed": true
+    }
+  },
+  "recovery": {
+    "max_epsilon_error": 1.249000902703301e-16,
+    "max_phi_error": 2.0816681711721685e-17,
+    "recovered": 81,
+    "required": 81
+  },
+  "resource": {
+    "standard_error": 0.007090190179103527,
+    "threshold": 0.0071428571428571435
+  },
+  "routing": "Gate2",
+  "run_utc": "2026-11-20T08:06:52.936711+00:00",
+  "schema": "gate1b_results_v1",
+  "verdict": "pass"
+}
