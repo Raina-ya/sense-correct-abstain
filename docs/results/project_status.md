@@ -1,7 +1,7 @@
 # Project status (authoritative, living document)
 
-**Updated:** 2026-11-21, after the audit of `9201ba9` (E006) and the MT7
-synthesis.
+**Updated:** 2026-11-21, after the audit of `9201ba9` (E006), the MT7
+synthesis, and the owner review of Lemma S1′ and Lemma B (E007).
 
 This is a **living document** (E006 §6). Its `9201ba9` snapshot is hash-checked
 against git history; this working copy may change. The status tables inside
@@ -14,7 +14,7 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 | M1 contracts | done | `docs/contracts/decision_problem_v1.md`, `docs/theory/three_action_theory_v1.md` | — |
 | M2 semantics | frozen | `docs/theory/e2_semantics_v1.md`, `rc_construction_v1.md`, `conditional_likelihood_v1.md` | — |
 | M3 Gate 1 lock | frozen (design documents only; code not locked) | `docs/freeze/gate1_design_lock.md` | E005 |
-| Gate 1A (RC labels) | **FAIL**. Original basis invalid (hard-coded entries); corrected basis is Lemma S1′ plus the frozen recovery rule. Nuisance-class ambiguity disclosed. | `docs/results/gate1a_report.md` | E001, **E006 §2** |
+| Gate 1A (RC labels) | **FAIL**. Original basis invalid (hard-coded entries); corrected basis is Lemma S1′ (owner-reviewed) plus the frozen recovery rule, checked against spec §7 and §9. Nuisance-class ambiguity disclosed; FAIL holds under every reading considered. | `docs/results/gate1a_report.md` | E001, E006 §2, **E007** |
 | Gate 1B (P-amp) | **PASS** in the noiseless synthetic model; only a 0.7% visibility margin; visibility attenuation untested | `docs/results/gate1b_report.md` | E002 |
 | Gate 2 | **formal PASS; practical conclusion narrowed** (wording below) | `docs/results/gate2_report.md` | E003, **E006 §3–4** |
 | Gate 3 | **FAIL**, under both the frozen and the corrected estimand (the latter a post-lock reanalysis) | `docs/results/gate3_gate4_report.md` | E004 |
@@ -44,8 +44,9 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 
 ## What is and is not authorized
 
-- **Allowed:** later owner review of the draft proofs (Lemma S1′, Lemma B,
-  theory note) and correction of explicitly unverified citation attributions.
+- **Allowed:** owner review of the remaining draft proofs (theory note A4–A6;
+  extension S1″ in E007 §3.2) and correction of explicitly unverified citation
+  attributions.
 - **Not allowed:** M7 registration, a holdout, any adaptive-policy or
   "method works" claim, any rerun or redesign of Gates 1–4 presented as the
   same study, calling internal recomputation third-party validation, or any
@@ -53,8 +54,8 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 
 ## Open owner items
 
-1. Review the Lemma S1′ and Lemma B proofs when available; until then they
-   remain proved drafts and are not represented as owner-approved.
+1. ~~Review the Lemma S1′ and Lemma B proofs.~~ Done: accepted with corrections
+   (E007). Remaining: review S1″ (E007 §3.2) and the theory note A4–A6.
 2. Verify the exact Chow rule attribution and Tsybakov lemma numbering if the
    full texts become available.
 3. Use lock template v2 for any new study.

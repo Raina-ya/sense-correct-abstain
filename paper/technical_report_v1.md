@@ -80,7 +80,7 @@ logical error `epsilon theta + s(t) phi`.
 - the three-action risk identity [A4];
 - the blindness lemma and finite-pilot bound [A5];
 - the collapse result under the issue-only comparator [A6];
-- Lemma S1′ [A3] and the gap-shift bound [A7] (E006).
+- Lemma S1′ [A3] and the gap-shift bound [A7] (E006; owner-reviewed and corrected in E007 and `docs/theory/S1prime_B_rigorous.pdf`).
 
 **Gates**, each frozen before its run (internal locks, D6):
 
@@ -207,8 +207,9 @@ not evidence for label identifiability. The contribution is therefore framed
 as a documented combination and negative boundary study, not as a new sensor,
 a new rejection rule, or a priority claim.
 
-**Open reviews.** Owner review of Lemma S1′ and Lemma B is deferred; they
-remain proved drafts. The exact Chow rule attribution and Tsybakov lemma
+**Open reviews.** Lemma S1′ and Lemma B were owner-reviewed and accepted with
+corrections (E007; `docs/theory/S1prime_B_rigorous.pdf`). The theory-note
+results A4–A6 and the per-context extension S1″ (E007 §3.2) remain drafts. The exact Chow rule attribution and Tsybakov lemma
 numbering remain unverified, but the corresponding project proofs are
 self-contained and do not depend on those attributions.
 

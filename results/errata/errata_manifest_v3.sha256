@@ -1,0 +1,5 @@
+# Post-lock errata manifest v3 (E007, 2026-11-21); append-only; SHA-256 after CRLF-to-LF canonicalization.
+# The owner-supplied proof note (.tex, .pdf) is byte-identical to the files supplied on 2026-11-21.
+cadb4bd0c25ef7a32e1efd84ca25c690c4d48fd66fc2553119ab98f699e0ac82  docs/errata/E007_owner_review_lemmas.md
+e0b81d0d26490442c33875bdb14998758ad1b4b68f5ae306c9b12982cc12ad13  docs/theory/S1prime_B_rigorous.tex
+dad26647751465e33637c709db23104b2a9bfff82bfd20a48f549f11d2c41751  docs/theory/S1prime_B_rigorous.pdf

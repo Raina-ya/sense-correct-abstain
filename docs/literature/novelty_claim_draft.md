@@ -122,7 +122,7 @@ synthetic setting: no detectable net value, with power about 0.0004
 
 1. a boundary result: under the synthetic compiled-angle model, retained RC
    labels do not identify the angle-proportional error at `phi = 0` under
-   response-free nuisance classes (Lemma S1′, E006 §2);
+   response-free nuisance classes (Lemma S1′, E006 §2, owner-reviewed in E007);
 2. sensor-independent decision theory: the three-action risk identity,
    blindness lemma, finite-pilot bound, and collapse result (draft proofs);
 3. a documented negative result: a P-amp-guided three-action policy shows no
@@ -184,4 +184,5 @@ have prior art. No priority claim is made.
 rule attribution and Tsybakov lemma numbering remain unverified because the
 relevant full texts were not available. The project proofs are self-contained,
 so the report labels those attributions unverified instead of relying on them.
-Owner review of Lemma S1′ and Lemma B is deferred; both remain proved drafts.
+Lemma S1′ and Lemma B were owner-reviewed and accepted with corrections (E007;
+`docs/theory/S1prime_B_rigorous.pdf`).

@@ -1,0 +1,446 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,enumitem}
+\usepackage[colorlinks=true,linkcolor=blue!50!black]{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}{Assumption}
+\renewcommand{\theassumption}{A\arabic{assumption}}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{correction}{Correction to the draft}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\simp}{\Delta^{\circ}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\RZ}{R_Z}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+
+\title{Lemma S1$'$ and Lemma B: rigorous proofs\\[2pt]
+\large with an audit of the review draft (E006, commit 4867fe3)}
+\date{2026-11-21}
+\author{}
+
+\begin{document}
+\maketitle
+
+\paragraph{Scope.} This note restates the setting of the review draft with every
+standing assumption made explicit, and proves Lemma~S1$'$ (items (1)--(4)), the
+Gate~1A corollary, and Lemma~B. Where the draft's argument is correct, it is
+reproduced with the missing details filled in. Where it is incomplete or
+inaccurate, the change is marked \emph{Correction to the draft}. Facts about the
+frozen specification (§5.3, §7, §9, the $9\times 9$ grid) are taken from the draft
+as given; they are not mathematical statements and are not proved here.
+
+\paragraph{Audit summary.}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Item & Verdict & What changes \\
+\midrule
+Frame covariance & correct & assumption \ref{A:frame} made explicit; one-line proof added\\
+S1$'$(1) N-q local & correct & finiteness needed; sharp identified set added (Prop.~\ref{prop:sharp})\\
+S1$'$(2) N-loc global & correct & none\\
+S1$'$(3) N-free global & correct & $1+\eps'\neq 0$ unnecessary; translation construction\\
+& & keeps regularity (needed for consistency with (4))\\
+S1$'$(4) zero eff.\ info & correct, gap & explicit in-class nuisance submodels; N-free needs\\
+& & a positivity-preserving bump\\
+Corollary (Gate 1A) & correct, gap & ``N-free is larger than N-q'' is false; use (3) for\\
+& & N-free; well-specification not needed\\
+Lemma B & correct & single-occurrence assumption made explicit;\\
+& & smoothness for FTC; constant $\tfrac12$ is sharp\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%=====================================================================
+\section{Preliminaries}
+
+\subsection{Identification notions}
+Let $\{P_{\eps,\eta}\}$ be a model with parameter of interest $\eps$ and nuisance
+$\eta$, true point $(\eps_0,\eta_0)$. Write $(\eps,\eta)\sim(\eps',\eta')$
+(\emph{observationally equivalent}) if $P_{\eps,\eta}=P_{\eps',\eta'}$. The
+\emph{identified set} is $I(\eps_0,\eta_0):=\{\eps' : \exists\eta',\
+(\eps',\eta')\sim(\eps_0,\eta_0)\}$. Local non-identification means
+$I\cap(\eps_0-r,\eps_0+r)\neq\{\eps_0\}$ for all $r>0$; global
+non-identification means $I$ equals the whole parameter set of $\eps$.
+
+\begin{remark}[Zero information does not imply non-identification]
+The draft's warning after Definition~1 is correct. Example: $P_\eps=N(\eps^3,1)$,
+$\eps_0=0$. The score $3\eps^2 x$ vanishes at $0$, so the Fisher information is $0$,
+yet $\eps\mapsto\eps^3$ is injective and $\eps$ is globally identified. This is why
+every non-identification claim below is proved by construction.
+\end{remark}
+
+\subsection{Data and frame covariance}
+Fix a finite candidate set $\C$ and the finite outcome set $\B=\{0,1\}^n$.
+Candidate $c$ has tagged logical angles $\theta_c=(\theta_{c,1},\dots,\theta_{c,L_c})$
+and a finite set $\T_c$ of label patterns with sign map $s:\T_c\to\{\pm1\}^{L_c}$,
+drawn with known probabilities $\pi_c(t)>0$ and recorded. The candidate mix is
+known (by design). The observed law is
+$Q(c,t,b)=w_c\,\pi_c(t)\,P_{c,t}(b)$ with known $w_c,\pi_c$. Hence \emph{two
+parameter points are observationally equivalent iff they induce the same family
+$\{P_{c,t}\}_{c\in\C,\,t\in\T_c}$.} Write $\simp$ for the open probability simplex
+on $\B$ and $\Sigma_0:=\{v\in\R^{\B}:\sum_b v(b)=0\}$.
+
+\begin{assumption}[Frame covariance]\label{A:frame}
+For tagged rotation $\ell$, the label is a Pauli $\sigma\in\{I,X,Y,Z\}$ on the
+rotation's qubit, applied without error (or tracked virtually) on both sides;
+$s_\ell=+1$ for $\sigma\in\{I,Z\}$ and $s_\ell=-1$ for $\sigma\in\{X,Y\}$. The
+commanded angle is $a=s_\ell\theta_{c,\ell}$ and the physical gate is
+$\RZ((1+\eps)a+\phi)$, $\RZ(x):=e^{-ixZ/2}$. Nothing else in the circuit or the
+readout depends on $t$ except through these rotations.
+\end{assumption}
+
+\begin{lemma}[Frame covariance]\label{lem:frame}
+Under \ref{A:frame} the label-$t$ circuit implements, exactly, the unlabelled
+circuit with logical angles
+$u_{c,\ell}(t)=(1+\eps)\theta_{c,\ell}+s_\ell(t)\phi$. Consequently
+$P_{c,t}=R_c(u_c(t))$, where $R_c(u)$ is the outcome law of candidate $c$ with
+logical angles $u$. At $\phi=0$, $P_{c,t}=R_c((1+\eps)\theta_c)=:P_c$ for every $t$.
+\end{lemma}
+\begin{proof}
+$XZX=YZY=-Z$ and $IZI=ZZZ=Z$, so $\sigma Z\sigma=s Z$ and hence
+$\sigma\RZ(x)\sigma=e^{-isxZ/2}=\RZ(sx)$ exactly (no global phase). Then
+$\sigma\RZ((1+\eps)s\theta+\phi)\sigma=\RZ(s^2(1+\eps)\theta+s\phi)
+=\RZ((1+\eps)\theta+s\phi)$ because $s^2=1$.
+\end{proof}
+
+\subsection{The three nuisance classes}
+\begin{description}[leftmargin=1.2em]
+\item[N-free.] $\eta=(R_c)_{c\in\C}$ with $R_c:\R^{L_c}\to\simp$ in a class
+$\mathcal F_c$. The draft takes $\mathcal F_c$ = all maps. The proofs below use
+only: \textup{(F1)} $\mathcal F_c$ is closed under translations
+$R\mapsto R(\cdot+a)$; \textup{(F2)} for $R\in\mathcal F_c$, $u_0\in\R^{L_c}$,
+$w\in\Sigma_0$, and a bump $\psi$ (below), $R+\tau\psi w\in\mathcal F_c$ whenever it
+maps into $\simp$. All maps, continuous maps and $C^k$ maps all satisfy (F1)--(F2).
+\item[N-loc.] $\eta=(q_c,D_{c,1},\dots,D_{c,L_c})_c$ with $q_c\in\simp$,
+$D_{c,\ell}\in\Sigma_0$ and
+$P_{c,t}=q_c+\sum_\ell(\eps\theta_{c,\ell}+s_\ell(t)\phi)D_{c,\ell}$,
+subject to $P_{c,t}\in\simp$ for all $t\in\T_c$.
+\item[N-q.] As N-loc with $D=D^0$ known; $\eta=(q_c)_c$.
+\end{description}
+Set $v_c:=\sum_\ell\theta_{c,\ell}D_{c,\ell}\in\Sigma_0$. At $\phi=0$:
+$P_{c,t}=q_c+\eps v_c$ for all $t$ (N-loc, N-q).
+
+\begin{correction}
+The draft (Corollary, Step 4) calls N-loc and N-free ``larger classes'' than N-q.
+N-q $\subseteq$ N-loc is true. N-q $\subseteq$ N-free is \emph{false}: the
+N-loc law is $R_c(u)=q_c+\sum_\ell(u_\ell-\theta_{c,\ell})D_{c,\ell}$, which is affine
+in $u$; if some $D_{c,\ell}\neq0$ it leaves $\simp$ for large $|u|$, so it is not a
+map $\R^{L_c}\to\simp$. The classes N-loc and N-free are not nested. This does not
+affect any conclusion, because item (3) handles N-free directly
+(see Corollary~\ref{cor:gate}).
+\end{correction}
+
+%=====================================================================
+\section{Lemma S1$'$}
+
+\begin{theorem}[Lemma S1$'$]\label{thm:S1}
+Fix a true point with $\phi_0=0$ (so $P_{c,t}=P_c\in\simp$ for all $t$).
+\begin{enumerate}[label=(\arabic*)]
+\item Under N-q, and hence under N-loc, $I\supseteq(\eps_0-\delta,\eps_0+\delta)$
+for some $\delta\in(0,\infty]$.
+\item Under N-loc, $I=\R$.
+\item Under N-free (with (F1)), $I=\R$.
+\item If, under N-free, $R_c$ is differentiable at $u^0_c:=(1+\eps_0)\theta_c$
+for each $c$, then under each of N-q, N-loc, N-free (with (F2)) the score for $\eps$
+lies in the nuisance tangent set itself. Hence the efficient score is $0$ and the
+efficient information for $\eps$ is $0$.
+\end{enumerate}
+\end{theorem}
+
+\subsection{Proof of (1)}
+Let $q^0_c$ be the true intercepts, $m:=\min_{c\in\C}\min_{b\in\B}q^0_c(b)$, and
+$V:=\max_c\|v_c\|_\infty$. Both are finite minima/maxima over finite sets, and
+$m>0$ because each $q^0_c\in\simp$. Put $\delta:=m/V$ ($\delta:=\infty$ if $V=0$).
+
+Fix $\eps'$ with $|\eps'-\eps_0|<\delta$ and define $q'_c:=q^0_c+(\eps_0-\eps')v_c$,
+$D':=D^0$, $\phi':=0$.
+\emph{Sum:} $\sum_b q'_c(b)=1+(\eps_0-\eps')\sum_bv_c(b)=1$.
+\emph{Positivity:} if $v_c(b)=0$ then $q'_c(b)=q^0_c(b)>0$; otherwise $V>0$ and
+$|(\eps_0-\eps')v_c(b)|<\delta V=m\le q^0_c(b)$. So $q'_c\in\simp$.
+\emph{Laws:} for every $t$, $P'_{c,t}=q'_c+\eps'v_c=q^0_c+\eps_0v_c=P_c\in\simp$,
+so the N-loc/N-q positivity constraint holds. Thus
+$(\eps',0,q')\sim(\eps_0,0,q^0)$ under N-q. The same point, with $D'=D^0$, lies in
+the N-loc parameter space, so the conclusion transfers to N-loc. \qed
+
+\begin{proposition}[Sharp identified set under N-q]\label{prop:sharp}
+Under N-q, suppose for some $c$ the map
+$t\mapsto\sum_\ell s_\ell(t)D^0_{c,\ell}$ is non-constant on $\T_c$ (or $\phi$ is known
+to be $0$). Then
+\[
+I=\bigl(\eps_0-\alpha,\ \eps_0+\beta\bigr),\quad
+\alpha=\min_{c,b:\,v_c(b)<0}\frac{q^0_c(b)}{|v_c(b)|},\quad
+\beta=\min_{c,b:\,v_c(b)>0}\frac{q^0_c(b)}{v_c(b)}
+\]
+(minimum over an empty set $=\infty$). If some $v_c\neq0$, then $\alpha,\beta<\infty$,
+so $\eps$ is \emph{locally but not globally} non-identified.
+\end{proposition}
+\begin{proof}
+Let $(\eps',\phi',q')\sim$ truth. For the $c$ in the hypothesis,
+$P'_{c,t}-P'_{c,t'}=\phi'\sum_\ell(s_\ell(t)-s_\ell(t'))D^0_{c,\ell}$ must vanish for all
+$t,t'$, forcing $\phi'=0$. Then $q'_c+\eps'v_c=q^0_c+\eps_0v_c$ for every $c$, i.e.\
+$q'_c$ is determined, and the only constraint left is
+$q^0_c(b)-(\eps'-\eps_0)v_c(b)>0$ for all $c,b$, which is exactly
+$-\alpha<\eps'-\eps_0<\beta$. Since $v_c\in\Sigma_0$, $v_c\neq0$ has both a positive and
+a negative entry, so both minima are over non-empty sets.
+\end{proof}
+This makes precise the draft's §2.6 remark that under N-q ``only local
+non-identification is guaranteed'': under the stated condition, global
+non-identification actually fails. Note $\delta=m/V\le\min(\alpha,\beta)$, consistent
+with (1).
+
+\subsection{Proof of (2)}
+Let $\eps'\in\R$; set $\phi'=0$.
+If $\eps'\neq0$: $D'_{c,\ell}:=(\eps_0/\eps')D^0_{c,\ell}\in\Sigma_0$, $q'_c:=q^0_c$.
+Then $\eps'v'_c=\eps_0v_c$ and $P'_{c,t}=q^0_c+\eps_0v_c=P_c$ for all $t$.
+If $\eps'=0$: $q'_c:=P_c\in\simp$, $D':=0$; then $P'_{c,t}=P_c$.
+In both cases $q'_c\in\simp$ and $P'_{c,t}=P_c\in\simp$, so the point is admissible
+and equivalent to the truth. \qed
+
+\subsection{Proof of (3)}
+Let $\eps'\in\R$ and define $R'_c(u):=R^0_c\bigl(u+(\eps_0-\eps')\theta_c\bigr)$,
+$\phi':=0$. By (F1), $R'_c\in\mathcal F_c$; it maps into $\simp$ and has exactly the
+regularity of $R^0_c$. By Lemma~\ref{lem:frame}, for every $t$,
+$P'_{c,t}=R'_c((1+\eps')\theta_c)=R^0_c((1+\eps_0)\theta_c)=P_c$. \qed
+
+\begin{correction}
+(i) The restriction $1+\eps'\neq0$ in the draft is unnecessary: the construction
+works for every real $\eps'$ (also the draft's pointwise one: if $\eps'=-1$ the single
+observed point is $u=0$, and $R'_c(0)$ may still be set to $P_c$).
+(ii) The draft's pointwise construction (``any strictly positive distribution
+elsewhere'') is valid only if $\mathcal F_c$ contains arbitrary maps. If the frozen
+class requires continuity or smoothness---which item (4) implicitly does---the
+pointwise $R'_c$ may leave the class. The translation above is valid for every class
+closed under translations, so it covers all readings.
+\end{correction}
+
+\subsection{Proof of (4)}
+Work at the truth $(\eps_0,\phi_0{=}0,\eta_0)$. Because $w_c,\pi_c$ are known, the
+log-likelihood of one observation is $\log P_{c,t}(b)$ plus a known constant, and every
+score has the form $h(c,t,b)=\dot P_{c,t}(b)/P_{c,t}(b)$, where $\dot P$ is the
+derivative of the law along a one-dimensional submodel. All $P_{c,t}(b)>0$, so these are
+bounded functions in $L^2(Q)$.
+
+\emph{Score for $\eps$.} N-loc/N-q: $\partial_\eps P_{c,t}=v_c$ (for all $\phi$),
+so $\dot\ell_\eps=v_c(b)/P_c(b)$. N-free: by the chain rule at $\phi=0$,
+$\partial_\eps R_c((1+\eps)\theta_c+s(t)\phi)\big|_{\eps_0,0}
+=\nabla R_c(u^0_c)\theta_c=:w_c$, so $\dot\ell_\eps=w_c(b)/P_c(b)$. In both cases the
+score does not depend on $t$, and $v_c,w_c\in\Sigma_0$ (for $w_c$: differentiate
+$\sum_bR_c(u)(b)\equiv1$ along $\theta_c$).
+
+\emph{A nuisance submodel with the same score.}
+\begin{itemize}[leftmargin=1.2em]
+\item N-q and N-loc: $q^\tau_c:=q^0_c+\tau v_c$, all else fixed. For
+$|\tau|<m/V$, $q^\tau_c\in\simp$ and $P^\tau_{c,t}=P_c+\tau v_c\in\simp$, so the path
+stays in the class (in N-q, $D$ is not touched). Its score at $\tau=0$ is
+$v_c(b)/P_c(b)=\dot\ell_\eps$.
+\item N-free: $R_c$ is continuous at $u^0_c$ (differentiability implies continuity), so
+there is $r>0$ with $\min_bR_c(u)(b)\ge m_c/2$ for $\|u-u^0_c\|<r$, where
+$m_c:=\min_bP_c(b)>0$. Let $\psi_c:\R^{L_c}\to[0,1]$ be a $C^\infty$ bump with
+$\psi_c(u^0_c)=1$ and support in that ball. Put $R^\tau_c:=R_c+\tau\psi_cw_c$. Each
+value sums to $1$; outside the ball it equals $R_c$; inside it is $\ge m_c/2-|\tau|\,
+\|w_c\|_\infty>0$ for $|\tau|<m_c/(2\|w_c\|_\infty)$. By (F2) the path lies in the
+class, and its score at $\tau=0$ is $\psi_c(u^0_c)w_c(b)/P_c(b)=\dot\ell_\eps$.
+\end{itemize}
+Hence $\dot\ell_\eps\in\dot{\mathcal P}_\eta$ (the nuisance tangent set, not merely its
+closed span). The efficient score is
+$\tilde\ell_\eps=\dot\ell_\eps-\Pi(\dot\ell_\eps\mid\overline{\mathrm{lin}}\,
+\dot{\mathcal P}_\eta)=0$, and the efficient information
+$\tilde I=E_Q[\tilde\ell_\eps^{\,2}]=0$. Enlarging the nuisance (e.g.\ treating
+$\phi$ as unknown) only enlarges $\dot{\mathcal P}_\eta$, so the conclusion is unchanged.
+\qed
+
+\begin{remark}
+The argument shows more than zero information: the direction
+$\eps\mapsto\eps+\tau$ coincides, to first order, with a nuisance direction. Item (1)
+shows the coincidence is exact (not only first-order) under N-q, which is why
+non-identification and zero information hold together here, unlike the
+$N(\eps^3,1)$ example.
+\end{remark}
+
+%=====================================================================
+\section{Gate 1A corollary}
+
+Let $\Theta$ be the frozen class (any one of N-q, N-loc, N-free). At exact
+probabilities the population log-likelihood criterion is
+\begin{gather*}
+\Lambda(\eps',\phi',\eta')=\sum_cw_c\sum_t\pi_c(t)\sum_bP_{c,t}(b)\log P'_{c,t}(b),\\
+\Lambda^*:=\sum_cw_c\sum_t\pi_c(t)\sum_bP_{c,t}(b)\log P_{c,t}(b),
+\end{gather*}
+and the profile is $\Lambda_{\rm pr}(\eps'):=\sup_{\phi',\eta'}\Lambda(\eps',\phi',\eta')$.
+
+\begin{lemma}[Gibbs]\label{lem:gibbs}
+$\Lambda\le\Lambda^*$, with equality iff $P'_{c,t}=P_{c,t}$ for all $(c,t)$.
+\end{lemma}
+\begin{proof}
+$\Lambda^*-\Lambda=\sum_cw_c\sum_t\pi_c(t)\,\mathrm{KL}(P_{c,t}\|P'_{c,t})\ge0$, with
+equality iff every KL term is $0$, since $w_c,\pi_c(t)>0$.
+\end{proof}
+
+\begin{corollary}\label{cor:gate}
+At any true point with $\phi_0=0$, the set of maximisers of $\Lambda_{\rm pr}$ that
+attain $\Lambda^*$ equals the identified set $I$. It contains an open interval
+around $\eps_0$ under N-q and N-loc (Theorem~\ref{thm:S1}(1)) and equals $\R$ under
+N-loc and N-free (Theorem~\ref{thm:S1}(2),(3)). In every reading the profile
+maximiser is not unique.
+\end{corollary}
+\begin{proof}
+By Lemma~\ref{lem:gibbs}, $\Lambda_{\rm pr}(\eps')=\Lambda^*$ is attained iff there is
+$(\phi',\eta')$ with $P'=P$, i.e.\ iff $\eps'\in I$. Then apply Theorem~\ref{thm:S1}.
+\end{proof}
+
+\begin{remark}[Well-specification is not needed]
+Suppose only that the true per-candidate laws are label-invariant and in $\simp$, with
+no claim that they are of N-q form. Under N-q, for every $\eps'$ with
+$P_c-\eps'v_c\in\simp$ for all $c$ (an open interval containing $0$), the choice
+$q'_c=P_c-\eps'v_c$, $\phi'=0$ gives $P'=P$, so $\Lambda_{\rm pr}=\Lambda^*$ there. The
+profile is flat on an interval even if the class is misspecified.
+\end{remark}
+
+\paragraph{From non-uniqueness to FAIL (specification step, not mathematics).}
+Given the draft's description of the frozen rule---§7: profile ML under the I3 class,
+applied to exact probabilities, with a flat profile or a nonunique solution being a
+failure; §9: recovery required at every grid point; nine grid points with $\phi=0$---the
+corollary implies FAIL at each of those nine points, under every reading. This step
+uses the specification's wording, which should be checked against the repository text.
+It does not depend on what any particular optimiser returns from its starting points.
+
+%=====================================================================
+\section{Lemma B}
+
+\subsection{Setting and assumptions}
+\begin{assumption}[Single occurrence]\label{A:single}
+For $j\in\{A,B\}$,
+\[U_j(x_j)=W_{j,m_j}\,\RZ^{(k_{m_j})}(x_{j,m_j})\,W_{j,m_j-1}\cdots
+W_{j,1}\,\RZ^{(k_1)}(x_{j,1})\,W_{j,0},\]
+where the $W_{j,i}$ are fixed unitaries
+independent of all tagged variables (CX gates, mixers, untagged rotations), and
+$\RZ^{(k)}$ acts on qubit $k$. Each tagged variable occurs in exactly one gate.
+(If a QAOA angle $\gamma$ appears in several gates, each occurrence is a separate
+coordinate $x_{j,i}$, with its own perturbation $\delta_{j,i}$, as in the error model.)
+\end{assumption}
+\begin{assumption}[Error model, no labels]\label{A:err}
+Target circuits carry no RC labels, so $s=+1$ and the commanded angle is $\theta_{j,i}$.
+The physical gate is $\RZ((1+\eps)\theta_{j,i}+\phi)=\RZ(\theta_{j,i}+\delta_{j,i})$
+with $\delta_{j,i}=\eps\theta_{j,i}+\phi$, exactly. All other gates are error-free.
+\end{assumption}
+Let $s:\B\to[0,1]$,
+$E_j(x_j)=\sum_bs(b)\,|\langle b|U_j(x_j)|{+}^n\rangle|^2$,
+$g(x)=E_A(x_A)-E_B(x_B)$, $A=\sum_{j,i}|\theta_{j,i}|$, $M=m_A+m_B$,
+$B(\eps,\phi)=|\eps|A+|\phi|M$. (The draft's condition $\theta_{j,i}>0$ is not needed.)
+
+\begin{theorem}[Lemma B]\label{thm:B}
+For all $\eps,\phi\in\R$,
+\[|g(\theta+\delta)-g(\theta)|\le\tfrac12\|\delta\|_1\le\tfrac12B(\eps,\phi).\]
+\end{theorem}
+
+\subsection{Proof}
+\paragraph{Step 0 (smoothness).} Each matrix entry of $\RZ(x)$ is $\cos(x/2)$ or
+$\pm i\sin(x/2)$ times a constant. Hence each amplitude, and so $E_j$, is a polynomial in
+$\{\cos(x_{j,i}/2),\sin(x_{j,i}/2)\}_i$; in particular $E_j\in C^\infty(\R^{m_j})$ and
+$g\in C^\infty(\R^{M})$.
+
+\paragraph{Step 1 (one angle).} Fix all coordinates except $x=x_{j,i}$, at arbitrary
+values. Then $U_j=V_2\RZ^{(k)}(x)V_1$ with $V_1,V_2$ independent of $x$, and
+$\RZ^{(k)}(x)=\cos\tfrac x2\,I-i\sin\tfrac x2\,Z_k$. So
+$\langle b|U_j|{+}^n\rangle=\cos\tfrac x2\,\alpha_b-i\sin\tfrac x2\,\beta_b$ with
+$\alpha_b=\langle b|V_2V_1|{+}^n\rangle$, $\beta_b=\langle b|V_2Z_kV_1|{+}^n\rangle$.
+Expanding,
+\[
+|\cdot|^2=\cos^2\tfrac x2|\alpha_b|^2+\sin^2\tfrac x2|\beta_b|^2
+-2\sin\tfrac x2\cos\tfrac x2\,\mathrm{Im}(\alpha_b\overline{\beta_b}),
+\]
+and with $\cos^2\tfrac x2=\tfrac{1+\cos x}2$, $\sin^2\tfrac x2=\tfrac{1-\cos x}2$,
+$2\sin\tfrac x2\cos\tfrac x2=\sin x$:
+\begin{gather*}
+E_j=a+b\cos x+c\sin x,\\
+a=\tfrac12\sum_bs(b)(|\alpha_b|^2+|\beta_b|^2),\quad
+b=\tfrac12\sum_bs(b)(|\alpha_b|^2-|\beta_b|^2),\\
+c=-\sum_bs(b)\,\mathrm{Im}(\alpha_b\overline{\beta_b}).
+\end{gather*}
+
+\paragraph{Step 2 (uniform derivative bound).}
+\begin{lemma}\label{lem:trig}
+If $f(x)=a+b\cos x+c\sin x$ satisfies $0\le f\le1$ on $\R$, then $|f'(x)|\le\tfrac12$
+for all $x$.
+\end{lemma}
+\begin{proof}
+Let $\rho=\sqrt{b^2+c^2}$. If $\rho=0$, $f'\equiv0$. Otherwise write
+$f=a+\rho\cos(x-x_0)$; evaluating at $x=x_0$ and $x=x_0+\pi$ gives $a+\rho\le1$ and
+$a-\rho\ge0$, so $\rho\le\tfrac12$. Then $|f'(x)|=\rho|\sin(x-x_0)|\le\tfrac12$.
+\end{proof}
+For every value of $x$ (every unitary $U_j$), $E_j=\sum_bs(b)p(b)$ with $p$ a
+probability vector and $s\in[0,1]$, so $0\le E_j\le1$. By Step 1 and
+Lemma~\ref{lem:trig}, $|\partial E_j/\partial x_{j,i}|\le\tfrac12$ at every point of
+$\R^{m_j}$ (the fixed coordinates in Step 1 were arbitrary).
+
+\paragraph{Step 3 (global bound).} Since $x_A$ and $x_B$ are disjoint coordinates,
+$\partial g/\partial x_{A,i}=\partial E_A/\partial x_{A,i}$ and
+$\partial g/\partial x_{B,i}=-\partial E_B/\partial x_{B,i}$, so
+$\|\nabla g(y)\|_\infty\le\tfrac12$ for all $y\in\R^M$. As $g\in C^1$, the fundamental
+theorem of calculus along $y(t)=\theta+t\delta$ gives
+\[
+|g(\theta+\delta)-g(\theta)|=\Bigl|\int_0^1\nabla g(y(t))\cdot\delta\,dt\Bigr|
+\le\int_0^1\|\nabla g(y(t))\|_\infty\|\delta\|_1\,dt\le\tfrac12\|\delta\|_1,
+\]
+using Hölder's inequality $|\ip{u}{v}|\le\|u\|_\infty\|v\|_1$.
+
+\paragraph{Step 4 (size of $\delta$).} By \ref{A:err},
+$|\delta_{j,i}|=|\eps\theta_{j,i}+\phi|\le|\eps||\theta_{j,i}|+|\phi|$; summing over
+the $M$ tagged rotations gives $\|\delta\|_1\le|\eps|A+|\phi|M=B(\eps,\phi)$. \qed
+
+\subsection{Remarks}
+\begin{itemize}[leftmargin=1.2em]
+\item \emph{Sharpness of $\tfrac12$.} Over the class of circuits and scores allowed by
+\ref{A:single}, the constant cannot be lowered: one qubit, $W_0=I$, $W_1=H$,
+$s(0)=1$, $s(1)=0$ gives $E(x)=\cos^2(x/2)$, $|E'(\pi/2)|=\tfrac12$, and
+$|\Delta g|/(\tfrac12\|\delta\|_1)\to1$ as $\delta\to0$ along that coordinate. For the
+frozen QAOA instances the observed ratio ($\le0.431$) is smaller, which is an
+instance property, not a contradiction.
+\item \emph{A trivial companion bound.} Since $E_j\in[0,1]$,
+$|\Delta g|\le\min(\tfrac12\|\delta_A\|_1,1)+\min(\tfrac12\|\delta_B\|_1,1)$, which is
+better for large perturbations.
+\item \emph{Wording.} The draft's ``$B$ is exactly twice a global bound'' is best stated
+as: $B/2$ is a global, exact (no remainder) bound on $|\Delta g|$; hence $B$ is a bound
+with a factor-$2$ margin. This correctly refutes E003~§6.
+\item \emph{What is not proved.} The draft's §3.6 list is accurate and should stand:
+nothing here concerns $\hat B=B(\hat\eps,\hat\phi)$, coverage, shot noise in $\hat g_0$,
+decision-flip probabilities, post-recalibration residuals, or models beyond the
+noiseless synthetic E2 model with errors on tagged rotations only.
+\end{itemize}
+
+%=====================================================================
+\section{Suggested checklist outcomes}
+\begin{center}
+\begin{tabular}{@{}p{0.55\textwidth}p{0.38\textwidth}@{}}
+\toprule
+Draft checklist item & Suggested outcome\\
+\midrule
+Frame covariance $\Rightarrow$ label invariance & accept; cite \ref{A:frame}\\
+Three parameterizations cover §5.3 & spec question; not checkable here\\
+(1) N-q construction & accept; add finiteness, Prop.~\ref{prop:sharp}\\
+(2) N-loc construction & accept\\
+(3) N-free construction & accept with correction (translation)\\
+(4) score in nuisance tangent span & accept with correction (explicit paths)\\
+Corollary $\Rightarrow$ FAIL & accept with correction (non-nesting)\\
+``Does not claim'' list & accept\\
+Lemma B Steps 1--4 & accept; add \ref{A:single}, Step 0\\
+Unproved items about $\hat B$ & accept as stated\\
+\bottomrule
+\end{tabular}
+\end{center}
+Overall: \textbf{accept with corrections}. No correction changes a conclusion.
+
+\end{document}
