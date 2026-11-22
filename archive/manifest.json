@@ -1,0 +1,13 @@
+{
+  "schema": "sense-correct-abstain/archive-manifest/v1",
+  "version": "1.0.0-mt7-synthesis",
+  "repository_commit": "66feb06de421d43d928a6ed17ee63ba573778191",
+  "github_release": "https://github.com/Raina-ya/sense-correct-abstain/releases/tag/v1.0.0-mt7-synthesis",
+  "zenodo_record": "https://zenodo.org/records/24443391",
+  "version_doi": "10.5281/zenodo.24443391",
+  "concept_doi": "10.5281/zenodo.24443390",
+  "archive": {
+    "filename": "sense-correct-abstain-v1.0.0-mt7-synthesis-66feb06.zip",
+    "sha256": "8038aad3ede75a37b5ffd7b20bfcba26258c0c42b88a631923d03b040e1ee1b6"
+  }
+}

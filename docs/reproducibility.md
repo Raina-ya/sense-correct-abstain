@@ -44,6 +44,7 @@ python tools/check_errata_artifacts.py         # errata manifests v1 and v2, plu
 python tools/check_rc_semantics.py             # 64 label-angle RC equivalence cases
 python tools/check_pamp_semantics.py           # 729 P-amp circuit cases vs the phase model
 python tools/check_library.py                  # literature library structure
+python tools/check_archive_manifest.py         # public archive metadata and cross-document consistency
 python tools/audit_gate34_estimand.py          # reproduces the frozen Gate 3 numbers, then the corrected estimand
 python tools/audit_reproducibility.py 50       # sampled recomputation of Gate 2 and Gate 3/4 units (about 1 minute)
 python tools/audit_reproducibility.py 1        # full recomputation (several minutes)

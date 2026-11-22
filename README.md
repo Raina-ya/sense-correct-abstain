@@ -26,7 +26,7 @@ Main documents:
 
 ## Archival release
 
-Version `1.0.0-mt7-synthesis` is preserved in the [Zenodo record](https://doi.org/10.5281/zenodo.24443391) and the matching [GitHub release](https://github.com/Raina-ya/sense-correct-abstain/releases/tag/v1.0.0-mt7-synthesis). Use DOI `10.5281/zenodo.24443391` when citing this fixed version; DOI `10.5281/zenodo.24443390` resolves to the latest archived version.
+Version `1.0.0-mt7-synthesis` is preserved in the [Zenodo record](https://doi.org/10.5281/zenodo.24443391) and the matching [GitHub release](https://github.com/Raina-ya/sense-correct-abstain/releases/tag/v1.0.0-mt7-synthesis). Use DOI `10.5281/zenodo.24443391` when citing this fixed version; DOI `10.5281/zenodo.24443390` resolves to the latest archived version. The [archive manifest](archive/manifest.json) records the release identifiers and ZIP checksum in machine-readable form.
 
 The archive corresponds to commit `66feb06de421d43d928a6ed17ee63ba573778191`. It preserves the negative result and the full correction trail: Gate 2 formally passed its internally locked rule but did not demonstrate operationally useful benefit selection, and Gate 3 failed under both the frozen and corrected post-lock estimands. It contains analytic and synthetic-simulation evidence only, not hardware evidence or independent validation.
 
@@ -45,4 +45,5 @@ python tools/check_errata_artifacts.py   # errata manifests v1+v2 + every frozen
 python tools/check_rc_semantics.py
 python tools/check_pamp_semantics.py
 python tools/check_library.py
+python tools/check_archive_manifest.py
 ```
