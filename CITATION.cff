@@ -6,6 +6,8 @@ authors:
   - family-names: "Liu"
     given-names: "Zhen-Jun"
 repository-code: "https://github.com/Raina-ya/sense-correct-abstain"
+doi: "10.5281/zenodo.24443391"
+url: "https://zenodo.org/records/24443391"
 version: "1.0.0-mt7-synthesis"
 date-released: "2026-11-22"
 abstract: >-
