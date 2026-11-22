@@ -1,4 +1,6 @@
 # sense-correct-abstain
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24443391.svg)](https://doi.org/10.5281/zenodo.24443391)
+
 Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests whether randomized compiling labels can identify multiplicative over-rotation and guide no action, recalibration, or abstention, while deriving limits on when no probe can choose reliably. Simulation-first; hardware only as a registered addendum.
 
 ## North-star question
@@ -21,6 +23,12 @@ Main documents:
 - M2 semantics: [E2 semantics](docs/theory/e2_semantics_v1.md), [RC construction](docs/theory/rc_construction_v1.md), [conditional likelihood](docs/theory/conditional_likelihood_v1.md), [frame-covariance note](docs/theory/gate1_frame_covariance_draft.md).
 - Gate records: [Gate 1A](docs/results/gate1a_report.md) (see E001), [Gate 1B](docs/results/gate1b_report.md) (E002), [Gate 2](docs/results/gate2_report.md) (E003), [Gates 3/4](docs/results/gate3_gate4_report.md) (E004).
 - Literature: [docs/literature/](docs/literature/README.md).
+
+## Archival release
+
+Version `1.0.0-mt7-synthesis` is preserved in the [Zenodo record](https://doi.org/10.5281/zenodo.24443391) and the matching [GitHub release](https://github.com/Raina-ya/sense-correct-abstain/releases/tag/v1.0.0-mt7-synthesis). Use DOI `10.5281/zenodo.24443391` when citing this fixed version; DOI `10.5281/zenodo.24443390` resolves to the latest archived version.
+
+The archive corresponds to commit `66feb06de421d43d928a6ed17ee63ba573778191`. It preserves the negative result and the full correction trail: Gate 2 formally passed its internally locked rule but did not demonstrate operationally useful benefit selection, and Gate 3 failed under both the frozen and corrected post-lock estimands. It contains analytic and synthetic-simulation evidence only, not hardware evidence or independent validation.
 
 ## Citation and permitted use
 
