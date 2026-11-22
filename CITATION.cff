@@ -8,6 +8,16 @@ authors:
 repository-code: "https://github.com/Raina-ya/sense-correct-abstain"
 doi: "10.5281/zenodo.24443391"
 url: "https://zenodo.org/records/24443391"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24443391"
+    description: "Zenodo version DOI of v1.0.0-mt7-synthesis (commit 66feb06)"
+  - type: doi
+    value: "10.5281/zenodo.24443390"
+    description: "Zenodo concept DOI; resolves to the latest archived version"
+  - type: url
+    value: "https://github.com/Raina-ya/sense-correct-abstain/releases/tag/v1.0.0-mt7-synthesis"
+    description: "GitHub release of the archived version"
 version: "1.0.0-mt7-synthesis"
 date-released: "2026-11-22"
 abstract: >-
