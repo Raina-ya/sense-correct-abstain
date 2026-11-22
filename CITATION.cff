@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you discuss or use this research record, please cite it using the metadata below."
+title: "sense-correct-abstain: Fixed-budget decision control under angle-dependent coherent bias in QAOA"
+type: software
+authors:
+  - family-names: "Liu"
+    given-names: "Zhen-Jun"
+repository-code: "https://github.com/Raina-ya/sense-correct-abstain"
+version: "1.0.0-mt7-synthesis"
+date-released: "2026-11-22"
+abstract: >-
+  A simulation-first research record studying whether sensing can guide correction
+  or abstention under a fixed quantum-execution budget. The frozen route ended at
+  Gate 3 FAIL; the repository preserves the negative result, post-lock errata,
+  reproducibility checks, and explicit limits on generalization.
+keywords:
+  - "quantum error mitigation"
+  - "QAOA"
+  - "randomized compiling"
+  - "abstention"
+  - "decision theory"
+  - "reproducibility"

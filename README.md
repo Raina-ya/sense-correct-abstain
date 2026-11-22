@@ -22,6 +22,12 @@ Main documents:
 - Gate records: [Gate 1A](docs/results/gate1a_report.md) (see E001), [Gate 1B](docs/results/gate1b_report.md) (E002), [Gate 2](docs/results/gate2_report.md) (E003), [Gates 3/4](docs/results/gate3_gate4_report.md) (E004).
 - Literature: [docs/literature/](docs/literature/README.md).
 
+## Citation and permitted use
+
+The author is **Zhen-Jun Liu** (`Raina-ya`). Citation metadata is provided in [CITATION.cff](CITATION.cff), and the scientific and archival notice is in [NOTICE.md](NOTICE.md).
+
+This repository is public for scholarly inspection, verification, discussion, and citation, but it is **not** released under an open-source or open-content license. Copyrightable code, prose, figures, tables, and compilations remain all-rights-reserved; see [RIGHTS.md](RIGHTS.md) for the exact boundary and permission contact. Applicable legal exceptions and GitHub's platform terms remain unaffected.
+
 ## Reproducing the checks
 
 ```bash
