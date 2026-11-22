@@ -40,6 +40,7 @@ are not guessed here.
 ```bash
 pip install -r requirements.txt
 python -m pytest -q tests                      # unit tests, including the errata and lock-template tests
+python -m unittest discover -s tests           # same tests without pytest (standard library only)
 python tools/check_errata_artifacts.py         # errata manifests v1-v6, plus every frozen lock/artifact check
 python tools/check_rc_semantics.py             # 64 label-angle RC equivalence cases
 python tools/check_pamp_semantics.py           # 729 P-amp circuit cases vs the phase model
@@ -53,6 +54,12 @@ python tools/audit_reproducibility.py 1        # full recomputation (several min
 The frozen runners refuse to rerun: their outputs exist, and they require
 `HEAD` to equal their lock commit. They are not meant to be re-executed. The
 recomputation tool calls their per-unit functions without writing anything.
+
+The fast, read-only subset of these commands (unit tests, errata and frozen
+lock/artifact checks, archive manifest, RC and P-amp semantics, library) also
+runs on every push via `.github/workflows/checks.yml`. Those runs are internal
+recomputation on GitHub-hosted runners, not third-party validation; the audit
+and recomputation tools are not run in CI.
 
 ## 3. Hash manifests
 

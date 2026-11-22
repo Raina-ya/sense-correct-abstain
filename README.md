@@ -40,7 +40,7 @@ This repository is public for scholarly inspection, verification, discussion, an
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q tests
+python -m pytest -q tests                # or, without pytest: python -m unittest discover -s tests
 python tools/check_errata_artifacts.py   # errata manifests v1-v6 + every frozen lock/artifact check
 python tools/check_rc_semantics.py
 python tools/check_pamp_semantics.py
