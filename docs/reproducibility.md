@@ -4,6 +4,24 @@
 every erratum, and what cannot be reproduced. "Reproduced" below always means
 **internal recomputation by the project**, not third-party validation.
 
+## 0. Archived release binding
+
+The fixed MT7 synthesis snapshot is bound to the following public identifiers:
+
+| Field | Value |
+|---|---|
+| Repository commit | `66feb06de421d43d928a6ed17ee63ba573778191` |
+| GitHub release | [`v1.0.0-mt7-synthesis`](https://github.com/Raina-ya/sense-correct-abstain/releases/tag/v1.0.0-mt7-synthesis) |
+| Zenodo version DOI | [`10.5281/zenodo.24443391`](https://doi.org/10.5281/zenodo.24443391) |
+| Zenodo concept DOI | [`10.5281/zenodo.24443390`](https://doi.org/10.5281/zenodo.24443390) |
+| Archive filename | `sense-correct-abstain-v1.0.0-mt7-synthesis-66feb06.zip` |
+| Archive SHA-256 | `8038aad3ede75a37b5ffd7b20bfcba26258c0c42b88a631923d03b040e1ee1b6` |
+
+The version DOI and archive hash identify the immutable public snapshot. Later
+repository commits may improve discovery or documentation, but they do not
+alter that archived version. Scientific claims remain governed by the frozen
+records and append-only errata inside the snapshot.
+
 ## 1. Environment record of the frozen artifacts
 
 | Artifact | Producer | Python | Platform | NumPy | Other packages |
