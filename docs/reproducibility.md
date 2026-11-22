@@ -40,7 +40,7 @@ are not guessed here.
 ```bash
 pip install -r requirements.txt
 python -m pytest -q tests                      # unit tests, including the errata and lock-template tests
-python tools/check_errata_artifacts.py         # errata manifests v1 and v2, plus every frozen lock/artifact check
+python tools/check_errata_artifacts.py         # errata manifests v1-v6, plus every frozen lock/artifact check
 python tools/check_rc_semantics.py             # 64 label-angle RC equivalence cases
 python tools/check_pamp_semantics.py           # 729 P-amp circuit cases vs the phase model
 python tools/check_library.py                  # literature library structure
