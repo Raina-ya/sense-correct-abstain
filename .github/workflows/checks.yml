@@ -1,0 +1,43 @@
+# Deterministic, read-only checks of the frozen record.
+# These runs are internal recomputation by the project on GitHub-hosted
+# runners. They are not independent or third-party validation, and they
+# must never regenerate holdout, Gate, or other research data.
+name: deterministic-checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # living-document and archive checks read git history
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned environment
+        run: python -m pip install -r requirements.txt
+      - name: Unit tests
+        run: python -m pytest -q tests
+      - name: Errata manifests and frozen lock/artifact checks
+        run: python tools/check_errata_artifacts.py
+      - name: Archive manifest
+        run: python tools/check_archive_manifest.py
+      - name: RC and P-amp semantics
+        run: |
+          python tools/check_rc_semantics.py
+          python tools/check_pamp_semantics.py
+      - name: Literature library structure
+        run: python tools/check_library.py
+      - name: Checks left the tree unchanged
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
