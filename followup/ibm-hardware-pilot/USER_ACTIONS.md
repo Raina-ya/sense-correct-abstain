@@ -1,5 +1,7 @@
 # HW-P1 actions requiring the owner
 
+> **Historical pre-execution record (kept unchanged below).** Stage A was executed on 2026-11-23; see [`RESULTS.md`](RESULTS.md) and erratum [`HWP1-E001`](errata/HWP1-E001_precision_estimand.md).
+
 Real-backend metadata preflight is complete. No hardware job has been
 submitted. IBM credentials remain private and are not part of the repository.
 

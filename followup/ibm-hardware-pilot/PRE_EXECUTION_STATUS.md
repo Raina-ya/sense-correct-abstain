@@ -1,5 +1,7 @@
 # HW-P1 pre-execution status
 
+> **Historical pre-execution record (kept unchanged below).** Stage A was executed on 2026-11-23; see [`RESULTS.md`](RESULTS.md) and erratum [`HWP1-E001`](errata/HWP1-E001_precision_estimand.md).
+
 **Status:** local and cloud preflight complete; lock generation and owner
 approval pending; no hardware execution.
 

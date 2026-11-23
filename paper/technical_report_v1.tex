@@ -81,7 +81,7 @@
 \maketitle
 
 \begin{abstract}
-A quantum computation used to make a decision can be biased by a coherent error, and the shots spent detecting or correcting that error are shots taken from the decision itself. We study this trade-off for a QAOA top-1 decision under angle-proportional coherent over-rotation $\eps$ and an additive phase $\phi$, with one fixed shot budget shared by sensing, the decision, and any correcting re-execution. A policy may issue the initial answer, recalibrate and re-run, or abstain. We prove a three-action risk identity that contains an alarm condition from earlier work and Chow's reject rule as special cases, a blindness lemma with finite-sample lower bounds on choosing the wrong action, a value-of-information decomposition, and a result that information-free policies cannot beat the best fixed policy. For retained randomized-compiling labels we show that the multiplicative error is not identifiable at $\phi=0$ under response-free nuisance classes, and we give the identified set under each class. A prespecified sequence of four gates then tests a known-reference sensor in simulation. The sensor identifies the error, but its decision rule does not single out the units that benefit from correction (precision 0.093 against a base rate of 0.077), and the resulting adaptive policy shows no detectable value over always correcting ($\DV=0.0000804$, one-sided 95\% lower bound $-0.000743$, estimated power 0.0004). Identifiability, useful selection of beneficiaries, and positive decision value are therefore three separate requirements, and only the first was met. All results are analytic or come from shot-noise-only simulation of a synthetic error model.
+A quantum computation used to make a decision can be biased by a coherent error, and the shots spent detecting or correcting that error are shots taken from the decision itself. We study this trade-off for a QAOA top-1 decision under angle-proportional coherent over-rotation $\eps$ and an additive phase $\phi$, with one fixed shot budget shared by sensing, the decision, and any correcting re-execution. A policy may issue the initial answer, recalibrate and re-run, or abstain. We prove a three-action risk identity that contains an alarm condition from earlier work and Chow's reject rule as special cases, a blindness lemma with finite-sample lower bounds on choosing the wrong action, a value-of-information decomposition, and a result that information-free policies cannot beat the best fixed policy. For retained randomized-compiling labels we show that the multiplicative error is not identifiable at $\phi=0$ under response-free nuisance classes, and we give the identified set under each class. A prespecified sequence of four gates then tests a known-reference sensor in simulation. The sensor identifies the error, but its decision rule does not single out the units that benefit from correction (precision 0.093 against a base rate of 0.077), and the resulting adaptive policy shows no detectable value over always correcting ($\DV=0.0000804$, one-sided 95\% lower bound $-0.000743$, estimated power 0.0004). Identifiability, useful selection of beneficiaries, and positive decision value are therefore three separate requirements, and only the first was met in simulation. A separately locked pilot on an IBM superconducting processor, with known errors injected into the compiled circuits, then tested the sensor alone: its single-estimate precision at the same budget was inconclusive against the same threshold (pooled standard deviation 0.0077 against 0.0071), its effective visibility was 0.95, and its estimates carried a systematic offset at zero injection. The theory and the gate results concern a synthetic error model with shot noise only; the hardware pilot tested sensing, not correction or the policy.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -105,15 +105,15 @@ We define the three-action problem with every sensing, reference, and re-executi
 \begin{center}
 identifiability $\;\neq\;$ useful selection of beneficiaries\\ $\neq\;$ positive decision value.
 \end{center}
-The known-reference sensor passed the identifiability gate (Gate~1B); its decision rule passed the selection gate only formally, without singling out the units that benefit (Gate~2); and the adaptive policy failed the value gate (Gate~3).
+The known-reference sensor passed the identifiability gate (Gate~1B); its decision rule passed the selection gate only formally, without singling out the units that benefit (Gate~2); and the adaptive policy failed the value gate (Gate~3). A separate pilot on IBM hardware then examined the first link outside simulation (\cref{sec:hardware}): even identifiability, which held in simulation with a thin margin, did not reach the frozen precision standard with confidence on a real processor.
 
 \paragraph{Contributions.}
 \begin{enumerate}
 \item A three-action decision theory for fixed-budget sensing and correction: a risk identity that reduces to known alarm and reject rules, a blindness lemma with product-law lower bounds on wrong-action probability, and a decomposition showing that positive value requires an action-loss reduction larger than the shots set aside for sensing and correction.
 \item Identifiability results for retained randomized-compiling labels that separate zero efficient information, local non-identification, and global non-identification, with the identified set under each nuisance class, and a global bound on the error-induced gap shift.
-\item A negative end-to-end result with its failure analysis: in this model, a sensor that identifies the error does not yield a decision rule that selects beneficiaries, nor a policy that beats always correcting.
+\item A negative end-to-end result with its failure analysis---in this model, a sensor that identifies the error does not yield a decision rule that selects beneficiaries, nor a policy that beats always correcting---and a first hardware pilot of the sensor, which finds its precision at the frozen budget inconclusive and its estimates biased.
 \end{enumerate}
-\Cref{sec:related} places the work among prior methods; \cref{sec:results,sec:failure} report and analyse the gates; \cref{sec:repro} documents corrections and reproducibility; \cref{sec:discussion} discusses scope and a hardware follow-up.
+\Cref{sec:related} places the work among prior methods; \cref{sec:results,sec:failure} report and analyse the gates; \cref{sec:hardware} reports the hardware pilot; \cref{sec:repro} documents corrections and reproducibility; \cref{sec:discussion} discusses scope and next steps.
 
 \section{Related Work}\label{sec:related}
 
@@ -173,7 +173,7 @@ paired on shared units, with graph-clustered uncertainty. Allocation (ii) is inc
 
 \section{Error and Compilation Model}\label{sec:model}
 
-\paragraph{Compiled-angle model (owner decision D1).} A tagged physical rotation with commanded angle $a$ is executed as $\RZ((1+\eps)a+\phi)$, $\RZ(x)=e^{-ixZ/2}$; every other gate is error-free. In the QAOA cost layer each $\mathrm{RZZ}$ block contains one tagged $\RZ$. The model is synthetic and makes the coherent bias angle-dependent by construction; on hardware whose $Z$ rotations are virtual frame changes it has no direct physical carrier (\cref{sec:discussion}).
+\paragraph{Compiled-angle model (owner decision D1).} A tagged physical rotation with commanded angle $a$ is executed as $\RZ((1+\eps)a+\phi)$, $\RZ(x)=e^{-ixZ/2}$; every other gate is error-free. In the QAOA cost layer each $\mathrm{RZZ}$ block contains one tagged $\RZ$. The model is synthetic and makes the coherent bias angle-dependent by construction; on hardware whose $Z$ rotations are virtual frame changes it has no direct physical carrier (\cref{sec:hardware}).
 
 \paragraph{Randomized-compiling labels.} Each tagged block is conjugated by a Pauli label $\sigma$, applied without error or tracked virtually, so the commanded angle becomes $a=s\,\theta$ with $s=+1$ for $\sigma\in\{I,Z\}$ and $s=-1$ for $\sigma\in\{X,Y\}$. The labels are drawn uniformly, recorded, and retained.
 
@@ -406,7 +406,7 @@ With its own known reference, P-amp observes phases that are linear in $(\eps,\p
 
 \paragraph{Gate sequence and locks.} Gates were run in a fixed order with a stopping rule (\cref{fig:flow}). Each gate's design document was committed with a SHA-256 manifest before the run, and the runner refused to run unless the repository was at the lock commit.
 
-\paragraph{Evidence boundary.} Every empirical result in this paper comes from shot-noise-only simulation of the synthetic compiled-angle model on 2--6 qubits at QAOA depth one; no device, decoherence, visibility loss, or drift is modelled, and no hardware was used in this study (a separate hardware pilot is summarised in \cref{sec:discussion}). The gate locks are internal Git and SHA-256 locks without an independent timestamp, so we call the gates prespecified rather than preregistered, and the analysis code was not itself locked (\cref{sec:failure}). Where a quantity was computed after a gate result, it is labelled \emph{post-lock}; such analyses can qualify a verdict but cannot change it. Label definitions are collected in \cref{tab:labels}.
+\paragraph{Evidence boundary.} Every gate result (\cref{sec:results,sec:failure}) comes from shot-noise-only simulation of the synthetic compiled-angle model on 2--6 qubits at QAOA depth one; no device, decoherence, visibility loss, or drift is modelled. The hardware pilot of \cref{sec:hardware} is a separate study with its own lock and does not enter any gate verdict. The gate locks are internal Git and SHA-256 locks without an independent timestamp, so we call the gates prespecified rather than preregistered, and the analysis code was not itself locked (\cref{sec:failure}). Where a quantity was computed after a gate result, it is labelled \emph{post-lock}; such analyses can qualify a verdict but cannot change it. Label definitions are collected in \cref{tab:labels}.
 
 \begin{figure*}[t]
 \centering
@@ -551,7 +551,7 @@ Under the frozen stopping rule, the Gate~3 failure ended the study after milesto
 
 \paragraph{Why Gate~2 is not selectivity.} Balanced accuracy against a constant baseline rewards any statistic associated with the label. The gain comes from the gap-bound condition, which removes large-gap units where no-action accuracy is already about one; detecting that an error is present adds almost nothing. The labels are also noisy and measure unconditional unit-level benefit, not the decision-time quantity that Gate~3 scores. The Gate~2 lock also lacked the uncertainty bound and power analysis that the program plan requested, and its margin rationale concerns resolution, not relevance.
 
-\paragraph{The Gate~1B margin.} The resource condition passes with 0.74\% headroom at visibility one and fails for any visibility below $0.99263$. The pass therefore concerns an idealised sensor; whether a real one keeps it is the first question for hardware (\cref{sec:discussion}).
+\paragraph{The Gate~1B margin.} The resource condition passes with 0.74\% headroom at visibility one and fails for any visibility below $0.99263$. The pass therefore concerns an idealised sensor; on hardware it does not (\cref{sec:hardware}).
 
 \subsection{Frozen versus corrected Gate~3 estimand}\label{sec:estimand}
 For a fixed unit let $W=\{\delta_0\neq k^*\}$ be the event that the issued answer is wrong, $\one_N$ the event that the policy chooses N, and $q=P(W)$ the unconditional always-issue error, which is a unit-level constant. The policy's true expected N-path loss is $\E[\one_N\one_W]=P(N\cap W)$ (T1, $l_N$). The frozen runner instead scored $\E[\one_N(1-p_{\mathrm{correct}})]=P(N)\,q$. Their difference is
@@ -562,6 +562,70 @@ For a fixed unit let $W=\{\delta_0\neq k^*\}$ be the event that the issued answe
 
 \paragraph{Governance defects.} (i) The Gate~1A runner wrote its verdict, I3 ranks, recovery, and control statuses as literals. (ii) Analysis code was outside every lock. (iii) Power was computed in the same execution as the evaluation, so no decision point existed between them; had it been inspected first, the design could have been revised. (iv) Locks state ``owner-approved'' without review notes, and lock-to-run intervals were 2--34 minutes. (v) Selection probabilities were estimated with 256 replicates (granularity $1/256$) although exact values were computable, which is coarse relative to $|\DV|<0.001$. (vi) Gate~4 thresholds were not power-derived, and 25.7\% of Gate~2 units were exact ideal-gap ties, not prescreened. None of these changes a verdict; all limit what the locks prove. Each is documented in the errata listed in \cref{tab:frozen}.
 
+\section{A Hardware Pilot of the Sensor}\label{sec:hardware}
+
+Gate~1B passed with 0.74\% headroom at visibility one, and the resource condition fails for any visibility below $0.99263$ (\cref{sec:ident}). Whether a real processor keeps the sensor within that standard is therefore the first question to ask of hardware. We answered it in a separately locked pilot (HW-P1, Stage~A); it does not revisit any gate verdict.
+
+\subsection{Design}
+\paragraph{Injected rather than native error.} On IBM processors $Z$ rotations are virtual frame changes \cite{mckay2017vz}: they are applied without error and without duration, so the compiled-angle error of \cref{sec:model} cannot arise physically on an $\RZ$. The pilot therefore \emph{injects} it: each tagged rotation in the P-amp circuits is compiled as $\RZ((1+\eps)a+\phi)$ with known $(\eps,\phi)$, which the estimator never sees. This changes the estimand. The pilot measures how precisely and how accurately P-amp recovers a known compiled-angle perturbation under real noise; it says nothing about whether such an error occurs naturally.
+
+\paragraph{Execution plan.} One Heron-family processor, \texttt{ibm\_marrakesh}, with physical qubits 53 (target) and 54 (control), chosen before execution as the pair minimising the sum of the two readout errors and the CZ error in the calibration snapshot; fractional gates were disabled. The five injected points were the Gate~3--4 error grid, $(0,0)$, $(\pm0.02,0)$, $(0.04,0.01)$ and $(-0.04,-0.01)$. Each estimate used the frozen 18 settings of 135 shots, 2430 shots in all. Eight blocks were run in sequence; each contained all five points in a seeded random order, one phase-blind control per point (P-amp measured in the $Z$ basis), and four readout-calibration circuits, for 134{,}600 shots in total. Circuits were transpiled at optimisation level~1 with barriers around each tagged block, with dynamical decoupling and twirling off; unmitigated counts are the primary analysis. The protocol, code, environment, seeds, and command were hashed in a lock committed before the first job (about two minutes earlier); execution was gated on that hash, and the written approval record was added afterwards. There was no external timestamp, so the pilot is prespecified under an internal lock, not preregistered.
+
+\subsection{Results}
+All eight blocks completed on one calibration snapshot, using 56 QPU-charge seconds. The validity checks passed: readout assignment error was 0.8--1.7\% per block, the phase-blind controls showed no dependence on the injected point ($|z|\le0.60$ against a Bonferroni threshold of 2.50), and the zero-injection estimate drifted by $0.0001$ per block. \Cref{tab:hw} and \cref{fig:hw} summarise the estimates.
+
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{5pt}
+\caption{HW-P1 Stage A on \texttt{ibm\_marrakesh} (qubits 53/54), eight blocks of 2430 shots per point, unmitigated. Bias and visibility are from the locked analysis; the precision column is the standard deviation of one 2430-shot estimate (post-lock correction, see text), with a 95\% block-bootstrap interval. The frozen precision threshold is $0.0071429$.}\label{tab:hw}
+\begin{tabular}{@{}lrrrrrl@{}}
+\toprule
+Injected $(\eps,\phi)$ & mean $\hat\eps$ & $\eps$ bias (95\% CI) & $\phi$ bias & SD of one estimate (95\% CI) & visibility & precision label \\
+\midrule
+$(0,0)$ & $-0.0128$ & $-0.0128$ $[-0.0166,-0.0086]$ & $+0.0091$ & $0.0062$ $[0.0026,0.0082]$ & 0.955 & inconclusive \\
+$(+0.02,0)$ & $+0.0166$ & $-0.0034$ $[-0.0069,+0.0006]$ & $+0.0076$ & $0.0059$ $[0.0023,0.0072]$ & 0.955 & inconclusive \\
+$(-0.02,0)$ & $-0.0210$ & $-0.0010$ $[-0.0049,+0.0019]$ & $+0.0086$ & $0.0053$ $[0.0013,0.0072]$ & 0.951 & inconclusive \\
+$(+0.04,+0.01)$ & $+0.0322$ & $-0.0078$ $[-0.0126,-0.0029]$ & $+0.0075$ & $0.0077$ $[0.0031,0.0101]$ & 0.957 & inconclusive \\
+$(-0.04,-0.01)$ & $-0.0460$ & $-0.0060$ $[-0.0138,+0.0011]$ & $+0.0094$ & $0.0117$ $[0.0057,0.0146]$ & 0.948 & inconclusive \\
+\midrule
+pooled (35 d.f.) & & & & $0.0077$ $[0.0052,0.0084]$ & & inconclusive \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+% Data: per-block epsilon_hat from followup/ibm-hardware-pilot/results/stage_a_postlock/analysis_corrected.json
+% (identical to the locked per-block estimates in results/stage_a/analysis_primary.json). Units: 1e-3.
+\begin{axis}[scaffold,scale only axis,width=0.74\columnwidth,height=4.0cm,xmin=-50,xmax=50,ymin=-72,ymax=52,
+  xlabel={injected $\eps$ ($\times10^{-3}$)},ylabel={$\hat\eps$ per block ($\times10^{-3}$)},xtick={-40,-20,0,20,40},
+  legend style={font=\scriptsize,draw=none,fill=none,at={(0.02,0.98)},anchor=north west,cells={anchor=west}}]
+\addplot[ink,densely dashed,line width=0.8pt,domain=-50:50,samples=2] {x};
+\addlegendentry{$\hat\eps=\eps$}
+\addplot[only marks,mark=o,mark size=1.8pt,sN,line width=0.6pt] coordinates {
+(0,-12.6)(0,-15.7)(0,-14.2)(0,-8.6)(0,-10.0)(0,-22.1)(0,-1.8)(0,-17.7)
+(20,11.6)(20,25.7)(20,16.5)(20,12.0)(20,15.7)(20,10.2)(20,24.9)(20,16.0)
+(-20,-16.9)(-20,-32.4)(-20,-21.6)(-20,-17.6)(-20,-17.1)(-20,-18.8)(-20,-24.6)(-20,-18.9)
+(40,32.9)(40,28.7)(40,43.3)(40,41.2)(40,28.1)(40,19.2)(40,34.5)(40,29.9)
+(-40,-36.6)(-40,-34.7)(-40,-33.2)(-40,-43.5)(-40,-65.8)(-40,-56.5)(-40,-53.7)(-40,-44.0)};
+\addlegendentry{one block (2430 shots)}
+\addplot[only marks,mark=-,mark size=6pt,sC,line width=1.6pt] coordinates {(0,-12.83)(20,16.58)(-20,-21.00)(40,32.21)(-40,-46.00)};
+\addlegendentry{mean of 8 blocks}
+\end{axis}
+\end{tikzpicture}
+\caption{HW-P1: P-amp estimates of the injected multiplicative error on \texttt{ibm\_marrakesh}. Each circle is one 2430-shot estimate; the bars are block means. The estimates track the injected value and flip sign correctly, but scatter by about $\pm0.008$ per estimate and are offset at zero injection ($-0.0128$). Hardware data, separate study; not a gate result.}
+\label{fig:hw}
+\end{figure}
+
+\paragraph{Precision.} The spread of one 2430-shot estimate was $0.0053$--$0.0117$ across points and $0.0077$ pooled (95\% interval $0.0052$--$0.0084$), against the frozen threshold $0.0071429$: inconclusive at every point and pooled, with the pooled point estimate 8\% above the threshold. The pilot's locked analysis had divided this spread by $\sqrt8$, reporting the standard error of an eight-block mean instead, and labelled every point as meeting the threshold; an append-only erratum retracted those labels and added the corrected analysis (\cref{sec:repro}). With eight blocks the intervals are coarse, and the labels are descriptive.
+
+\paragraph{Visibility and the synthetic margin.} The effective visibility, the mean amplitude $\sqrt{\langle X\rangle^2+\langle Y\rangle^2}$ over settings, was 0.948--0.957, well below the $0.99263$ at which the synthetic resource condition fails. Scaling the frozen conservative standard error $0.0070902$ by $1/v$ with $v=0.953$ gives $0.0074$, close to the observed $0.0077$ (a post-lock comparison): the hardware spread is about what the shot-noise model predicts once the measured contrast is included.
+
+\paragraph{Accuracy.} The estimates track the injected values and change sign correctly, but they are biased. At zero injection the mean estimate was $-0.0128$ with 95\% interval $[-0.0166,-0.0086]$, which triggered the prespecified bias flag, and the additive phase was overestimated by $+0.0075$ to $+0.0094$ at every point. A native coherent phase on the qubit pair, for example from the CZ gate or a static $ZZ$ interaction, is a possible cause that the pilot did not test.
+
+\subsection{What the pilot does and does not show}
+The pilot shows that the idealisation behind Gate~1B does not hold on this processor: the measured contrast is far below the level the resource condition needs, the precision at the frozen budget is at best borderline, and the estimates carry an offset of about twice the precision threshold. An offset of that size is comparable to the errors the frozen grid injects ($|\eps|\le0.04$), so recalibrating with uncorrected P-amp estimates could itself add error; this was not tested. The pilot does not test correction, decisions, or the adaptive policy; it does not show that hardware has an angle-proportional error; and it covers one processor, one qubit pair, and one calibration window.
+
 \section{Reproducibility and Errata}\label{sec:repro}
 
 \paragraph{Append-only errata.} Frozen files are never edited. Nine errata correct the record: E001--E004 (one per gate), E005 (governance and environment), E006 (audit of the first erratum commit; Lemma~S1 narrowed, Lemma~B corrected, Gate~2 wording fixed), and E007--E009 (owner reviews of the identification lemmas, of the three-action results, and of S1$''$). Where errata differ, the later one governs. Errata files are hashed in six append-only manifests (\cref{tab:frozen} in \cref{app:tables}).
@@ -570,23 +634,25 @@ For a fixed unit let $W=\{\delta_0\neq k^*\}$ be the event that the issued answe
 
 \paragraph{Archive.} Release \texttt{v1.0.0-mt7-synthesis} (commit \texttt{66feb06}) is archived on Zenodo. The archive's SHA-256 and MD5 match the record, and its 119 files map one-to-one to the commit; 114 differ only in line endings.
 
+\paragraph{Hardware pilot record.} The pilot's lock (canonical SHA-256 \texttt{f4b60e02\dots}) was committed before the first job; all eight submission and result receipts carry its hash, and the raw counts, IBM job identifiers, calibration snapshots, and the locked analysis output are hash-bound as post-run artifacts. Erratum HWP1-E001 records the precision-estimand error and its correction without altering any locked file; a dedicated check verifies the execution-time lock, the receipts, the locked artifacts, and that the corrected analysis reproduces from raw counts.
+
 \paragraph{Checks and future locks.} The deterministic checks (errata and frozen-artifact manifests, archive metadata, RC and P-amp semantics, literature library, unit tests) run with the commands of \cref{tab:commands} and in continuous integration. Any future study must use the v2 lock template, which locks design files, every execution-code file, the environment, seeds, the exact command, absent outputs, and post-run artifact hashes together.
 
 \section{Conclusion}\label{sec:conclusion}
-\emph{When is runtime evidence sufficient to choose between trusting, correcting, and withholding a quantum decision under a fixed budget?} The theory gives the condition: the evidence must change the optimal action on a set of units large enough that the expected action-loss reduction exceeds the shots set aside for sensing and correction (\cref{prop:D1}); information-free policies never meet it (\cref{prop:P2}), and nearly dominated ones meet it only barely (P3). In the setting studied here the evidence was not sufficient. Retained randomized-compiling labels could not identify the multiplicative error at $\phi=0$ without knowledge of the ideal response; a known-reference sensor could, but its decision rule did not single out the units that benefit from correction; and because always correcting was already near-optimal, the adaptive policy had almost nothing to gain and showed no detectable value. These conclusions hold for the synthetic compiled-angle model and the frozen design; a first hardware pilot of the sensor is summarised below.
+\emph{When is runtime evidence sufficient to choose between trusting, correcting, and withholding a quantum decision under a fixed budget?} The theory gives the condition: the evidence must change the optimal action on a set of units large enough that the expected action-loss reduction exceeds the shots set aside for sensing and correction (\cref{prop:D1}); information-free policies never meet it (\cref{prop:P2}), and nearly dominated ones meet it only barely (P3). In the setting studied here the evidence was not sufficient. Retained randomized-compiling labels could not identify the multiplicative error at $\phi=0$ without knowledge of the ideal response; a known-reference sensor could, but its decision rule did not single out the units that benefit from correction; and because always correcting was already near-optimal, the adaptive policy had almost nothing to gain and showed no detectable value. These conclusions hold for the synthetic compiled-angle model and the frozen design. On a real processor the evidence was weaker still: with known errors injected, the sensor's precision at the frozen budget was inconclusive and its estimates were biased, so even the step that succeeded in simulation would need bias characterisation before any correction or policy could rely on it.
 
 \section{Discussion}\label{sec:discussion}
 
 \paragraph{What the negative results say.} Gate~1A does not say that randomized-compiling labels are uninformative: with a known response the oracle information is positive, and with known response directions the identified set is bounded. It says that an estimator that treats the response as unknown cannot recover $\eps$ at $\phi=0$. Gate~3 does not say that adaptive control is useless: in a model where always-correct is near-optimal, a policy built on a non-selective rule had little to gain, and the design---with estimated power 0.0004---could not have detected a small gain.
 
-\paragraph{Limitations.} The error model is synthetic, the circuits have 2--6 qubits at QAOA depth one, and the simulation contains shot noise only; nothing here extends to visibility loss, decoherence, drift, context mismatch, structured nuisance models, larger circuits, or hardware. The P-amp resource condition fails for visibility below $0.99263$. Gate~2 lacked an uncertainty bound and power analysis, Gate~3 was underpowered, selection probabilities were Monte Carlo estimates, and the analysis code was outside the locks (\cref{sec:failure}). The Gate~3 estimand correction and the Gate~2 diagnostics are post-lock. Reproduction is internal and verdict-level, not bit-level across platforms (\cref{sec:repro}).
+\paragraph{Limitations.} The error model is synthetic, the circuits have 2--6 qubits at QAOA depth one, and the simulation contains shot noise only; no gate result extends to visibility loss, decoherence, drift, context mismatch, structured nuisance models, larger circuits, or hardware. The P-amp resource condition fails for visibility below $0.99263$. Gate~2 lacked an uncertainty bound and power analysis, Gate~3 was underpowered, selection probabilities were Monte Carlo estimates, and the analysis code was outside the locks (\cref{sec:failure}). The Gate~3 estimand correction and the Gate~2 diagnostics are post-lock. Reproduction is internal and verdict-level, not bit-level across platforms (\cref{sec:repro}). The hardware pilot used injected errors, one processor, one qubit pair, one calibration window, and eight blocks; its precision correction is post-lock, and its approval was recorded after execution.
 
-\paragraph{Hardware pilot (separate study).} After this study closed, a separately locked pilot (HW-P1, Stage A) ran on IBM Quantum hardware; it is not part of the evidence above and does not revisit any verdict. Because $Z$ rotations on these processors are virtual frame changes, the compiled-angle error cannot arise physically on an $\RZ$, so the pilot injected known errors at five points into the compiled circuits and ran P-amp at the frozen 2430-shot budget on one qubit pair of \texttt{ibm\_marrakesh}, in eight interleaved blocks (56 QPU-charge seconds). The single-estimate precision was inconclusive against the frozen threshold at every point; pooled over points, the standard deviation of one 2430-shot estimate was $0.00769$ (block-bootstrap 95\% interval $0.00523$--$0.00845$) against $0.0071429$. The pilot's locked analysis had reported the standard error of an eight-block mean instead and labelled every point as meeting the threshold; that labelling was retracted in an append-only erratum. The estimator also showed a systematic offset at zero injection ($-0.0128$ in $\eps$) and a common phase offset of about $+0.008$, for which a native coherent phase on the qubit pair is a possible cause that the pilot did not test, and the effective visibility was $0.95$, below the $0.99263$ at which the synthetic resource condition fails. Readout and phase-blind control checks passed. The pilot was prespecified under an internal lock, with approval recorded after execution; it is not preregistered, and it tested sensing only, not correction or the adaptive policy.
+\paragraph{Next steps on hardware.} Before any decision study on hardware, the sensor's offset must be characterised and removed, for example by subtracting a zero-injection reference measured in the same block, and its precision established with more blocks than eight and on more than one qubit pair and calibration window. Only then would a decision-level stage that compares issuing and correcting under injected error be informative. A different question is whether the native fractional $R_{ZZ}(\theta)$ gate carries an angle-dependent coherent error of its own; that would be a characterisation study, and only a positive answer would give the compiled-angle model a physical carrier.
 
 \paragraph{Further theory and design work.} A stronger test of adaptive control needs a model in which correction sometimes hurts, exact selection probabilities instead of Monte Carlo scoring, a power analysis committed before evaluation, and per-stratum comparators to close the metadata-only gap of \cref{prop:P2}.
 
 \section*{Data and code availability}
-All frozen artifacts, errata, audit tools, and proofs are in the repository and in the Zenodo archive (version DOI 10.5281/zenodo.24443391; concept DOI 10.5281/zenodo.24443390). The repository is public for inspection and citation under the terms in \texttt{RIGHTS.md}; it is not open-source licensed.
+All frozen artifacts, errata, audit tools, and proofs are in the repository and in the Zenodo archive (version DOI 10.5281/zenodo.24443391; concept DOI 10.5281/zenodo.24443390). The hardware pilot's protocol, lock, raw counts, IBM job identifiers, calibration snapshots, and corrected analysis are in the repository under \texttt{followup/ibm-hardware-pilot/}; they postdate that archived version. The repository is public for inspection and citation under the terms in \texttt{RIGHTS.md}; it is not open-source licensed.
 
 \bibliographystyle{abbrv}
 \bibliography{references}
@@ -685,6 +751,7 @@ simulated (gate output) & produced by a gate run under its lock: shot-noise-only
 post-lock & an analysis specified after the gate result; may qualify a verdict, cannot change it \\
 recomputed & arithmetic on stored per-unit fields, done for this paper \\
 internal recomputation & re-running the project's code on another platform; not third-party validation \\
+hardware (HW-P1) & counts from IBM hardware in the separately locked pilot of \cref{sec:hardware}; never enters a gate verdict \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -749,6 +816,7 @@ Gate & Frozen record (unchanged) & Erratum & Current interpretation \\
 3 & FAIL ($\DV=0.0000804$, LB $-0.000743$) & E004 & FAIL; corrected post-lock estimand also FAIL ($0.000237$, $-0.000625$); power $0.0004$ \\
 4 & PASS & E004 §4 & PASS, moot; thresholds not power-derived \\
 all & locks of design documents & E005, E006 §7 & code outside locks; future studies use lock template v2 \\
+HW-P1 & locked analysis labelled all five points ``meets'' & HWP1-E001 & labels retracted; single-estimate precision inconclusive at every point and pooled ($0.0077$ vs $0.0071429$); zero-injection bias flagged \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -799,6 +867,8 @@ Power & $0.0004$; MDM $0.000665$ & frozen (same run as evaluation) & \fn{power_a
 Gate 4 & N 25.9\%, C 72.6\%, A 1.5\% & frozen & \fn{gate34_results.json} \\
 Lemma B ratio & max $0.431$ / $0.213$ & post-lock numerical check & \fn{gap_shift_bound_check.json} \\
 Reproducibility & 416/6600, 31/5940 float diffs; verdicts identical & internal recomputation & \fn{reproducibility_full.json}, E005 \\
+HW-P1 precision & pooled SD $0.0077$ $[0.0052,0.0084]$; inconclusive & hardware; post-lock correction & \fn{followup/ibm-hardware-pilot/results/stage_a_postlock/analysis_corrected.json} \\
+HW-P1 bias, visibility & $\eps$ bias $-0.0128$ at zero; $v=0.948$--$0.957$ & hardware; locked analysis & \fn{followup/ibm-hardware-pilot/results/stage_a/analysis_primary.json} \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -817,6 +887,7 @@ Gate~2 formal PASS with the authoritative qualification. & ``Gate~2 predicts cor
 No detectable net value over always-correct; power $0.0004$. & ``The method works'' or any positive policy value. \\
 Lemma B: global, exact population bound on the expected gap shift. & That $\hat B$ guarantees a decision-flip bound or has coverage. \\
 Internal recomputation reproduces every verdict. & ``Validated'', ``independently reproduced'', ``third-party verified'', ``preregistered'', ``first''. \\
+HW-P1: with injected errors, P-amp precision at 2430 shots was inconclusive against the threshold; estimates were biased; visibility 0.95. & ``P-amp met its precision threshold on hardware''; ``hardware validates the method''; ``hardware has the modelled error''; HW-P1 ``preregistered''. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -837,6 +908,8 @@ Path or command & Content or check \\
 \texttt{python -m unittest discover -s tests} & unit tests (or \texttt{python -m pytest -q tests}) \\
 \texttt{python tools/check\_errata\_artifacts.py} & errata manifests and every frozen lock/artifact check \\
 \texttt{python tools/check\_archive\_manifest.py} & archive identifiers agree across documents \\
+\texttt{python tools/check\_hwp1\_postlock.py} & HW-P1 execution lock, receipts, locked artifacts, and corrected analysis \\
+\texttt{python tools/check\_hwp1\_postlock.py} & HW-P1 execution lock, receipts, locked artifacts, and corrected analysis \\
 \texttt{python tools/check\_rc\_semantics.py} & 64 RC label--angle equivalence cases \\
 \texttt{python tools/check\_pamp\_semantics.py} & 729 P-amp circuit cases against the phase model \\
 \texttt{python tools/check\_library.py} & literature library structure \\
