@@ -64,3 +64,7 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 2. ~~Verify the exact Chow rule attribution and Tsybakov lemma numbering.~~
    Done 2026-11-23; see `docs/literature/notes/chow_tsybakov_verification.md`.
 3. Use lock template v2 for any new study.
+4. IBM hardware follow-up HW-P1: protocol draft in
+   [`../../followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md`](../../followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md);
+   awaiting owner decisions (§9 there). Nothing has been executed. It is a new
+   study and cannot change any verdict here.
