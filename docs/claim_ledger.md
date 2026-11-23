@@ -69,7 +69,7 @@ the project; nothing here is third-party validated.
 
 | ID | Statement | Kind | Evidence | Scope / limitations | Source |
 |---|---|---|---|---|---|
-| D1 | HW-P1 Stage A passed its validity checks and met the locked P-amp precision threshold at all five deterministically injected points on `ibm_marrakesh`. | finding | IBM hardware-derived counts, 8 blocks | One backend, one physical pair, one calibration period; injected compiled-angle perturbations only. Repeatability is not accuracy or correction benefit. | `followup/ibm-hardware-pilot/RESULTS.md` |
+| D1 | HW-P1 Stage A passed its validity checks. The P-amp precision at the frozen budget (SD of one 2430-shot estimate) was inconclusive against the threshold 0.0071429 at all five injected points on `ibm_marrakesh`; pooled within-point SD 0.00769, joint block-bootstrap 95% interval [0.00523, 0.00845]. The locked script's five "meets" labels are retracted (HWP1-E001: it divided by an extra sqrt(8)). | finding (corrected post-lock) | IBM hardware-derived counts, 8 blocks | One backend, one physical pair, one calibration period; injected compiled-angle perturbations only. Eight blocks give coarse intervals. Precision is not accuracy or correction benefit. | `followup/ibm-hardware-pilot/RESULTS.md`, `errata/HWP1-E001_precision_estimand.md` |
 | D2 | The zero-injection estimate had bias -0.01283 with 95% interval [-0.01661, -0.00863], triggering the locked bias flag. | finding / boundary | same | The pilot does not identify the physical cause of the offset. | same |
 | D3 | Effective visibility was 0.9475--0.9574, below the synthetic resource-condition value 0.99263. | finding / boundary | same | The frozen condition is sufficient within its model; this comparison does not transfer a Gate 1B verdict to hardware. | same |
 
@@ -87,6 +87,8 @@ the project; nothing here is third-party validated.
 | "First", or any priority claim | The MT7.4 audit is a scoped search, not a systematic review (novelty draft). |
 | That `B_hat` guarantees a decision-flip bound | Only the population bound A7 is proved. |
 | "HW-P1 validates the method/policy on hardware" | HW-P1 tested sensor precision under known injected error, found a material zero-injection bias, and ran no decision policy. |
+| "HW-P1 met (or showed) the P-amp precision threshold on hardware" | Retracted by HWP1-E001; the corrected single-estimate precision is inconclusive at every point and pooled. |
+| "HW-P1 was preregistered" | Internal lock only; approval was recorded after execution (`OWNER_APPROVAL_POSTHOC.md`). |
 | "IBM hardware naturally has the modeled multiplicative over-rotation" | The error was injected into compiled angles; native `RZ` is not the studied physical carrier. |
 
 ## F. Hypotheses and possible explanations (not findings)
@@ -96,3 +98,4 @@ the project; nothing here is third-party validated.
 | E-1 | Labels can support a deployable test of `phi != 0` (licensing abstention) without supporting an estimate (licensing correction). | hypothesis; the testability part is not formally derived |
 | E-2 | The Gate 3 null arises because always-correct is already near-optimal in this synthetic model (policy-lock losses: C-always 0.0079 vs issue-only 0.029), leaving almost no room for a policy. | possible explanation |
 | E-3 | Under visibility loss, P-amp's 0.7% margin would be lost and Gate 1B would fail. | hypothesis (untested) |
+| E-4 | The HW-P1 zero-injection `epsilon` offset and the common `phi` offset (+0.0075 to +0.0094) arise from a native coherent phase on physical pair 53/54, for example CZ or ZZ interactions. | possible cause / hypothesis (untested by HW-P1) |

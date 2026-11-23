@@ -13,7 +13,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 | Frozen gate results and their corrections | [docs/results/](docs/results/project_status.md), [errata E001–E009](docs/errata/README.md) |
 | How rigorous the record is | [rigor review, 2026-11-23](docs/audits/rigor_review_2026-11-23.md) |
 | How to reproduce the checks | [docs/reproducibility.md](docs/reproducibility.md) and the commands at the end of this file |
-| The IBM hardware follow-up (separate locked study) | [hardware results](followup/ibm-hardware-pilot/RESULTS.md), [protocol](followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md), and [artifact lock](docs/freeze/hwp1_stage_a_lock_v2.json) |
+| The IBM hardware follow-up (separate locked study) | [hardware results](followup/ibm-hardware-pilot/RESULTS.md), [erratum HWP1-E001](followup/ibm-hardware-pilot/errata/HWP1-E001_precision_estimand.md), [protocol](followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md), and [artifact lock](docs/freeze/hwp1_stage_a_lock_v2.json) |
 
 ## North-star question
 
@@ -21,7 +21,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 
 ## Current status
 
-**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 formal PASS (not evidence of useful benefit selection) → Gate 3 FAIL → stop after M6.** MT7 synthesis is complete. A later, separately locked IBM hardware pilot found that P-amp met its precision threshold but had a material zero-injection bias; it did not test or validate the adaptive policy. The method is not claimed to work.
+**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 formal PASS (not evidence of useful benefit selection) → Gate 3 FAIL → stop after M6.** MT7 synthesis is complete. A later, separately locked IBM hardware pilot (HW-P1 Stage A) found P-amp's single-estimate precision inconclusive against its threshold (pooled SD 0.00769 vs 0.0071429; the locked script's "meets" labels were retracted in erratum HWP1-E001) and a material zero-injection bias; it did not test or validate the adaptive policy. The method is not claimed to work.
 
 - Current status and supported claims: [docs/results/project_status.md](docs/results/project_status.md). The status tables inside the M3-locked plan files are frozen at M3 and stale.
 - Post-lock audit: [docs/audits/m2_m6_post_lock_audit.md](docs/audits/m2_m6_post_lock_audit.md).
@@ -58,5 +58,6 @@ python tools/check_rc_semantics.py
 python tools/check_pamp_semantics.py
 python tools/check_library.py
 python tools/check_archive_manifest.py
+python tools/check_hwp1_postlock.py      # HW-P1 locked artifacts and the post-lock correction
 python tools/build_technical_report.py   # compiles the paper; needs a TeX distribution
 ```

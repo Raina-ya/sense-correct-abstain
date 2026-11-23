@@ -31,6 +31,8 @@ jobs:
         run: python tools/check_errata_artifacts.py
       - name: Archive manifest
         run: python tools/check_archive_manifest.py
+      - name: HW-P1 locked artifacts and post-lock correction
+        run: python tools/check_hwp1_postlock.py
       - name: RC and P-amp semantics
         run: |
           python tools/check_rc_semantics.py

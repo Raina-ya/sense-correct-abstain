@@ -66,9 +66,13 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 4. IBM hardware follow-up HW-P1 Stage A is complete as a separate study; see
    [`RESULTS.md`](../../followup/ibm-hardware-pilot/RESULTS.md). Eight blocks
    ran on `ibm_marrakesh` under a v2 protocol lock, using 56 QPU-charge seconds.
-   The sensor met the locked precision threshold at all five injected points,
-   but zero injection had a flagged bias of -0.01283 and visibility was only
-   0.9475--0.9574. This is hardware evidence for repeatability under injected
+   Single-estimate P-amp precision was inconclusive against the threshold at
+   all five injected points (pooled SD 0.00769 vs 0.0071429); the locked
+   script's "meets" labels were retracted by erratum
+   [`HWP1-E001`](../../followup/ibm-hardware-pilot/errata/HWP1-E001_precision_estimand.md).
+   Zero injection had a flagged bias of -0.01283 and visibility was only
+   0.9475--0.9574. Approval was recorded after execution; HW-P1 is not
+   preregistered. This is hardware evidence about sensing under injected
    error, not evidence that the hardware naturally has the modeled error or
    that sensing, correction, or the three-action policy is operationally
    useful. It does not change any frozen verdict above.

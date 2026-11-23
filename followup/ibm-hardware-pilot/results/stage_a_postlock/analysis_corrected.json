@@ -1,0 +1,179 @@
+{
+  "bootstrap": "percentile; resample the 8 blocks with replacement; pooled uses the same block indices for all points",
+  "bootstrap_replicates": 10000,
+  "caveat": "Eight blocks give coarse SD intervals; percentile intervals for an SD from n=8 tend to be too narrow and biased low.",
+  "cross_check_max_abs_diff_vs_locked_block_estimates": 2.0816681711721685e-17,
+  "erratum": "followup/ibm-hardware-pilot/errata/HWP1-E001_precision_estimand.md",
+  "estimand": "SD of a single 2430-shot epsilon estimate (protocol section 5, estimand 1)",
+  "inputs": {
+    "locked_output": "followup/ibm-hardware-pilot/results/stage_a/analysis_primary.json",
+    "raw_results": "followup/ibm-hardware-pilot/results/stage_a/block_0[0-7]_result.json"
+  },
+  "numpy_version": "2.2.6",
+  "points": {
+    "+0.000,+0.000": {
+      "bias_from_locked_output": {
+        "bias_flag": true,
+        "epsilon_bias": -0.012829360335177668,
+        "epsilon_bias_95_interval": [
+          -0.016610705987600505,
+          -0.00862571178919435
+        ],
+        "phi_bias": 0.009129843955889306
+      },
+      "corrected_label": "inconclusive",
+      "epsilon_hat_by_block": [
+        -0.012591832345705701,
+        -0.015667294165301673,
+        -0.01418046202987407,
+        -0.008591887594392101,
+        -0.010012847463055691,
+        -0.022118121029656712,
+        -0.0018014849772079252,
+        -0.01767095307622748
+      ],
+      "locked_value_was_se_of_8_block_mean": 0.002184199813299922,
+      "retracted_locked_label": "meets",
+      "sd_95_interval": [
+        0.0026351764208210867,
+        0.008152899042406209
+      ],
+      "sd_single_2430_shot_estimate": 0.006177849997803065,
+      "visibility_mean_from_locked_output": 0.9549473742925124
+    },
+    "+0.020,+0.000": {
+      "bias_from_locked_output": {
+        "bias_flag": false,
+        "epsilon_bias": -0.003421135756925476,
+        "epsilon_bias_95_interval": [
+          -0.006901909944120889,
+          0.0006336677369683623
+        ],
+        "phi_bias": 0.007593401818273388
+      },
+      "corrected_label": "inconclusive",
+      "epsilon_hat_by_block": [
+        0.011600044290666682,
+        0.025740632603468275,
+        0.01654450138672596,
+        0.012009639539350947,
+        0.015656987820012316,
+        0.010185156382765964,
+        0.02491018410183609,
+        0.015983767819769998
+      ],
+      "locked_value_was_se_of_8_block_mean": 0.0020749355820096076,
+      "retracted_locked_label": "meets",
+      "sd_95_interval": [
+        0.0022651700322141935,
+        0.00720831564174741
+      ],
+      "sd_single_2430_shot_estimate": 0.005868804082256998,
+      "visibility_mean_from_locked_output": 0.9550878588894438
+    },
+    "+0.040,+0.010": {
+      "bias_from_locked_output": {
+        "bias_flag": false,
+        "epsilon_bias": -0.007790579459300624,
+        "epsilon_bias_95_interval": [
+          -0.012635546997763262,
+          -0.002915799291844122
+        ],
+        "phi_bias": 0.0074824073193228615
+      },
+      "corrected_label": "inconclusive",
+      "epsilon_hat_by_block": [
+        0.0328545127112108,
+        0.028748532689583113,
+        0.043267782929846545,
+        0.041174097124640326,
+        0.028111065280431273,
+        0.0191649121830208,
+        0.03445897668491867,
+        0.02989548472194343
+      ],
+      "locked_value_was_se_of_8_block_mean": 0.0027137783675001293,
+      "retracted_locked_label": "meets",
+      "sd_95_interval": [
+        0.003118005576057441,
+        0.010123870706324777
+      ],
+      "sd_single_2430_shot_estimate": 0.0076757243451867985,
+      "visibility_mean_from_locked_output": 0.9574088060763628
+    },
+    "-0.020,+0.000": {
+      "bias_from_locked_output": {
+        "bias_flag": false,
+        "epsilon_bias": -0.0009952974108419985,
+        "epsilon_bias_95_interval": [
+          -0.00486842692773911,
+          0.0018991543917439256
+        ],
+        "phi_bias": 0.008561671105294598
+      },
+      "corrected_label": "inconclusive",
+      "epsilon_hat_by_block": [
+        -0.01690746415261774,
+        -0.03239923673027135,
+        -0.021551314856333412,
+        -0.01763430862321751,
+        -0.017136905044686637,
+        -0.018830221423452653,
+        -0.02460270632112764,
+        -0.018900222135029055
+      ],
+      "locked_value_was_se_of_8_block_mean": 0.001867690987165542,
+      "retracted_locked_label": "meets",
+      "sd_95_interval": [
+        0.0012939322400442946,
+        0.007227856588515649
+      ],
+      "sd_single_2430_shot_estimate": 0.005282627848743008,
+      "visibility_mean_from_locked_output": 0.9510387057178739
+    },
+    "-0.040,-0.010": {
+      "bias_from_locked_output": {
+        "bias_flag": false,
+        "epsilon_bias": -0.005999122684377002,
+        "epsilon_bias_95_interval": [
+          -0.013770616234320722,
+          0.0011111335566995964
+        ],
+        "phi_bias": 0.00939158313574865
+      },
+      "corrected_label": "inconclusive",
+      "epsilon_hat_by_block": [
+        -0.03658869063911502,
+        -0.03473285275282944,
+        -0.03317452815032487,
+        -0.043485396119635034,
+        -0.06582175500391307,
+        -0.056525980119775464,
+        -0.05366173710096368,
+        -0.044002041588459426
+      ],
+      "locked_value_was_se_of_8_block_mean": 0.004124685242960512,
+      "retracted_locked_label": "meets",
+      "sd_95_interval": [
+        0.005719223781920059,
+        0.01455764249553911
+      ],
+      "sd_single_2430_shot_estimate": 0.011666371622229846,
+      "visibility_mean_from_locked_output": 0.9475239540218993
+    }
+  },
+  "pooled_within_point_sd": {
+    "corrected_label": "inconclusive",
+    "degrees_of_freedom": 35,
+    "joint_bootstrap_95_interval": [
+      0.005228534904698986,
+      0.008448526007669441
+    ],
+    "ratio_to_threshold": 1.07633011315501,
+    "value": 0.007688118365254922
+  },
+  "seeds": "SHA256('hwp1|postlock|' + key)[:4], big-endian",
+  "status": "POST-LOCK corrected analysis (erratum HWP1-E001); specified after the data were seen",
+  "study": "HW-P1 Stage A",
+  "threshold": 0.0071429
+}

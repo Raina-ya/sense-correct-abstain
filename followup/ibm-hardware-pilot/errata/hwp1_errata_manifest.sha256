@@ -1,0 +1,8 @@
+# HW-P1 append-only errata manifest v1 (2026-11-23). SHA-256 after CRLF->LF.
+# Covers erratum HWP1-E001, the post-hoc approval record, and the post-lock corrected analysis.
+# Locked HW-P1 files and artifacts are covered by docs/freeze/hwp1_stage_a_lock_v2.json and are not re-hashed here.
+263fef8619f77dd7bdb4e663028f02886fcd5af4ffd22b6d7182887d6aa39114  followup/ibm-hardware-pilot/errata/HWP1-E001_precision_estimand.md
+757c113a16e3335b03944881b1140ca18640b20a482dccad47fdc5aceb1200ed  followup/ibm-hardware-pilot/OWNER_APPROVAL_POSTHOC.md
+f40af188a248b071d29d91ca4e0e188e1bc7b06a2ed9e30f97a1ee7087c2b9b4  followup/ibm-hardware-pilot/analyze_stage_a_postlock.py
+8504f8956816ae82d02c7ec5610cc1eded2954010e18e1bf2e53b874972c1631  followup/ibm-hardware-pilot/results/stage_a_postlock/analysis_corrected.json
+8551f74535421c185f6b756967a7beb5bda1ead0c6d23ef9d656571599170e7c  tools/check_hwp1_postlock.py
