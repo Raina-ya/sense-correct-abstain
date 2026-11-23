@@ -3,7 +3,25 @@
     "python",
     "followup/ibm-hardware-pilot/analyze_stage_a.py"
   ],
-  "artifacts": {},
+  "artifacts": {
+    "followup/ibm-hardware-pilot/results/stage_a/analysis_primary.json": "101121514223c204c49ec2eba76df7d4ebdb47501dda171c9247f9afb4822f2b",
+    "followup/ibm-hardware-pilot/results/stage_a/block_00_result.json": "2dbb9f7b90338f558ad4ccea824e20132adc7fa973ea9cf2ec2b93e9ce7716a8",
+    "followup/ibm-hardware-pilot/results/stage_a/block_00_submission.json": "20685a2ff43428b7c763a753e769f3c48e2b9abf8268b19c5f8cf253b4d8ca33",
+    "followup/ibm-hardware-pilot/results/stage_a/block_01_result.json": "3a6081a4f0df205920aa7c9f7f7f2e881ce62c268a15329c8131b11676be1eb9",
+    "followup/ibm-hardware-pilot/results/stage_a/block_01_submission.json": "2cc15e0be2ab76c3644ac99d23ab76a2d6d0af2b915cc4b2445703a537fadd58",
+    "followup/ibm-hardware-pilot/results/stage_a/block_02_result.json": "892391114c789a1b0dacf58da6e091861f8ec74d30f9f5ea4e99ec6e024e71e7",
+    "followup/ibm-hardware-pilot/results/stage_a/block_02_submission.json": "fd0e8846e11c490e6013b6db2fb66bfe89433b806ac24848450a64818150ce24",
+    "followup/ibm-hardware-pilot/results/stage_a/block_03_result.json": "d8aff6d0ed32f583dafdf7ac3d3da9c33e6a598b495659698b21beeacc0cb327",
+    "followup/ibm-hardware-pilot/results/stage_a/block_03_submission.json": "55ef1856f2ab32c6757494213865c7f79731d3c91f2cbd2d669229fb90f700ef",
+    "followup/ibm-hardware-pilot/results/stage_a/block_04_result.json": "2ddb3a065a8a9055becd6d8cfce08be4c08843dd474cd121c425e22b02c55e7c",
+    "followup/ibm-hardware-pilot/results/stage_a/block_04_submission.json": "6df0d1157f4dd55e6125523cdb316aade806592becf34d751088d2fc8c9becda",
+    "followup/ibm-hardware-pilot/results/stage_a/block_05_result.json": "a56c3b23589fff97e707319d868c51b1fb95f386332dbd2c3e285db6fb318876",
+    "followup/ibm-hardware-pilot/results/stage_a/block_05_submission.json": "66deb637afcb650db63da2e5cab9a23510d7741ddecdd6bdfcc3c914c09afa04",
+    "followup/ibm-hardware-pilot/results/stage_a/block_06_result.json": "e18f48c6a37c555485dad15134bdde8bfc71b4eb2948a6ace771cbf8dbc278fe",
+    "followup/ibm-hardware-pilot/results/stage_a/block_06_submission.json": "38be09a8c46da0007f89261e20901bd2a103f9d99f0d46666765877521104d01",
+    "followup/ibm-hardware-pilot/results/stage_a/block_07_result.json": "b9d4a30c31a5bd97e5aa53f0af2a832efbacd7192727f0ea4e67b69ebafcb43f",
+    "followup/ibm-hardware-pilot/results/stage_a/block_07_submission.json": "bcf999427488e043212ef422ba7c5981f7c98ae9953b32598f73e8d0e33242c1"
+  },
   "code_files": {
     "followup/ibm-hardware-pilot/analyze_stage_a.py": "e9323e07d48a46201f9450c22b0fa43640eb8d9adb82042c2a8cb6b690ac120f",
     "followup/ibm-hardware-pilot/cloud_preflight.py": "25a091b5f81e7ef6f56a8715acbb599b0c3cf2e3320e297546c1b513449b7bbd",

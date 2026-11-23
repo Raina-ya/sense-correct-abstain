@@ -1,7 +1,7 @@
 # sense-correct-abstain
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24443391.svg)](https://doi.org/10.5281/zenodo.24443391)
 
-Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests whether randomized compiling labels can identify multiplicative over-rotation and guide no action, recalibration, or abstention, while deriving limits on when no probe can choose reliably. Simulation-first; hardware only as a registered addendum.
+Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests whether randomized compiling labels can identify multiplicative over-rotation and guide no action, recalibration, or abstention, while deriving limits on when no probe can choose reliably. The frozen study is analytic and simulation-based; a separately locked IBM hardware follow-up is reported as an addendum.
 
 ## Where to start
 
@@ -13,7 +13,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 | Frozen gate results and their corrections | [docs/results/](docs/results/project_status.md), [errata E001–E009](docs/errata/README.md) |
 | How rigorous the record is | [rigor review, 2026-11-23](docs/audits/rigor_review_2026-11-23.md) |
 | How to reproduce the checks | [docs/reproducibility.md](docs/reproducibility.md) and the commands at the end of this file |
-| The planned IBM hardware follow-up (separate study; local preflight only, not executed) | [protocol](followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md), [pre-execution status](followup/ibm-hardware-pilot/PRE_EXECUTION_STATUS.md), and [owner actions](followup/ibm-hardware-pilot/USER_ACTIONS.md) |
+| The IBM hardware follow-up (separate locked study) | [hardware results](followup/ibm-hardware-pilot/RESULTS.md), [protocol](followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md), and [artifact lock](docs/freeze/hwp1_stage_a_lock_v2.json) |
 
 ## North-star question
 
@@ -21,7 +21,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 
 ## Current status
 
-**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 formal PASS (not evidence of useful benefit selection) → Gate 3 FAIL → stop after M6.** MT7 synthesis is complete. Lemma S1′ and Lemma B are owner-reviewed (E007), and the Chow/Tsybakov attributions were verified on 2026-11-23. The method is not claimed to work. No confirmatory registration or holdout is authorized, and no hardware execution has been run or authorized. All evidence is analytic or synthetic simulation.
+**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 formal PASS (not evidence of useful benefit selection) → Gate 3 FAIL → stop after M6.** MT7 synthesis is complete. A later, separately locked IBM hardware pilot found that P-amp met its precision threshold but had a material zero-injection bias; it did not test or validate the adaptive policy. The method is not claimed to work.
 
 - Current status and supported claims: [docs/results/project_status.md](docs/results/project_status.md). The status tables inside the M3-locked plan files are frozen at M3 and stale.
 - Post-lock audit: [docs/audits/m2_m6_post_lock_audit.md](docs/audits/m2_m6_post_lock_audit.md).

@@ -7,8 +7,8 @@ the latest one listed takes precedence (E009 for S1″; E008 for the theory-note
 
 **Evidence types** (contract §2): analytic; noiseless simulation; noisy
 simulation (here: **shot-noise-only** synthetic simulation with coherent E2;
-no decoherence or visibility loss); device-parameter simulation (none);
-hardware (none).
+no decoherence or visibility loss); device-parameter simulation (none); and a
+separately locked IBM hardware follow-up (section D only).
 
 **Statement kinds:** finding; hypothesis; possible explanation; boundary
 (a negative or limiting result).
@@ -19,7 +19,8 @@ hardware (none).
 - the frozen 2–6 qubit, `p = 1` QAOA MaxCut populations and grids; and
 - `N = 24,300` shots per unit.
 
-No row is a hardware claim. "Internal recomputation" means recomputation by
+Sections A--C contain no hardware claim. Section D is limited to HW-P1 and does
+not revise the frozen study. "Internal recomputation" means recomputation by
 the project; nothing here is third-party validated.
 
 ## A. Analytic results
@@ -64,7 +65,15 @@ the project; nothing here is third-party validated.
 | C3 | Analysis code was outside every lock, so code precedence over results cannot be shown for any gate. | boundary | repository history | Remedied for future work only (lock template v2). | E005 §1, E006 §7 |
 | C4 | The scoped MT7.4 audit found adjacent prior art for every component (RPE sensing, CDR references, PST/KIK mitigation, reject rules, and decision-aware QEM), but no searched source combining the full frozen pipeline. | boundary, not priority | primary-source records and publisher/full-text pages | Not a systematic review; cannot support “first” or an absence claim. | `docs/literature/novelty_claim_draft.md` |
 
-## D. Statements that must NOT be made
+## D. Separately locked hardware follow-up
+
+| ID | Statement | Kind | Evidence | Scope / limitations | Source |
+|---|---|---|---|---|---|
+| D1 | HW-P1 Stage A passed its validity checks and met the locked P-amp precision threshold at all five deterministically injected points on `ibm_marrakesh`. | finding | IBM hardware-derived counts, 8 blocks | One backend, one physical pair, one calibration period; injected compiled-angle perturbations only. Repeatability is not accuracy or correction benefit. | `followup/ibm-hardware-pilot/RESULTS.md` |
+| D2 | The zero-injection estimate had bias -0.01283 with 95% interval [-0.01661, -0.00863], triggering the locked bias flag. | finding / boundary | same | The pilot does not identify the physical cause of the offset. | same |
+| D3 | Effective visibility was 0.9475--0.9574, below the synthetic resource-condition value 0.99263. | finding / boundary | same | The frozen condition is sufficient within its model; this comparison does not transfer a Gate 1B verdict to hardware. | same |
+
+## E. Statements that must NOT be made
 
 | Not supported | Why |
 |---|---|
@@ -77,8 +86,10 @@ the project; nothing here is third-party validated.
 | "Preregistered" | No independent timestamp exists (D6). |
 | "First", or any priority claim | The MT7.4 audit is a scoped search, not a systematic review (novelty draft). |
 | That `B_hat` guarantees a decision-flip bound | Only the population bound A7 is proved. |
+| "HW-P1 validates the method/policy on hardware" | HW-P1 tested sensor precision under known injected error, found a material zero-injection bias, and ran no decision policy. |
+| "IBM hardware naturally has the modeled multiplicative over-rotation" | The error was injected into compiled angles; native `RZ` is not the studied physical carrier. |
 
-## E. Hypotheses and possible explanations (not findings)
+## F. Hypotheses and possible explanations (not findings)
 
 | ID | Statement | Kind |
 |---|---|---|

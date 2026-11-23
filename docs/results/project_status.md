@@ -1,8 +1,7 @@
 # Project status (authoritative, living document)
 
-**Updated:** 2026-11-23, after the audit of `9201ba9` (E006), the MT7
-synthesis, and the owner reviews of Lemma S1′ and Lemma B (E007), of A4–A6
-(E008), and of S1″ (E009). No draft proof remains open.
+**Updated:** 2026-11-23, after MT7 and the separately locked HW-P1 Stage A
+hardware follow-up. No draft proof remains open.
 
 This is a **living document** (E006 §6). Its `9201ba9` snapshot is hash-checked
 against git history; this working copy may change. The status tables inside
@@ -64,11 +63,12 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 2. ~~Verify the exact Chow rule attribution and Tsybakov lemma numbering.~~
    Done 2026-11-23; see `docs/literature/notes/chow_tsybakov_verification.md`.
 3. Use lock template v2 for any new study.
-4. IBM hardware follow-up HW-P1: protocol draft in
-   [`../../followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md`](../../followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md);
-   local circuit, Statevector, deterministic sampled-pipeline, and usage-ledger
-   checks are recorded in
-   [`PRE_EXECUTION_STATUS.md`](../../followup/ibm-hardware-pilot/PRE_EXECUTION_STATUS.md).
-   Cloud/backend checks, the v2 lock, and owner approval remain pending. No
-   hardware job has been executed. It is a new study and cannot change any
-   verdict here.
+4. IBM hardware follow-up HW-P1 Stage A is complete as a separate study; see
+   [`RESULTS.md`](../../followup/ibm-hardware-pilot/RESULTS.md). Eight blocks
+   ran on `ibm_marrakesh` under a v2 protocol lock, using 56 QPU-charge seconds.
+   The sensor met the locked precision threshold at all five injected points,
+   but zero injection had a flagged bias of -0.01283 and visibility was only
+   0.9475--0.9574. This is hardware evidence for repeatability under injected
+   error, not evidence that the hardware naturally has the modeled error or
+   that sensing, correction, or the three-action policy is operationally
+   useful. It does not change any frozen verdict above.
