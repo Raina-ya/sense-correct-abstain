@@ -9,12 +9,12 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 
 ## Current status
 
-**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 formal PASS (not evidence of useful benefit selection) → Gate 3 FAIL → stop after M6.** MT7 synthesis is complete. Lemma S1′ and Lemma B are owner-reviewed (E007); two citation attributions remain explicitly open. The method is not claimed to work. No confirmatory registration or holdout is authorized, and no hardware execution has been run or authorized. All evidence is analytic or synthetic simulation.
+**Route completed: Gate 1A FAIL → Gate 1B PASS (P-amp) → Gate 2 formal PASS (not evidence of useful benefit selection) → Gate 3 FAIL → stop after M6.** MT7 synthesis is complete. Lemma S1′ and Lemma B are owner-reviewed (E007), and the Chow/Tsybakov attributions were verified on 2026-11-23. The method is not claimed to work. No confirmatory registration or holdout is authorized, and no hardware execution has been run or authorized. All evidence is analytic or synthetic simulation.
 
 - Current status and supported claims: [docs/results/project_status.md](docs/results/project_status.md). The status tables inside the M3-locked plan files are frozen at M3 and stale.
 - Post-lock audit: [docs/audits/m2_m6_post_lock_audit.md](docs/audits/m2_m6_post_lock_audit.md).
 - **Errata E001–E009:** [docs/errata/](docs/errata/README.md), [E006](docs/errata/E006_audit_of_9201ba9.md) (governs over E001 and E003 where it narrows or corrects them), and [E007](docs/errata/E007_owner_review_lemmas.md) (owner review of Lemma S1′ and Lemma B; governs over E006 §2–§3; rigorous proofs in [docs/theory/S1prime_B_rigorous.pdf](docs/theory/S1prime_B_rigorous.pdf)), and [E008](docs/errata/E008_owner_review_A4_A6.md) (owner review of A4–A6; Example E1 corrected; proofs in [docs/theory/A4_A6_rigorous.pdf](docs/theory/A4_A6_rigorous.pdf)), and [E009](docs/errata/E009_owner_review_S1doubleprime.md) (owner review of S1″; proofs in [docs/theory/S1doubleprime_rigorous.pdf](docs/theory/S1doubleprime_rigorous.pdf); no draft proof remains open). They correct the frozen Gate 1A–4 records without editing any frozen file. Read them before citing any gate report.
-- **MT7 synthesis:** [claim ledger](docs/claim_ledger.md), [technical report](paper/technical_report_v1.md), [reproducibility package](docs/reproducibility.md), and the MT7.4 audit in [novelty boundaries](docs/literature/novelty_claim_draft.md). Future locks follow [lock template v2](docs/protocols/lock_template_v2.md).
+- **MT7 synthesis:** [claim ledger](docs/claim_ledger.md), technical report ([Markdown](paper/technical_report_v1.md), [LaTeX](paper/technical_report_v1.tex), [PDF](paper/technical_report_v1.pdf)), [reproducibility package](docs/reproducibility.md), and the MT7.4 audit in [novelty boundaries](docs/literature/novelty_claim_draft.md). Future locks follow [lock template v2](docs/protocols/lock_template_v2.md).
 
 Main documents:
 

@@ -1,6 +1,6 @@
 # Project status (authoritative, living document)
 
-**Updated:** 2026-11-21, after the audit of `9201ba9` (E006), the MT7
+**Updated:** 2026-11-23, after the audit of `9201ba9` (E006), the MT7
 synthesis, and the owner reviews of Lemma S1′ and Lemma B (E007), of A4–A6
 (E008), and of S1″ (E009). No draft proof remains open.
 
@@ -36,7 +36,8 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 
 - Claim ledger: [`../claim_ledger.md`](../claim_ledger.md). It lists what may
   and may not be claimed.
-- Technical report draft: [`../../paper/technical_report_v1.md`](../../paper/technical_report_v1.md)
+- Final technical report: [`../../paper/technical_report_v1.md`](../../paper/technical_report_v1.md)
+  ([LaTeX](../../paper/technical_report_v1.tex), [PDF](../../paper/technical_report_v1.pdf))
 - Reproducibility package: [`../reproducibility.md`](../reproducibility.md)
 - Citation and novelty audit:
   [`../literature/novelty_claim_draft.md`](../literature/novelty_claim_draft.md),
