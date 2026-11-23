@@ -22,6 +22,13 @@ repository commits may improve discovery or documentation, but they do not
 alter that archived version. Scientific claims remain governed by the frozen
 records and append-only errata inside the snapshot.
 
+**Archive verification (2026-11-23, internal).** The Zenodo ZIP was
+downloaded from the record and compared with commit `66feb06`: its SHA-256
+and MD5 match the record; its 119 files map one-to-one to the 119 tracked
+files of the commit; 114 differ only in line endings (CRLF in the ZIP), and
+5 are byte-identical. The ZIP comment is the full commit id. This is a check
+by the project, not third-party validation.
+
 ## 1. Environment record of the frozen artifacts
 
 | Artifact | Producer | Python | Platform | NumPy | Other packages |

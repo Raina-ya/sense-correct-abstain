@@ -36,8 +36,11 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 
 - Claim ledger: [`../claim_ledger.md`](../claim_ledger.md). It lists what may
   and may not be claimed.
-- Final technical report: [`../../paper/technical_report_v1.md`](../../paper/technical_report_v1.md)
-  ([LaTeX](../../paper/technical_report_v1.tex), [PDF](../../paper/technical_report_v1.pdf))
+- Research paper: [`../../paper/technical_report_v1.tex`](../../paper/technical_report_v1.tex)
+  (authoritative source; [PDF](../../paper/technical_report_v1.pdf)). Expanded on 2026-11-23 from the
+  short MT7 report after a full rigor review
+  ([`../audits/rigor_review_2026-11-23.md`](../audits/rigor_review_2026-11-23.md)); no verdict,
+  endpoint, comparator, or stopping rule changed.
 - Reproducibility package: [`../reproducibility.md`](../reproducibility.md)
 - Citation and novelty audit:
   [`../literature/novelty_claim_draft.md`](../literature/novelty_claim_draft.md),

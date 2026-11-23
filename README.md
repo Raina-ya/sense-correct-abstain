@@ -3,6 +3,17 @@
 
 Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests whether randomized compiling labels can identify multiplicative over-rotation and guide no action, recalibration, or abstention, while deriving limits on when no probe can choose reliably. Simulation-first; hardware only as a registered addendum.
 
+## Where to start
+
+| If you want | Read |
+|---|---|
+| The paper (theory, design, results, failure analysis, full proofs in the appendices) | [paper/technical_report_v1.pdf](paper/technical_report_v1.pdf), source [technical_report_v1.tex](paper/technical_report_v1.tex) |
+| What may and may not be claimed | [docs/claim_ledger.md](docs/claim_ledger.md) |
+| Owner-reviewed proofs | [S1′ and Lemma B](docs/theory/S1prime_B_rigorous.pdf), [A4–A6](docs/theory/A4_A6_rigorous.pdf), [S1″](docs/theory/S1doubleprime_rigorous.pdf), [review trail](docs/theory/REVIEW_TRAIL.md) |
+| Frozen gate results and their corrections | [docs/results/](docs/results/project_status.md), [errata E001–E009](docs/errata/README.md) |
+| How rigorous the record is | [rigor review, 2026-11-23](docs/audits/rigor_review_2026-11-23.md) |
+| How to reproduce the checks | [docs/reproducibility.md](docs/reproducibility.md) and the commands at the end of this file |
+
 ## North-star question
 
 > Under a fixed quantum-execution budget, when is runtime evidence sufficient to decide whether to trust, correct, or withhold a quantum decision?
@@ -14,7 +25,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 - Current status and supported claims: [docs/results/project_status.md](docs/results/project_status.md). The status tables inside the M3-locked plan files are frozen at M3 and stale.
 - Post-lock audit: [docs/audits/m2_m6_post_lock_audit.md](docs/audits/m2_m6_post_lock_audit.md).
 - **Errata E001–E009:** [docs/errata/](docs/errata/README.md), [E006](docs/errata/E006_audit_of_9201ba9.md) (governs over E001 and E003 where it narrows or corrects them), and [E007](docs/errata/E007_owner_review_lemmas.md) (owner review of Lemma S1′ and Lemma B; governs over E006 §2–§3; rigorous proofs in [docs/theory/S1prime_B_rigorous.pdf](docs/theory/S1prime_B_rigorous.pdf)), and [E008](docs/errata/E008_owner_review_A4_A6.md) (owner review of A4–A6; Example E1 corrected; proofs in [docs/theory/A4_A6_rigorous.pdf](docs/theory/A4_A6_rigorous.pdf)), and [E009](docs/errata/E009_owner_review_S1doubleprime.md) (owner review of S1″; proofs in [docs/theory/S1doubleprime_rigorous.pdf](docs/theory/S1doubleprime_rigorous.pdf); no draft proof remains open). They correct the frozen Gate 1A–4 records without editing any frozen file. Read them before citing any gate report.
-- **MT7 synthesis:** [claim ledger](docs/claim_ledger.md), technical report ([Markdown](paper/technical_report_v1.md), [LaTeX](paper/technical_report_v1.tex), [PDF](paper/technical_report_v1.pdf)), [reproducibility package](docs/reproducibility.md), and the MT7.4 audit in [novelty boundaries](docs/literature/novelty_claim_draft.md). Future locks follow [lock template v2](docs/protocols/lock_template_v2.md).
+- **MT7 synthesis:** [claim ledger](docs/claim_ledger.md), research paper ([PDF](paper/technical_report_v1.pdf), authoritative [LaTeX source](paper/technical_report_v1.tex)), [reproducibility package](docs/reproducibility.md), and the MT7.4 audit in [novelty boundaries](docs/literature/novelty_claim_draft.md). Future locks follow [lock template v2](docs/protocols/lock_template_v2.md).
 
 Main documents:
 
@@ -46,4 +57,5 @@ python tools/check_rc_semantics.py
 python tools/check_pamp_semantics.py
 python tools/check_library.py
 python tools/check_archive_manifest.py
+python tools/build_technical_report.py   # compiles the paper; needs a TeX distribution
 ```

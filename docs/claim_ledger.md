@@ -1,7 +1,7 @@
 # Claim ledger (MT7, Subtask 7.1)
 
-**Status:** MT7 deliverable, 2026-11-21; A3, A7, and B1 updated after the owner review (E007); A4–A6 after the owner review (E008); S1″ after the owner review (E009). Every statement the technical report
-([`../paper/technical_report_v1.md`](../paper/technical_report_v1.md)) makes
+**Status:** MT7 deliverable, 2026-11-21; A3, A7, and B1 updated after the owner review (E007); A4–A6 after the owner review (E008); S1″ after the owner review (E009). Every statement the research paper
+([`../paper/technical_report_v1.tex`](../paper/technical_report_v1.tex), PDF alongside; expanded 2026-11-23 after the rigor review in `docs/audits/rigor_review_2026-11-23.md`) makes
 must appear here with its evidence type and scope. Where an erratum governs,
 the latest one listed takes precedence (E009 for S1″; E008 for the theory-note results; E007 over E006; E006 over E001 and E003).
 
@@ -32,7 +32,7 @@ the project; nothing here is third-party validated.
 | A4 | Three-action risk identity; reductions to the predecessor's Eq. (6) and to a Chow-type rule. | finding (**proved, owner-reviewed**) | analytic | Assumes stage 2 is a potential outcome independent of the policy's private randomization given `x` (used only in the C term); C2 needs a regular conditional probability. Chow's exact posterior-threshold form was verified against equations (2') and (4') of the published article. | `three_action_theory_v1.md`, E008, `docs/theory/A4_A6_rigorous.pdf`, `docs/literature/notes/chow_tsybakov_verification.md` |
 | A5 | Action-selection blindness lemma and finite-pilot two-point bound (Le Cam and Bretagnolle–Huber proved in the note); the wrong-action form holds for any pair of actions. | finding (**proved, owner-reviewed**) | analytic | Equal stage-1 laws include the metadata and `X_T0`, so L1 covers only states of the same unit. Example E1 had a gap (E008 §2). Tsybakov Lemmas 2.3 and 2.6 were checked; the proofs remain self-contained. | same; `docs/literature/notes/chow_tsybakov_verification.md` |
 | A6 | Information-free policies cannot have positive population `Delta_V` under the issue-only comparator (P2). | finding (**proved, owner-reviewed**) | analytic | Assumes the always-correct comparator exists whenever C is usable and uses the same correction procedure as the policy. Population level only; metadata-only policies are not covered (stratified comparators are an option for future studies, E008 §4). | same |
-| A7 | Lemma B: the E2 shift of the expected candidate gap satisfies `\|Delta g\| <= (\|epsilon\| A + \|phi\| M)/2`, globally and uniformly (constant 1/2, `l_1` perturbation norm, no remainder). | finding (**proved, owner-reviewed**; constant 1/2 sharp) | analytic; numerical check (max ratio 0.431) | Assumes single occurrence of each tagged angle and the noiseless synthetic error model. Expected gap only; says nothing about `B_hat` coverage or the sampled-gap rule. | E006 §3, E007, `docs/theory/S1prime_B_rigorous.pdf` |
+| A7 | Lemma B: the E2 shift of the expected candidate gap satisfies `\|Delta g\| <= (\|epsilon\| A + \|phi\| M)/2`, globally and uniformly (constant 1/2, `l_1` perturbation norm, no remainder). | finding (**proved, owner-reviewed**; constant 1/2 sharp) | analytic; numerical check (max ratio 0.431) | Assumes single occurrence of each tagged angle and the noiseless synthetic error model. Instance-dependent only through `A` and `M`; the first-order statement of E003 §6 is its linearisation. Expected gap only; says nothing about `B_hat` coverage or the sampled-gap rule. | E006 §3, E007, `docs/theory/S1prime_B_rigorous.pdf` |
 
 ## B. Gate results (frozen verdicts and their corrected bases)
 
@@ -75,7 +75,7 @@ the project; nothing here is third-party validated.
 | Any P-amp robustness, P-amp vs P2 superiority, or hardware transfer | B3 limitations; P2 nonevaluable at Gate 1 and structurally blind at Gate 2. |
 | "Validated", "independently reproduced", or "third-party verified" | Only internal recomputation exists (C1). |
 | "Preregistered" | No independent timestamp exists (D6). |
-| "First", or any priority claim | No systematic prior-art search has been completed (novelty draft, MT7.4 open). |
+| "First", or any priority claim | The MT7.4 audit is a scoped search, not a systematic review (novelty draft). |
 | That `B_hat` guarantees a decision-flip bound | Only the population bound A7 is proved. |
 
 ## E. Hypotheses and possible explanations (not findings)
