@@ -1,7 +1,7 @@
 # HW-P1 pre-execution status
 
-**Status:** local preparation complete; cloud/backend checks and owner approval
-pending; no hardware execution.
+**Status:** local and cloud preflight complete; lock generation and owner
+approval pending; no hardware execution.
 
 ## Passed locally
 
@@ -15,15 +15,24 @@ pending; no hardware execution.
 - The official quick usage formula gives 63.11 seconds (1.052 minutes), before
   contingency and before real-backend duration information.
 
+## Passed against live backend metadata (no QPU submission)
+
+- `ibm_fez` and `ibm_marrakesh` were operational Heron revision 2 backends.
+- All 90 unique P-amp circuits retained a two-qubit gate on both backends.
+- Both transpiled sets had depth 1--423.
+- `ibm_marrakesh` target 53/control 54 was selected: calibration-error score
+  `0.010394652277849997`, lower than Fez's `0.012429572224712998`.
+- The selected unique-circuit durations were 2.684--11.716 microseconds.
+
 ## Not passed or not attempted
 
 - Qiskit Aer noisy execution is not usable in the local Windows environment;
   even one representative noisy circuit exceeded the 120-second preflight
   limit. No fake-backend pass is claimed.
-- IBM Runtime import is blocked locally by Windows Smart App Control.
-- No IBM backend has been selected or queried.
-- No real-backend transpilation, dry-run service call, protocol lock, external
-  timestamp, or hardware submission has occurred.
+- IBM Runtime imports successfully in the owner's Python 3.14 environment;
+  Qiskit Aer remains blocked by Windows Smart App Control and is not required
+  for the cloud preflight or QPU runner.
+- No protocol lock, external timestamp, or hardware submission has occurred.
 
 The deterministic sampled report is a code-path test only and is not a
 scientific result of HW-P1.

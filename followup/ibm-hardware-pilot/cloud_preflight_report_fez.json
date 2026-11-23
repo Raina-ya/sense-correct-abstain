@@ -1,0 +1,42 @@
+{
+  "backend": "ibm_fez",
+  "depth": {
+    "max": 423,
+    "min": 1
+  },
+  "design_ledger": {
+    "blocks": 8,
+    "calibration_circuits": 32,
+    "calibration_shots": 32000,
+    "control_circuits": 40,
+    "control_shots": 5400,
+    "executions": 134600,
+    "pamp_circuits": 720,
+    "pamp_shots": 97200,
+    "quick_minutes": 1.0518333333333334,
+    "quick_seconds": 63.11
+  },
+  "duration_seconds": {
+    "available": true,
+    "unique_max": 9.13200000000001e-06,
+    "unique_min": 1.66e-06
+  },
+  "pamp_circuits_with_two_qubit_gate": 90,
+  "processor_type": {
+    "family": "Heron",
+    "revision": "2"
+  },
+  "seed_transpiler": 448289098,
+  "selected_physical_qubits": {
+    "control": 147,
+    "target": 137
+  },
+  "selection_score": 0.012429572224712998,
+  "shots": {
+    "calibration": 1000,
+    "pamp": 135
+  },
+  "status": "preflight only; no hardware job submitted",
+  "unique_circuits_transpiled": 99,
+  "use_fractional_gates": false
+}

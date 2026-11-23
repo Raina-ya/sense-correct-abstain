@@ -1,13 +1,15 @@
 # HW-P1: IBM Quantum hardware pilot — protocol draft
 
-**Status: DRAFT. Not locked, not approved, nothing executed.** This is a new
+**Status: LOCK CANDIDATE. Not owner-approved, not externally timestamped, and
+nothing executed.** This is a new
 study. It does not revise, rescue, validate, or confirm any verdict of the
 frozen sense-correct-abstain study (Gates 1A–4, errata E001–E009). Its results,
 whatever they are, will be reported as results of HW-P1 only.
 
 **Gate to execution (all required, in order):** (1) owner decisions in §9;
-(2) noiseless and fake-backend dry-runs of §6 pass; (3) circuit count and usage
-estimate recomputed from the transpiled circuits; (4) a protocol lock under
+(2) the noiseless/local pipeline checks and real-backend transpilation checks
+of §6 pass; (3) circuit count and usage estimate are recomputed from the
+transpiled circuits; (4) a protocol lock under
 `docs/protocols/lock_template_v2.md` that hashes this file, all code, the
 environment, seeds, and the exact command; (5) explicit written approval by the
 owner. No hardware job is submitted before step 5.
@@ -53,16 +55,16 @@ from calibration circuits). In the optional stage B, the correct candidate
 
 | Item | Proposal |
 |---|---|
-| Backend | One Heron-family QPU, chosen by the rules below, fixed for the whole stage. |
-| Qubits | 2 (P-amp control and target), fixed by `initial_layout`. |
+| Backend | `ibm_marrakesh` (Heron revision 2), fixed for the whole stage. |
+| Qubits | Target 53 and control 54, fixed by `initial_layout`. |
 | Selection rule | At lock time, from the calibration snapshot: among connected pairs, minimise `readout_error(control) + readout_error(target) + CZ_error(pair)`; exclude qubits flagged non-operational; record the full snapshot. |
 | Circuits | 9 P-amp circuits (6 repetition, 3 echo) x 2 measurement bases = 18 settings, as frozen; depth after transpilation recorded. |
 | Injected points | `(0,0)`, `(+0.02,0)`, `(-0.02,0)`, `(+0.04,+0.01)`, `(-0.04,-0.01)` (the Gate 3–4 grid). |
 | Shots | 135 per setting, 2430 per estimate (as frozen). |
 | Replication | 8 blocks; each block contains all 5 points in a seeded random order, plus 4 readout-calibration circuits (`00,01,10,11`, 1000 shots each) and one phase-insensitive control (P-amp measured in Z, 135 shots per point). |
-| Totals | 5 x 8 x 2430 = 97,200 P-amp shots; 32,000 calibration shots; 5,400 control shots; about 134,600 shots, about 800 circuit instances, 8 jobs (one per block) in batch mode. |
+| Totals | 5 x 8 x 2430 = 97,200 P-amp shots; 32,000 calibration shots; 5,400 control shots; 134,600 shots, 792 circuit instances, 8 jobs (one per block). |
 | Transpilation | `optimization_level=1`, fixed `seed_transpiler`, barriers around each P-amp block, no approximation; dynamical decoupling and twirling **off**; injected angles applied before transpilation. |
-| Primary analysis | Unmitigated counts. Secondary: readout-mitigated with the block's calibration matrix. Both reported. |
+| Primary analysis | Unmitigated counts. Calibration circuits are used for the validity check; readout mitigation is outside the locked primary analysis and cannot change its label. |
 
 ### Stage B — decision units (optional; separate approval after stage A)
 
@@ -88,11 +90,14 @@ of QPU time. The documented local estimate is
 | B | ~875,000 | ~12 | ~330 s (~5.5 min) | ~11 min |
 | A + B | | | ~6.6 min | ~13 min |
 
-The Open Plan allows up to 10 minutes of QPU time per rolling 28-day window,
+The Open Plan account and `open-instance` were confirmed during preflight. The
+plan allows up to 10 minutes of QPU time per rolling 28-day window,
 and dry-run jobs that report usage without charging it are available only on
 Flex, Premium and On-Prem plans. On an Open Plan, stage A fits comfortably;
-A + B with contingency does not fit one window. Set `max_execution_time` on
-every job to cap overruns. Queue time is not billed but affects drift.
+A + B with contingency does not fit one window. Stage A therefore sets
+`max_execution_time = 22` seconds on each of eight jobs, for a service-enforced
+aggregate ceiling of 176 QPU seconds. Queue time is not billed but affects
+drift.
 
 ## 5. Controls, criteria, and stopping
 
@@ -114,8 +119,10 @@ every job to cap overruns. Queue time is not billed but affects drift.
   than `0.0071429`. These labels describe HW-P1 only.
 - **Validity checks (any failure voids the stage, reported, not rerun silently):**
   transpiled circuits pass the ISA/structure check of §6; readout assignment
-  error on the chosen qubits below 5% in every block; the Z-basis control shows
-  no phase dependence beyond its shot noise.
+  error on each chosen qubit is below 5% in every block; the Z-basis control is
+  compared with zero injection using four two-proportion z tests with a
+  Bonferroni familywise level of 0.05 and shows no significant dependence on
+  the injected point.
 - **Stopping rule:** stop the stage and report if (a) the approved usage cap is
   reached; (b) the backend is recalibrated between blocks (record; restart only
   with new approval and a new snapshot); (c) a validity check fails; (d) stage A
@@ -137,10 +144,10 @@ every job to cap overruns. Queue time is not billed but affects drift.
    noisy simulation is deliberately omitted: it does not establish hardware
    behaviour and exceeded the practical local preflight budget. The real
    backend ISA and structure check remains mandatory after backend selection.
-   Qiskit Aer and IBM Runtime native extensions are blocked by Windows Smart
-   App Control on the development machine; this is recorded in
-   `ENVIRONMENT_NOTES.md` and must not be described as a passed fake-backend
-   check.
+   Qiskit Aer native extensions are blocked by Windows Smart App Control on the
+   development machine; IBM Runtime itself imports successfully. This is
+   recorded in `ENVIRONMENT_NOTES.md` and must not be described as a passed
+   fake-backend check.
 4. **Count and usage:** script that prints circuits, shots, sub-jobs and the
    usage estimate from the transpiled circuits.
 5. **Lock:** lock template v2 record with code, environment (Python, qiskit,
@@ -171,19 +178,23 @@ written into the frozen study's directories.
   a decision study on that carrier make sense.
 - **Option C: stop at simulation** if neither option is approved.
 
-## 9. Decisions needed from the owner before the lock
+## 9. Lock-candidate decisions and remaining owner approval
 
-1. Plan and cap: Open Plan (10 min per 28 days) or a paid plan; maximum QPU
-   minutes approved for HW-P1.
-2. Option A (injected), option B (fractional `RZZ`), or both in sequence.
-3. Stage A only, or A then B (B needs about 5.5–11 more minutes).
-4. Backend family and whether to allow fractional gates.
-5. Number of blocks (8 proposed; 4 halves usage and widens intervals).
-6. Primary analysis unmitigated (proposed) or readout-mitigated.
-7. Whether to deposit the locked protocol with an independent timestamp (for
-   example a Zenodo record) before execution, which is the only way HW-P1 could
-   later be called preregistered.
-8. Who reviews the lock (E005 §5 asks for a written review note).
+The lock candidate fixes Open Plan, Option A, Stage A only,
+`ibm_marrakesh`, target 53/control 54, fractional gates off, eight blocks,
+unmitigated primary analysis, and a total service-enforced ceiling below three
+QPU minutes. These are conservative preparer choices, not recorded owner
+approval.
+
+Before execution the owner must:
+
+1. approve those fixed choices and a maximum authorization of three QPU
+   minutes;
+2. decide whether to deposit the locked protocol with an independent timestamp
+   (for example a Zenodo record) before execution, which is the only way HW-P1
+   could later be called preregistered;
+3. sign the review record and approve the exact canonical hash of the generated
+   lock file.
 
 ## Sources
 
