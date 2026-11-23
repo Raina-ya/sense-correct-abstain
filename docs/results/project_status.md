@@ -21,7 +21,7 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 | Gate 3 | **FAIL**, under both the frozen and the corrected estimand (the latter a post-lock reanalysis) | `docs/results/gate3_gate4_report.md` | E004 |
 | Gate 4 | PASS (moot) | same | E004 |
 | Stop rule | **stopped after M6 → MT7** | — | — |
-| MT7 | **complete with declared open reviews.** 7.1 claim ledger, 7.2 report, 7.3 reproducibility package, and 7.4 scoped citation/novelty audit are complete. | see below | — |
+| MT7 | **complete.** 7.1 claim ledger, 7.2 report, 7.3 reproducibility package, and 7.4 scoped citation/novelty audit are complete. | see below | — |
 
 **Gate 2 (authoritative wording):**
 
@@ -45,8 +45,8 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 
 ## What is and is not authorized
 
-- **Allowed:** correction of the explicitly unverified citation attributions
-  (Chow 1970 rule form; Tsybakov lemma locations).
+- **Allowed:** post-publication documentation and new, separately locked
+  follow-up studies that preserve every frozen artifact and verdict.
 - **Not allowed:** M7 registration, a holdout, any adaptive-policy or
   "method works" claim, any rerun or redesign of Gates 1–4 presented as the
   same study, calling internal recomputation third-party validation, or any
@@ -57,6 +57,6 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 1. ~~Review the Lemma S1′ and Lemma B proofs.~~ Done: accepted with corrections
    (E007). A4–A6 accepted as proved (E008); Example E1 corrected. S1″
    accepted with corrections (E009). No proof review remains.
-2. Verify the exact Chow rule attribution and Tsybakov lemma numbering if the
-   full texts become available.
+2. ~~Verify the exact Chow rule attribution and Tsybakov lemma numbering.~~
+   Done 2026-11-23; see `docs/literature/notes/chow_tsybakov_verification.md`.
 3. Use lock template v2 for any new study.

@@ -180,9 +180,10 @@ frozen combination fails to produce detectable value. The sensor mechanisms,
 decision-aware evaluation, rejection option, and fixed-budget analysis each
 have prior art. No priority claim is made.
 
-**Unresolved attributions that do not block synthesis.** The exact Chow (1970)
-rule attribution and Tsybakov lemma numbering remain unverified because the
-relevant full texts were not available. The project proofs are self-contained,
-so the report labels those attributions unverified instead of relying on them.
+**Attributions verified after synthesis.** The exact Chow (1970) threshold
+rule and Tsybakov Lemmas 2.3 and 2.6 were checked on 2026-11-23 against scans
+of the published article and book; bibliographic metadata was checked
+separately against DOI/publisher records. The project proofs remain
+self-contained and do not rely on those attributions.
 Lemma S1′ and Lemma B were owner-reviewed and accepted with corrections (E007;
 `docs/theory/S1prime_B_rigorous.pdf`).

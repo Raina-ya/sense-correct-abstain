@@ -57,7 +57,7 @@ hardware.
 |---|---|---|
 | T1 | Three-action risk identity | proved (draft); re-checked in revision |
 | C1 | Reduction to the predecessor's Eq. (6) (no correction, `lambda_A = 0`) | proved (draft); equation number checked against the predecessor's compiled paper |
-| C2 | Reduction to a Chow-type reject rule (no correction, `lambda_A > 0`) | rule proved (draft); attribution of the exact form to Chow (1970) unverified (full text not accessible) |
+| C2 | Reduction to a Chow-type reject rule (no correction, `lambda_A > 0`) | proved and owner-reviewed (E008); exact threshold form verified against Chow (1970), equations (2') and (4') |
 | P1 | Pairwise switching conditions (when evidence changes the Bayes action) | proved (draft) |
 | L1 | Action-selection blindness lemma | proved (draft) |
 | E1 | Direct-phase example of L1 (single sensed angle) | proved (draft) within the direct-phase model; relevance to the QAOA likelihood not established |
@@ -180,7 +180,7 @@ predecessor's Eq. (6). ∎ The predecessor's statement that its condition holds
 "without independence" is consistent with T1, which also uses no independence
 between probe and target data.
 
-### Corollary C2 — Chow-type reject rule. rule proved (draft); attribution unverified
+### Corollary C2 — Chow-type reject rule. proved and attribution verified
 
 Remove C and let `lambda_A > 0`. Fix a prior `Pi` on `Theta` and write the
 posterior wrong-answer probability of the issued decision as
@@ -199,11 +199,10 @@ abstain  iff  e_N(x) > lambda_A        (either action on e_N(x) = lambda_A).
 If in addition `delta_0(x)` is the posterior-most-likely answer, then
 `e_N(x) = 1 - max_k Pi(k* = k | x)`, and the rule becomes "abstain iff the
 largest posterior answer probability is below `1 - lambda_A`", which is the
-threshold rule commonly attributed to Chow (1970) in secondary literature.
-**Attribution unverified:** only the abstract of `chow1970` (which describes "an
-optimum rejection rule") has been checked; the full text was not accessible in
-the revision (publisher paywall), so it is not confirmed that the paper states
-this exact form with these costs. The proof below does not depend on it.
+threshold rule stated by Chow (1970), equations (2') and (4'), with Chow's
+threshold `t` identified with `lambda_A`. The full-text verification is recorded
+in `docs/literature/notes/chow_tsybakov_verification.md`. The proof below remains
+self-contained.
 
 **Proof.** By (T1b) averaged over `Pi` and conditioned on `X`, the Bayes risk is
 `E[e_N(X)] + E[pi_A(X)(lambda_A - e_N(X))]`, minimized pointwise by setting
@@ -419,11 +418,11 @@ gives (T2d) from (ii) and (T2e) from (i). Direction: both bound the overlap
 `1 - TV` from **below**, which is the direction a lower bound on errors needs;
 the constant is `1/2` in both.
 
-*Reference location (unverified).* These are standard (`lecam1973`;
-`tsybakov2009`, Chapter 2). Secondary sources cite them as Lemma 2.3 (Le Cam's
-inequalities) and Lemma 2.6 (Bretagnolle–Huber) of Tsybakov's book; the book
-itself was not consulted (only its metadata is verified), so these locations are
-recorded as unverified. ∎
+*Reference location (verified).* Tsybakov (2009), Lemma 2.3 gives the stated
+Le Cam affinity inequality, and Lemma 2.6 gives the stated
+Bretagnolle–Huber/KL inequality, with the same directions and constants. See
+`docs/literature/notes/chow_tsybakov_verification.md`. The derivation above is
+self-contained. ∎
 
 **Scope.** T2 is only as meaningful as the pair. MT3 Subtask 3.3 must construct
 pairs that lie inside the frozen model class, imply different optimal actions,
@@ -575,9 +574,8 @@ positive `Delta_V`. (The first draft said "necessary"; that was too strong.)
 ## 8. Open items for owner review
 
 1. Check every proof marked `proved (draft)` or `corrected`.
-2. Attribution/reference location unverified: the exact C2 form in the full
-   text of `chow1970`; the lemma numbers of Le Cam's inequality and
-   Bretagnolle–Huber in `tsybakov2009`. Neither affects a proof here.
+2. Chow's exact threshold form and Tsybakov's Lemmas 2.3 and 2.6 were verified
+   on 2026-11-23; see `docs/literature/notes/chow_tsybakov_verification.md`.
 3. Rule on the metadata-only policy gap left by P2 (§6; contract §7).
 4. Example E2 remains conditional on Gate 1 establishing nuisance-class
    indistinguishability or an equivalent zero-admissible-I3 result; M2 proves
