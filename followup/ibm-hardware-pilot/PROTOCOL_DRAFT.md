@@ -129,10 +129,18 @@ every job to cap overruns. Queue time is not billed but affects drift.
    target (offline, no execution), each P-amp circuit still contains its CZ
    gates and its injected `rz` angles up to frame merging (verified by
    noiseless equivalence of transpiled vs. intended circuits).
-3. **Fake-backend run:** run the full stage A pipeline on a Qiskit fake
-   backend of the same family with its noise model, end to end through the
-   analysis, to test code paths and get a rough SE and visibility (labelled as
-   simulation, never reported as a hardware result).
+3. **Local pipeline checks:** (a) compare every Qiskit Statevector circuit
+   against the analytic phase model; (b) run the complete eight-block estimator
+   and reporting pipeline with deterministic binomial
+   samples from an explicitly stated visibility/readout model. These are code
+   smoke tests, never hardware results or a Heron model. A full backend-derived
+   noisy simulation is deliberately omitted: it does not establish hardware
+   behaviour and exceeded the practical local preflight budget. The real
+   backend ISA and structure check remains mandatory after backend selection.
+   Qiskit Aer and IBM Runtime native extensions are blocked by Windows Smart
+   App Control on the development machine; this is recorded in
+   `ENVIRONMENT_NOTES.md` and must not be described as a passed fake-backend
+   check.
 4. **Count and usage:** script that prints circuits, shots, sub-jobs and the
    usage estimate from the transpiled circuits.
 5. **Lock:** lock template v2 record with code, environment (Python, qiskit,

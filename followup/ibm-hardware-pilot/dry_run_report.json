@@ -1,0 +1,75 @@
+{
+  "noiseless": {
+    "cases": 90,
+    "max_deviation": 1.6653345369377348e-15
+  },
+  "sampled_pipeline": {
+    "blocks": 8,
+    "estimates": {
+      "+0.000,+0.000": {
+        "blocks": 8,
+        "epsilon_bias": -0.0038156573963274215,
+        "epsilon_mean": -0.0038156573963274215,
+        "epsilon_se": 0.0024003373117365456,
+        "phi_bias": 0.0007658258624412096,
+        "phi_mean": 0.0007658258624412096,
+        "visibility_mean": 0.9115106314804637
+      },
+      "+0.020,+0.000": {
+        "blocks": 8,
+        "epsilon_bias": -0.005169273946574297,
+        "epsilon_mean": 0.014830726053425704,
+        "epsilon_se": 0.0026579958895915213,
+        "phi_bias": 0.0022793743163364412,
+        "phi_mean": 0.0022793743163364412,
+        "visibility_mean": 0.9215203981910907
+      },
+      "+0.040,+0.010": {
+        "blocks": 8,
+        "epsilon_bias": -0.0009898120496987378,
+        "epsilon_mean": 0.03901018795030126,
+        "epsilon_se": 0.0028439153976020123,
+        "phi_bias": 0.0005360157861316606,
+        "phi_mean": 0.01053601578613166,
+        "visibility_mean": 0.9097347445565006
+      },
+      "-0.020,+0.000": {
+        "blocks": 8,
+        "epsilon_bias": -0.0012807064827165156,
+        "epsilon_mean": -0.021280706482716516,
+        "epsilon_se": 0.0009241545008833969,
+        "phi_bias": 0.0005794680909454614,
+        "phi_mean": 0.0005794680909454614,
+        "visibility_mean": 0.9143002933524457
+      },
+      "-0.040,-0.010": {
+        "blocks": 8,
+        "epsilon_bias": 0.0014662718061342547,
+        "epsilon_mean": -0.038533728193865746,
+        "epsilon_se": 0.0019374702462443753,
+        "phi_bias": -0.001274518979809694,
+        "phi_mean": -0.011274518979809694,
+        "visibility_mean": 0.899844591683002
+      }
+    },
+    "kind": "deterministic sampled analysis-pipeline test; not circuit-noise simulation",
+    "sampling_parameters": {
+      "readout_0_to_1": 0.02,
+      "readout_1_to_0": 0.03,
+      "visibility": 0.95
+    }
+  },
+  "status": "simulation-only; no IBM service contacted",
+  "usage_ledger": {
+    "blocks": 8,
+    "calibration_circuits": 32,
+    "calibration_shots": 32000,
+    "control_circuits": 40,
+    "control_shots": 5400,
+    "executions": 134600,
+    "pamp_circuits": 720,
+    "pamp_shots": 97200,
+    "quick_minutes": 1.0518333333333334,
+    "quick_seconds": 63.11
+  }
+}

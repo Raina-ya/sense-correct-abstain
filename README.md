@@ -13,7 +13,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 | Frozen gate results and their corrections | [docs/results/](docs/results/project_status.md), [errata E001–E009](docs/errata/README.md) |
 | How rigorous the record is | [rigor review, 2026-11-23](docs/audits/rigor_review_2026-11-23.md) |
 | How to reproduce the checks | [docs/reproducibility.md](docs/reproducibility.md) and the commands at the end of this file |
-| The planned IBM hardware follow-up (separate study; draft, not executed) | [followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md](followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md) |
+| The planned IBM hardware follow-up (separate study; local preflight only, not executed) | [protocol](followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md), [pre-execution status](followup/ibm-hardware-pilot/PRE_EXECUTION_STATUS.md), and [owner actions](followup/ibm-hardware-pilot/USER_ACTIONS.md) |
 
 ## North-star question
 

@@ -66,5 +66,9 @@ the M3-locked program plan and work plan are frozen at M3 and are **stale**.
 3. Use lock template v2 for any new study.
 4. IBM hardware follow-up HW-P1: protocol draft in
    [`../../followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md`](../../followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md);
-   awaiting owner decisions (§9 there). Nothing has been executed. It is a new
-   study and cannot change any verdict here.
+   local circuit, Statevector, deterministic sampled-pipeline, and usage-ledger
+   checks are recorded in
+   [`PRE_EXECUTION_STATUS.md`](../../followup/ibm-hardware-pilot/PRE_EXECUTION_STATUS.md).
+   Cloud/backend checks, the v2 lock, and owner approval remain pending. No
+   hardware job has been executed. It is a new study and cannot change any
+   verdict here.
