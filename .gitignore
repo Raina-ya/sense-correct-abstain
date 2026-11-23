@@ -1,1 +1,9 @@
 __pycache__/
+# LaTeX build products (paper/ is built by tools/build_technical_report.py)
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
