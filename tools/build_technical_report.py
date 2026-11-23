@@ -2,8 +2,11 @@
 
 `paper/technical_report_v1.tex` is the single source of the paper. This script
 runs latexmk (pdflatex + BibTeX) in `paper/` and fails with a clear message if
-no TeX engine is installed. It reads no research data and writes only LaTeX
-build products and `paper/technical_report_v1.pdf`.
+no TeX engine is installed. It builds two layouts of the same text: the
+single-column `technical_report_v1.pdf` and the two-column
+`technical_report_v1_twocolumn.pdf` (from a wrapper that only switches the
+layout). It reads no research data and writes only LaTeX build products and
+those two PDFs.
 
 Earlier versions generated the `.tex` from a Markdown summary and drew the PDF
 with ReportLab; that path was retired when the paper was expanded (see
@@ -23,8 +26,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
-TEX = PAPER / "technical_report_v1.tex"
-PDF = PAPER / "technical_report_v1.pdf"
+TEX_FILES = (PAPER / "technical_report_v1.tex", PAPER / "technical_report_v1_twocolumn.tex")
 AUX_SUFFIXES = (".aux", ".bbl", ".blg", ".fdb_latexmk", ".fls", ".log", ".out")
 
 
@@ -37,15 +39,16 @@ def main() -> int:
     if latexmk is None:
         print("latexmk not found: install a TeX distribution (TeX Live or MiKTeX) to build the paper", file=sys.stderr)
         return 2
-    cmd = [latexmk, "-pdf", "-interaction=nonstopmode", "-halt-on-error", TEX.name]
-    result = subprocess.run(cmd, cwd=PAPER)
-    if result.returncode != 0:
-        print(f"LaTeX build failed; see {TEX.with_suffix('.log').relative_to(ROOT)}", file=sys.stderr)
-        return result.returncode
-    if args.clean:
-        for suffix in AUX_SUFFIXES:
-            TEX.with_suffix(suffix).unlink(missing_ok=True)
-    print(f"wrote {PDF.relative_to(ROOT)}")
+    for tex in TEX_FILES:
+        cmd = [latexmk, "-pdf", "-interaction=nonstopmode", "-halt-on-error", tex.name]
+        result = subprocess.run(cmd, cwd=PAPER)
+        if result.returncode != 0:
+            print(f"LaTeX build failed; see {tex.with_suffix('.log').relative_to(ROOT)}", file=sys.stderr)
+            return result.returncode
+        if args.clean:
+            for suffix in AUX_SUFFIXES:
+                tex.with_suffix(suffix).unlink(missing_ok=True)
+        print(f"wrote {tex.with_suffix('.pdf').relative_to(ROOT)}")
     return 0
 
 

@@ -7,7 +7,7 @@ Fixed-budget decision control under angle-dependent coherent bias in QAOA. Tests
 
 | If you want | Read |
 |---|---|
-| The paper (theory, design, results, failure analysis, the IBM hardware pilot, full proofs in the appendices) | [paper/technical_report_v1.pdf](paper/technical_report_v1.pdf), source [technical_report_v1.tex](paper/technical_report_v1.tex) |
+| The paper (theory, design, results, failure analysis, the IBM hardware pilot, full proofs in the appendices) | [single column](paper/technical_report_v1.pdf) or [two column](paper/technical_report_v1_twocolumn.pdf) (same text), source [technical_report_v1.tex](paper/technical_report_v1.tex) |
 | What may and may not be claimed | [docs/claim_ledger.md](docs/claim_ledger.md) |
 | Owner-reviewed proofs | [S1′ and Lemma B](docs/theory/S1prime_B_rigorous.pdf), [A4–A6](docs/theory/A4_A6_rigorous.pdf), [S1″](docs/theory/S1doubleprime_rigorous.pdf), [review trail](docs/theory/REVIEW_TRAIL.md) |
 | Frozen gate results and their corrections | [docs/results/](docs/results/project_status.md), [errata E001–E009](docs/errata/README.md) |
