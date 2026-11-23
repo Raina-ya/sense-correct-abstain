@@ -3,8 +3,8 @@
 % Every number in this file is taken from a frozen artifact, an append-only
 % post-lock audit output, or a deterministic recomputation from stored fields;
 % the provenance of each figure is given in a comment next to its data.
-\documentclass[10pt,twocolumn]{article}
-\usepackage[letterpaper,margin=0.7in,columnsep=0.25in]{geometry}
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=1.05in]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
@@ -23,7 +23,16 @@
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage{caption}
 \captionsetup{font=small,labelfont=bf}
-\setlist{nosep,leftmargin=*}
+\setlist{itemsep=0.25em,topsep=0.4em,leftmargin=1.6em}
+\linespread{1.08}
+\setlength{\emergencystretch}{2.5em}
+\setlength{\parskip}{0.5em plus 0.15em minus 0.05em}
+\setlength{\parindent}{0pt}
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{10pt plus 3pt minus 2pt}%
+  \setlength{\belowdisplayskip}{10pt plus 3pt minus 2pt}%
+  \setlength{\abovedisplayshortskip}{6pt plus 2pt}%
+  \setlength{\belowdisplayshortskip}{8pt plus 2pt}}
 
 % ---- palette (validated with the dataviz validator: light mode, categorical, 3 slots) ----
 \definecolor{sN}{HTML}{2A78D6}   % action N / primary series
@@ -82,12 +91,16 @@
 \maketitle
 
 \begin{abstract}
-A quantum computation used to make a decision can be biased by a coherent error, and the shots spent detecting or correcting that error are shots taken from the decision itself. We study this trade-off for a QAOA top-1 decision under angle-proportional coherent over-rotation $\eps$ and an additive phase $\phi$, with one fixed shot budget shared by sensing, the decision, and any correcting re-execution. A policy may issue the initial answer, recalibrate and re-run, or abstain. We prove a three-action risk identity that contains an alarm condition from earlier work and Chow's reject rule as special cases, a blindness lemma with finite-sample lower bounds on choosing the wrong action, a value-of-information decomposition, and a result that information-free policies cannot beat the best fixed policy. For retained randomized-compiling labels we show that the multiplicative error is not identifiable at $\phi=0$ under response-free nuisance classes, and we give the identified set under each class. A prespecified sequence of four gates then tests a known-reference sensor in simulation. The sensor identifies the error, but its decision rule does not single out the units that benefit from correction (precision 0.093 against a base rate of 0.077), and the resulting adaptive policy shows no detectable value over always correcting ($\DV=0.0000804$, one-sided 95\% lower bound $-0.000743$, estimated power 0.0004). Identifiability, useful selection of beneficiaries, and positive decision value are therefore three separate requirements, and only the first was met in simulation. A separately locked pilot on an IBM superconducting processor, with known errors injected into the compiled circuits, then tested the sensor alone: its single-estimate precision at the same budget was inconclusive against the same threshold (pooled standard deviation 0.0077 against 0.0071), its effective visibility was 0.95, and its estimates carried a systematic offset at zero injection. The theory and the gate results concern a synthetic error model with shot noise only; the hardware pilot tested sensing, not correction or the policy.
+A quantum computation used to make a decision can be biased by a coherent error, and every shot spent detecting or correcting that error is taken from the decision itself. We study this trade-off for a QAOA top-1 decision under angle-proportional coherent error, with one shot budget shared by sensing, the decision, and any corrective re-run; a policy may issue the answer, recalibrate and re-run, or abstain.
+
+We prove a three-action risk identity that contains an earlier alarm condition and Chow's reject rule as special cases, finite-sample lower bounds on choosing the wrong action, and a value-of-information decomposition under which information-free policies cannot beat the best fixed policy. Retained randomized-compiling labels cannot identify the multiplicative error at $\phi=0$ without knowledge of the circuit's response; a known-reference sensor can.
+
+In a prespecified simulation study, that sensor's decision rule did not single out the units that benefit from correction (precision 0.093 against a base rate of 0.077), and the adaptive policy showed no detectable value over always correcting (one-sided 95\% lower bound $-0.000743$; estimated power 0.0004). A separate pilot on an IBM processor, with known errors injected, found the sensor's precision inconclusive against the same standard and its estimates biased. The simulations contain shot noise only, and the hardware pilot tested sensing alone.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
 
-Suppose a quantum computer is used to decide which of two QAOA parameter settings gives the larger expected MaxCut score. A coherent error can bias that comparison, and the experimenter has three options: trust the answer, spend shots to estimate the error and re-run a corrected circuit, or decline to answer. Each option costs shots, and the shots spent sensing are taken from the decision itself. This paper asks:
+Suppose a noisy quantum computer \cite{preskill2018} is used to decide which of two QAOA parameter settings gives the larger expected MaxCut score. A coherent error can bias that comparison, and the experimenter has three options: trust the answer, spend shots to estimate the error and re-run a corrected circuit, or decline to answer. Each option costs shots, and the shots spent sensing are taken from the decision itself. This paper asks:
 \begin{quote}\itshape
 Under a fixed quantum-execution budget, when is runtime evidence sufficient to decide whether to trust, correct, or withhold a quantum decision?
 \end{quote}
@@ -118,17 +131,21 @@ The known-reference sensor passed the identifiability gate (Gate~1B); its decisi
 
 \section{Related Work}\label{sec:related}
 
-\paragraph{Randomized compiling and label information.} Randomized compiling tailors coherent noise into stochastic Pauli noise by averaging over random Pauli frames \cite{wallman2016}, and has been demonstrated on superconducting hardware \cite{hashim2021}. The averaging discards the coherent signal unless the labels are retained. Vyas~\cite{vyas2026} studies recovering coherent errors from retained labels; our Gate~1A asks the narrower deployable question in which the ideal target response is unknown and treated as a nuisance, and \cref{thm:S1} shows why the answer is negative at $\phi=0$ in the compiled-angle model.
+\paragraph{Randomized compiling and label information.} Pauli-frame randomization goes back to Knill~\cite{knill2005}. Randomized compiling uses it to turn coherent noise into stochastic Pauli noise~\cite{wallman2016}, and both have been demonstrated on superconducting hardware~\cite{ware2021pfr,hashim2021}. The averaging discards the coherent signal unless the labels are kept. Vyas~\cite{vyas2026} studies recovering coherent errors from retained labels. Our Gate~1A asks a narrower question, in which the circuit's ideal response is unknown, and \cref{thm:S1} shows why the answer is negative at $\phi=0$.
 
-\paragraph{Phase estimation and calibration.} Our Gate~1B sensor, P-amp, uses repeated and echoed copies of the tagged rotation on a known reference. Robust phase estimation already estimates amplitude and off-resonance errors with a repetition ladder on a known reference \cite{kimmel2015rpe,rudinger2017rpe}, and consistency testing flags when later estimates should not be trusted \cite{russo2021rpe}. P-amp is a simple instance of this idea. Virtual-$Z$ frame updates \cite{mckay2017vz} motivate treating $Z$-type labels as error-free frame changes.
+\paragraph{Characterising coherent errors.} Randomized benchmarking~\cite{magesan2011}, cycle benchmarking~\cite{erhard2019}, mirror-circuit benchmarking~\cite{proctor2022mirror}, Pauli-channel learning~\cite{flammia2020pauli,chen2023learnability}, and gate set tomography~\cite{nielsen2021gst} estimate error rates or full error models. They report what the error is; they do not decide, within a fixed budget, whether acting on the estimate is worth the shots it costs.
 
-\paragraph{Error mitigation and its limits.} Quantum error mitigation estimates noiseless expectation values from noisy executions \cite{temme2017,kandala2019,cai2023}; learning-based variants fit transfer maps on classically tractable near-Clifford circuits \cite{czarnik2021,lowe2021}, which is the neighbourhood of the deterministic known-reference twin used as a same-budget comparator in Gate~2. Sample-complexity lower bounds for mitigation \cite{takagi2022,quek2024} concern estimator error; our finite-pilot bound (\cref{thm:T2}) concerns the probability of choosing the wrong \emph{action}, a different quantity. Scavino~\cite{scavino2026} shows that accuracy gains in expectation values need not improve downstream gap-based decisions.
+\paragraph{Phase estimation and calibration.} P-amp repeats and echoes the tagged rotation on a known reference. Phase estimation with repetition ladders already does this~\cite{higgins2009,kimmel2015rpe,rudinger2017rpe}, consistency tests flag unreliable estimates~\cite{russo2021rpe}, and calibration procedures organise such experiments into dependency graphs~\cite{kelly2018dag}. P-amp is a simple instance of this idea.
 
-\paragraph{Reject option and value of information.} Chow~\cite{chow1970} gives the optimal error--reject trade-off: reject when the largest posterior class probability falls below $1-t$; we recover it as a special case (\cref{cor:C2}). Classification with a reject option has a statistical theory \cite{herbei2006}. The decomposition of \cref{prop:D1} is the value-of-information principle \cite{howard1966voi} with cost measured in shots.
+\paragraph{Error mitigation and its limits.} Mitigation estimates noiseless expectation values from noisy runs~\cite{temme2017,kandala2019,cai2023}; learning-based variants fit maps on near-Clifford circuits~\cite{czarnik2021,lowe2021}, the neighbourhood of the known-reference twin that Gate~2 uses as a comparator. Its sampling cost obeys lower bounds~\cite{takagi2022,takagi2023,tsubouchi2023,quek2024}, model violations bias it~\cite{govia2025}, apparent benchmark gains can be artefacts~\cite{koster2026}, and robust design under uncertainty has been studied for it~\cite{prodius2026}. These results concern estimator error; our lower bound (\cref{thm:T2}) concerns choosing the wrong \emph{action}. Accuracy gains in expectation values need not improve gap-based decisions~\cite{scavino2026}.
 
-\paragraph{Identification and lower bounds.} Efficient scores and information are standard semiparametric objects \cite{vandervaart1998}; partial identification studies sets of parameters compatible with the data distribution \cite{tamer2010,imbens2004}. We use explicit observational equivalences rather than information to establish non-identification. Two-point lower bounds follow Le Cam's method; the inequalities we use appear as Lemmas~2.3 and 2.6 of Tsybakov~\cite{tsybakov2009}, and our proofs are self-contained.
+\paragraph{Selection under a fixed budget.} Choosing the better of two candidates from noisy samples is a ranking-and-selection~\cite{bechhofer1954,kimnelson2006} or best-arm identification~\cite{kaufmann2016,garivier2016} problem, and budget allocation among alternatives is studied in simulation optimisation~\cite{chen2000ocba}. Sequential tests and confidence sequences~\cite{wald1945,howard2021} would let the budget adapt. We keep the budget fixed and add two actions, correcting and abstaining, whose value depends on a sensor.
 
-\paragraph{QAOA.} We use depth-one QAOA for MaxCut \cite{farhi2014}; see \cite{zhou2020qaoa} for its structure on small graphs. Pulse-level mitigation methods such as pseudo twirling and KIK-type inverse evolutions are discussed in the repository's scoped novelty audit; they mitigate observables rather than choose among issue, recalibrate, and abstain. Each component above has prior art; this paper contributes their combination under one shot budget, the identifiability analysis, and a documented negative result.
+\paragraph{Reject option and value of information.} Chow~\cite{chow1970} gives the optimal error--reject trade-off, which we recover as a special case (\cref{cor:C2}); classification with a reject option has a statistical theory~\cite{herbei2006}. The decomposition of \cref{prop:D1} is the value-of-information principle~\cite{howard1966voi} with cost measured in shots.
+
+\paragraph{Identification and lower bounds.} In parametric models, local identification is tied to a non-singular information matrix under regularity conditions~\cite{rothenberg1971}; efficient scores and information are standard semiparametric objects~\cite{vandervaart1998}; partial identification studies the set of parameters compatible with the data~\cite{tamer2010,imbens2004}. We establish non-identification by explicit observational equivalences rather than by information. Two-point lower bounds follow Le Cam~\cite{lecam1973} and Bretagnolle and Huber~\cite{bretagnolle1979}; the forms we use are Lemmas~2.3 and 2.6 of Tsybakov~\cite{tsybakov2009}.
+
+\paragraph{QAOA and scope.} We use depth-one QAOA for MaxCut~\cite{farhi2014,zhou2020qaoa}. Pulse-level methods such as pseudo twirling and KIK-type inverse evolutions mitigate observables rather than choose among issuing, recalibrating, and abstaining. Each component above has prior art; this paper contributes their combination under one shot budget, the identifiability analysis, and a documented negative result.
 
 \section{Decision Problem}\label{sec:decision}
 
@@ -136,7 +153,11 @@ The known-reference sensor passed the identifiability gate (Gate~1B); its decisi
 
 \paragraph{Timeline and actions.} Stage~0 fixes metadata $m$ (circuits, angles, label design, budget split). Stage~1 observes $X=(m,X_S,X_{T0})$: sensor data and initial target data. The policy chooses $a=\pi(X)\in\{N,C,A\}$. Under N it issues $\delta_0(X_{T0})$, the candidate with the larger empirical mean score. Under C it estimates $(\hat\eps,\hat\phi)$ from $X$, recalibrates every tagged cost rotation $a\mapsto(a-\hat\phi)/(1+\hat\eps)$, re-executes both candidates with the reserved shots, and issues $\delta_C(X_C)$ from the corrected data only. Under A it issues nothing (\cref{fig:actions}).
 
-\paragraph{Budget (owner decision D3: fixed reserve).} $N=n_S+n_{T0}+n_C$ is split in advance and charged on every path; an unused reserve is not reallocated. In Gates~3--4: $n_S=2430$ (P-amp, 18 settings of 135 shots), $n_{T0}=10{,}934$ ($5{,}467$ per candidate), $n_C=10{,}936$ ($5{,}468$ per candidate). Classical computation is reported separately and is not part of $N$.
+\paragraph{Budget (owner decision D3: fixed reserve).} The budget is split in advance and charged on every path; an unused reserve is not reallocated. In Gates~3--4,
+\[
+N \;=\; n_S+n_{T0}+n_C \;=\; 2430+10{,}934+10{,}936 \;=\; 24{,}300,
+\]
+where $n_S$ is the P-amp sensor (18 settings of 135 shots) and the target and reserve shots are split evenly between the two candidates. Classical computation is not counted.
 
 \paragraph{Loss (owner decision D2).} With $\lA=\lF=1/4$,
 \begin{equation}\label{eq:loss}
@@ -144,11 +165,17 @@ The known-reference sensor passed the identifiability gate (Gate~1B); its decisi
 \end{equation}
 and no answer is issued after a failed correction. The ratio $\lA=1/4$ is a normative owner choice (one wrong answer costs as much as four abstentions), not an estimated constant; $\lF=\lA$ makes a failed correction an involuntary abstention.
 
-\paragraph{Fixed comparators and the primary endpoint.} The fixed policies are: the \emph{issue-only} comparator, a development-locked choice between (i) all $N$ shots on the target and (ii) the sensor policy's allocation with the sensor ignored; \emph{always correct} at the sensor allocation; and \emph{always abstain}. $L_{\mathrm{fixed}}$ is the best of these, selected once on development data. The sole primary statistic is
+\paragraph{Fixed comparators and the primary endpoint.} Three fixed policies serve as comparators:
+\begin{itemize}
+\item \emph{issue only}, with either (i) all $N$ shots on the target or (ii) the sensor policy's allocation with the sensor ignored;
+\item \emph{always correct}, at the sensor allocation;
+\item \emph{always abstain}.
+\end{itemize}
+$L_{\mathrm{fixed}}$ is the best of these, selected once on development data, and the sole primary statistic is
 \begin{equation}\label{eq:DV}
 \DV=\frac1{|U|}\sum_{u\in U}\bigl(L_{\mathrm{fixed},u}-L_{\mathrm{policy},u}\bigr),
 \end{equation}
-paired on shared units, with graph-clustered uncertainty. Allocation (ii) is included because under a decision-flipping bias, fewer target shots can lower the issue error (toward $1/2$ rather than $1$); without it an information-free policy could beat the comparator through allocation alone (\cref{prop:P2}).
+paired on shared units, with graph-clustered uncertainty. Allocation (ii) matters: under a decision-flipping bias, fewer target shots lower the issue error (towards $1/2$ rather than $1$), and without it an information-free policy could beat the comparator through allocation alone (\cref{prop:P2}).
 
 \paragraph{Deployability boundary.} The policy may use runtime outcomes, recorded labels, pre-execution metadata, analytically known reference quantities (never of a target circuit), calibration whose shots are charged to $N$, and development-locked constants. It may not use the ideal target gap, the true $(\eps,\phi)$, the error-structure label, simulator-only response derivatives, or confirmatory outcomes.
 
@@ -189,7 +216,11 @@ The logical error on a tagged angle is therefore $\eps\theta+s\phi$: the multipl
 
 \paragraph{P-amp sensor.} P-amp applies the block $B(a)=\mathrm{CX}\,\RZ((1+\eps)a+\phi)\,\mathrm{CX}$ with control in $|0\rangle$ and target in $|{+}\rangle$, in six repetition and three echo circuits, and measures $\langle X\rangle$ and $\langle Y\rangle$ on the target (18 settings of 135 shots). The phases are linear in $(\eps,\phi)$ with known coefficients, and $(\hat\eps,\hat\phi)$ is their least-squares inversion. A deterministic state-vector check of the 729 circuit--grid cases agrees with this phase model to $3.4\times10^{-15}$, with zero control leakage (post-lock check). Sensor and target share one $(\eps,\phi)$ by construction, so sensor--target transfer cannot fail in this model.
 
-\paragraph{Gap-shift quantity.} For target circuits without labels, write $x=(x_{A},x_{B})$ for the tagged angles of both candidates, $E_j(x_j)=\sum_b s(b)\,|\langle b|U_j(x_j)|{+}^n\rangle|^2$ with a normalised score $s\in[0,1]$, and $g(x)=E_A(x_A)-E_B(x_B)$. The error perturbs $x=\theta$ to $\theta+\delta$ with $\delta_{ji}=\eps\theta_{ji}+\phi$. Let $A=\sum_{j,i}|\theta_{ji}|$ and $M$ the number of tagged rotations. \Cref{thm:B} bounds $|g(\theta+\delta)-g(\theta)|$.
+\paragraph{Gap-shift quantity.} For target circuits without labels, write $x=(x_A,x_B)$ for the tagged angles of both candidates and, with a normalised score $s\in[0,1]$,
+\[
+E_j(x_j)=\sum_b s(b)\,\bigl|\langle b|U_j(x_j)|{+}^n\rangle\bigr|^2,\qquad g(x)=E_A(x_A)-E_B(x_B).
+\]
+The error moves $x=\theta$ to $\theta+\delta$ with $\delta_{ji}=\eps\theta_{ji}+\phi$. Let $A=\sum_{j,i}|\theta_{ji}|$ and let $M$ be the number of tagged rotations; \cref{thm:B} bounds $|g(\theta+\delta)-g(\theta)|$.
 
 \section{Three-Action Decision Theory}\label{sec:theory}
 
@@ -208,7 +239,11 @@ A policy is a measurable $\pi:\mathcal X\to\Delta(\{N,C,A\})$, realised as $a=\a
 For each $\vt$ there is $Y=(F,\delta_C)$, defined on every path and observed only on C, with regular conditional law $Q_\vt(\cdot\mid x)$; $U$ is independent of $(X,Y)$; under D3 the stage-1 allocation does not depend on the action.
 \end{assumption}
 
-The action-conditional losses are $l_N(\vt,x)=\one\{\delta_0(x)\neq k^*(\vt)\}$, $l_A=\lA$, and $l_C(\vt,x)=\lF\rho(\vt,x)+c(\vt,x)$ with $\rho=Q_\vt(F{=}1\mid x)$ and $c=Q_\vt(F{=}0,\delta_C\neq k^*\mid x)$.
+The action-conditional losses are
+\[
+l_N(\vt,x)=\one\{\delta_0(x)\neq k^*(\vt)\},\qquad l_A=\lA,\qquad l_C(\vt,x)=\lF\,\rho(\vt,x)+c(\vt,x),
+\]
+where $\rho=Q_\vt(F{=}1\mid x)$ is the failure probability and $c=Q_\vt(F{=}0,\ \delta_C\neq k^*\mid x)$ the probability of a wrong corrected answer.
 
 \subsection{Risk identity and Bayes action}
 
@@ -219,9 +254,14 @@ R(\pi;\vt)&=\E_\vt\bigl[\pi_Nl_N+\pi_Cl_C+\pi_A\lA\bigr]\label{eq:T1a}\\
 &=q(\vt)+\E_\vt[\pi_C(l_C-l_N)]+\E_\vt[\pi_A(\lA-l_N)].\label{eq:T1b}
 \end{align}
 \end{theorem}
-\noindent\emph{Derivation.} Condition on $X=x$. The action is $\alpha(x,U)$ and $U\perp Y\mid X$, so the conditional expected loss of path C is $\pi_C(x)[\lF\rho+c]=\pi_C(x)l_C$; paths N and A contribute $\pi_N(x)l_N$ and $\pi_A(x)\lA$ because $l_N$ is a function of $x$. The tower property gives \eqref{eq:T1a}; substituting $\pi_N=1-\pi_C-\pi_A$ gives \eqref{eq:T1b}. Independence is used only in the C term; no independence between $X_S$ and $X_{T0}$ is needed.
+\noindent\emph{Proof idea.} Given $X=x$, the private randomisation is independent of the stage-2 outcome, so path C contributes $\pi_C(x)\,l_C$, and paths N and A contribute $\pi_N(x)\,l_N$ and $\pi_A(x)\,\lA$. The tower property gives \eqref{eq:T1a}, and $\pi_N=1-\pi_C-\pi_A$ gives \eqref{eq:T1b}. No independence between $X_S$ and $X_{T0}$ is needed.
 
-\paragraph{Bayes action and pairwise switching.} Fix a prior $\Pi$ and define posterior action risks $\rho_N(x)=e_N(x):=\Pi(\delta_0(x)\neq k^*\mid X=x)$, $\rho_A=\lA$, and $\rho_C(x)=\lF\varphi_F(x)+\bar c(x)$ with $\varphi_F=\E_\Pi[\rho\mid X]$, $\bar c=\E_\Pi[c\mid X]$. Averaging \eqref{eq:T1a} over $\Pi$ gives Bayes risk $\E[\sum_a\pi_a(X)\rho_a(X)]$, minimised pointwise by any $a\in\arg\min_a\rho_a(x)$.
+\paragraph{Bayes action and pairwise switching.} Fix a prior $\Pi$. The posterior risks of the three actions are
+\begin{gather*}
+\rho_N(x)=e_N(x):=\Pi\bigl(\delta_0(x)\neq k^*\mid X=x\bigr),\\
+\rho_C(x)=\lF\,\varphi_F(x)+\bar c(x),\qquad \rho_A=\lA,
+\end{gather*}
+with $\varphi_F=\E_\Pi[\rho\mid X]$ and $\bar c=\E_\Pi[c\mid X]$. Averaging \eqref{eq:T1a} over $\Pi$ gives the Bayes risk $\E\bigl[\sum_a\pi_a(X)\rho_a(X)\bigr]$, minimised pointwise by any $a\in\arg\min_a\rho_a(x)$.
 
 \begin{proposition}[P1: pairwise switching]\label{prop:P1}\status{proved, draft}
 The Bayes action prefers A over N iff $e_N(x)>\lA$; C over A iff $\lF\varphi_F(x)+\bar c(x)<\lA$; C over N iff $e_N(x)-\bar c(x)>\lF\varphi_F(x)$. With $a_0$ the best action chosen without looking at $X$, the value of looking at a fixed allocation is $\mathrm{VOI}_{\mathrm{alloc}}=\E[\rho_{a_0}(X)-\min_a\rho_a(X)]\ge0$, with equality iff $a_0$ is Bayes for almost every $x$.
@@ -234,16 +274,19 @@ So correction can beat issuing only if it lowers the posterior wrong-answer prob
 \begin{corollary}[C1: predecessor's Eq.~(6)]\label{cor:C1}
 With $\pi_C\equiv0$, $\lA=0$ and $\pi_A=\one_{\mathrm{Alarm}}$, write $W_f=\{\delta_0\neq k^*\}$, $q_f=P(W_f)$, $d_f=P(\mathrm{Alarm}\cap W_f)$. Then $R=q_f-d_f$, and $R<q_0$ iff $d_f>q_f-q_0$.
 \end{corollary}
-\noindent\emph{Derivation.} From \eqref{eq:T1b}, $R=q_f+\E[\one_{\mathrm{Alarm}}(0-\one_{W_f})]=q_f-d_f$. The inequality $d_f>q_f-q_0$ is Eq.~(6) of the predecessor project (an alarm is worth having iff it catches more wrong answers than the shots it costs create); C1 shows it is the $C$-free, cost-free slice of T1.
+Substituting into \eqref{eq:T1b} gives $R=q_f-d_f$ in one line. The inequality is Eq.~(6) of the predecessor project: an alarm is worth having if and only if it catches more wrong answers than its shots create.
 
 \begin{corollary}[C2: Chow-type reject rule]\label{cor:C2}
 Among policies with $\pi_C\equiv0$, the Bayes risk is minimised exactly by abstaining for a.e.\ $x$ with $e_N(x)>\lA$ and issuing for a.e.\ $x$ with $e_N(x)<\lA$ (either on ties).
 \end{corollary}
-\noindent\emph{Derivation.} The Bayes risk is $\E[e_N(X)]+\E[\pi_A(X)(\lA-e_N(X))]$, minimised pointwise. If $\delta_0$ is the posterior mode, $e_N=1-\max_k\Pi(k\mid x)$ and the rule is ``abstain iff $\max_k\Pi(k\mid x)<1-\lA$'', Chow's rule with threshold $t=\lA$ (equations (2$'$) and (4$'$) of \cite{chow1970}; checked against the published text). With two answers and the posterior mode, $e_N\le1/2$, so abstention is never strictly optimal when $\lA\ge1/2$. In this project N issues the fixed empirical decision, not the posterior mode, so $e_N$ can exceed $1/2$ under coherent bias.
+If $\delta_0$ is the posterior mode, $e_N=1-\max_k\Pi(k\mid x)$, and the rule becomes ``abstain if and only if $\max_k\Pi(k\mid x)<1-\lA$'', which is Chow's rule with threshold $\lA$ (\cite{chow1970}, equations (2$'$) and (4$'$)). Here N issues the fixed empirical decision rather than the posterior mode, so $e_N$ can exceed $1/2$ under coherent bias.
 
 \subsection{Blindness and finite-pilot bounds}
 
-Let $R^*(\vt)=\E_\vt[\min_al_a]$, $D_a=l_a-\min_bl_b\ge0$, $\Reg(\pi;\vt)=R(\pi;\vt)-R^*(\vt)=\E_\vt[\sum_a\pi_aD_a]$, and for a pair $\vt,\vt'$, $\Gamma(x)=\min_a[D_a(\vt,x)+D_a(\vt',x)]$.
+For a state $\vt$ and a pair $\vt,\vt'$ define the excess loss of each action, the regret, and the smallest joint excess loss:
+\[
+D_a=l_a-\min_b l_b,\qquad \Reg(\pi;\vt)=\E_\vt\Bigl[\sum_a\pi_aD_a\Bigr],\qquad \Gamma(x)=\min_a\bigl[D_a(\vt,x)+D_a(\vt',x)\bigr].
+\]
 
 \begin{lemma}[L1: action-selection blindness]\label{lem:L1}
 If $P_\vt=P_{\vt'}=:P$, then for every policy $\Reg(\pi;\vt)+\Reg(\pi;\vt')\ge\E_P[\Gamma]$, so $\max\{\Reg(\pi;\vt),\Reg(\pi;\vt')\}\ge\tfrac12\E_P[\Gamma]$; and $\Gamma(x)>0$ iff the optimal-action sets at $x$ are disjoint. For any two actions $a_0\neq a_1$, $P_\vt(a\neq a_0)+P_{\vt'}(a\neq a_1)\ge1$.
@@ -273,11 +316,18 @@ If $\Gamma\ge\Gamma_{\min}$ a.e.\ on $\{\min(p_0,p_1)>0\}$, then $\max_j\Reg_j\g
 with $\KL_i$ taken in either direction, chosen once for all $i$.
 \end{theorem}
 
-\paragraph{Constants and direction.} We use $\TV=\tfrac12\int|p_0-p_1|$, so $\int\min(p_0,p_1)=1-\TV$; $\BC=\int\sqrt{p_0p_1}$; and the Hellinger distance $H^2=\int(\sqrt{p_0}-\sqrt{p_1})^2\in[0,2]$, so $\BC=1-H^2/2$. (The Gate~1A artifact stores $\tfrac12\int(\sqrt{p_0}-\sqrt{p_1})^2=1-\BC$ under the name \texttt{hellinger\_squared}.) Both \eqref{eq:T2e} (Le Cam) and \eqref{eq:T2d} (Bretagnolle--Huber) bound the overlap $1-\TV$ from \emph{below} with constant $\tfrac12$, which is the direction an error lower bound needs. The key point for product laws is that $\BC$ multiplies and $\KL$ adds over independent coordinates, whereas $\TV$ does not tensorise: $n\,\TV_1$ is a valid but rapidly vacuous upper bound on $\TV_n$, and ``single-shot TV times $n$'' must not be read as a distance at budget. For an upper bound on $\TV_n$ we also use
+\paragraph{Constants and direction.} We use
+\[
+\TV=\tfrac12\int|p_0-p_1|,\qquad \BC=\int\sqrt{p_0p_1},\qquad H^2=\int\bigl(\sqrt{p_0}-\sqrt{p_1}\bigr)^2=2-2\,\BC,
+\]
+so that $\int\min(p_0,p_1)=1-\TV$.\footnote{The Gate~1A artifact stores $\tfrac12\int(\sqrt{p_0}-\sqrt{p_1})^2=1-\BC$ under the name \texttt{hellinger\_squared}.} Both product bounds, \eqref{eq:T2e} and \eqref{eq:T2d}, bound the overlap $1-\TV$ from below with constant $\tfrac12$, the direction an error lower bound needs. $\BC$ multiplies and $\KL$ adds over independent shots, whereas $\TV$ does not tensorise, so ``single-shot TV times $n$'' is not a distance at budget. For an upper bound on $\TV_n$ we also use
 \begin{equation}\label{eq:TVup}
 \TV(P,Q)\le\sqrt{1-\BC(P,Q)^2}
 \end{equation}
-(\cref{lem:TVup}, \textsc{proved, draft}). If $P_0(a\neq a_0)+P_1(a\neq a_1)\le\beta<\tfrac12$, then \eqref{eq:T2d} forces $\sum_i\KL_i\ge\log(1/(2\beta))$; for i.i.d.\ shots, $n\ge\log(1/(2\beta))/\min\{\KL(P_0\|P_1),\KL(P_1\|P_0)\}$. T2 bounds wrong-\emph{action} probability, which differs from the estimator-error bounds of \cite{takagi2022,quek2024}.
+(\cref{lem:TVup}, \textsc{proved, draft}). If the two wrong-action probabilities sum to at most $\beta<\tfrac12$, then \eqref{eq:T2d} forces, for i.i.d.\ shots,
+\[
+n\;\ge\;\frac{\log\bigl(1/(2\beta)\bigr)}{\min\{\KL(P_0\|P_1),\,\KL(P_1\|P_0)\}}.
+\]
 
 \subsection{Value of information and collapse}
 
@@ -290,19 +340,29 @@ Let $\Pi$ now be the unit distribution, $\bar R(\pi)=\E_\Pi R(\pi;\vt)$, and the
 \begin{proposition}[D1: value-of-information decomposition]\label{prop:D1}
 Under \cref{ass:comp}, $\DV(\pi)=G(\pi)-K$ with $G(\pi)=\E_\Pi\E_\vt[\pi_C(l_N-l_C)+\pi_A(l_N-\lA)]$ and $K=\bar q_f-R_{\mathrm{fix}}\ge0$.
 \end{proposition}
-\noindent\emph{Derivation.} Averaging \eqref{eq:T1b} over $\Pi$ gives $\bar R(\pi)=\bar q_f-G(\pi)$, so $\DV=G-(\bar q_f-R_{\mathrm{fix}})$; $K\ge0$ because $\bar q_f$ is one of the comparator risks. Hence positive value requires an expected action-loss reduction $G$ larger than the allocation cost $K$ of having set aside sensing and reserve shots. Without allocation (ii), $K$ could be negative and part of $\DV$ could come from allocation alone.
+Averaging \eqref{eq:T1b} over $\Pi$ gives $\bar R(\pi)=\bar q_f-G(\pi)$, hence the identity. Positive value therefore needs an expected action-loss reduction $G$ larger than the allocation cost $K$ of having set aside sensing and reserve shots.
 
 \begin{proposition}[P2: comparator collapse]\label{prop:P2}
 Under \cref{ass:comp}, if $\pi$ is information-free---$\pi_a(x)\equiv w_a$ for all $x$, metadata included---then $\DV(\pi)\le0$, with equality iff every action with $w_a>0$ attains $R_{\mathrm{fix}}$.
 \end{proposition}
-\noindent\emph{Derivation.} With constant weights, \eqref{eq:T1a} gives $\bar R(\pi)=w_N\bar q_f+w_C\bar r_C+w_A\lA$, using \cref{ass:comp}(b) to identify $\E_\Pi\E_\vt l_C$ with $\bar r_C$. Each term is a comparator risk, hence $\ge R_{\mathrm{fix}}$, and so is their convex combination. Two gaps remain and are not covered: metadata-only policies (one option is per-stratum comparators) and finite samples, where comparator mis-selection on development data can make an information-free policy look positive on evaluation data.
+With constant weights, $\bar R(\pi)=w_N\bar q_f+w_C\bar r_C+w_A\lA$ is a convex combination of comparator risks, each at least $R_{\mathrm{fix}}$. Two cases are not covered: policies that depend only on metadata (per-stratum comparators would close this gap) and finite samples, where comparator mis-selection can make an information-free policy look positive.
 
 \paragraph{Policy non-degeneracy (D2).} A policy is non-degenerate if at least two actions each reach a minimum frequency and the variation is not produced by ties. P2 implies that positive population $\DV$ requires the action to depend on the unit, but not that each action reaches the frequency floor; Gate~4 is an additional requirement, not a consequence of Gate~3.
 
 \section{Sensors and Identifiability}\label{sec:ident}
 
 \subsection{Three notions}
-For a model $\{P_{\eps,\eta}\}$ with true point $(\eps_0,\eta_0)$, the \emph{identified set} is $I=\{\eps':\exists\eta',\ P_{\eps',\eta'}=P_{\eps_0,\eta_0}\}$. (i) \emph{Zero efficient information}: the $\eps$-score lies in the closure of the nuisance tangent span---a first-order statement. (ii) \emph{Local non-identification}: $I\cap(\eps_0-r,\eps_0+r)\neq\{\eps_0\}$ for every $r>0$. (iii) \emph{Global non-identification}: $I$ is the whole parameter set. (i) does not imply (ii): for $P_\eps=N(\eps^3,1)$ the information at $\eps_0=0$ is zero, yet $\eps\mapsto\eps^3$ is injective. Every non-identification claim below is therefore proved by an explicit observational equivalence.
+For a model $\{P_{\eps,\eta}\}$ with true point $(\eps_0,\eta_0)$, the \emph{identified set} is
+\[
+I=\bigl\{\eps' : \exists\,\eta'\ \text{with}\ P_{\eps',\eta'}=P_{\eps_0,\eta_0}\bigr\}.
+\]
+Three notions must be kept apart:
+\begin{enumerate}[label=(\roman*)]
+\item \emph{zero efficient information}: the $\eps$-score lies in the closure of the nuisance tangent span, a first-order statement;
+\item \emph{local non-identification}: $I\cap(\eps_0-r,\eps_0+r)\neq\{\eps_0\}$ for every $r>0$;
+\item \emph{global non-identification}: $I$ is the whole parameter set.
+\end{enumerate}
+The first does not imply the second: for $P_\eps=N(\eps^3,1)$ the information at $\eps_0=0$ is zero, yet $\eps\mapsto\eps^3$ is injective. Every non-identification claim below is therefore proved by an explicit observational equivalence.
 
 \subsection{Nuisance classes}
 Observed draws are $(c,t,b)$ with known candidate and label probabilities, so two parameter points are equivalent iff they induce the same family $\{P_{c,t}\}$. By \cref{lem:frame}, $P_{c,t}=R_c(u_c(t))$ with $u_c(t)=(1+\eps)\theta_c+s(t)\phi$. Let $\simp$ be the open simplex on outcomes and $\Sigma_0$ the zero-sum vectors.
@@ -322,7 +382,7 @@ At any true point with $\phi_0=0$:
 \item if each $R_c$ is differentiable at $(1+\eps_0)\theta_c$, then under N-q, N-loc and N-free the $\eps$-score lies in the nuisance tangent \emph{set}; the efficient information for $\eps$ is $0$.
 \end{enumerate}
 \end{theorem}
-\noindent\emph{Derivation (the constructions).} (1) For $|\eps'-\eps_0|<\delta$ put $q'_c=q^0_c+(\eps_0-\eps')v_c$, $\phi'=0$: it sums to one, stays positive because $|(\eps_0-\eps')v_c(b)|<\delta V=m$, and $q'_c+\eps'v_c=q^0_c+\eps_0v_c$ for every label. (2) For $\eps'\neq0$ rescale $D'=(\eps_0/\eps')D$, $q'=q^0$; for $\eps'=0$ put $q'_c=P_c$, $D'=0$. (3) Translate: $R'_c(u)=R^0_c(u+(\eps_0-\eps')\theta_c)$, $\phi'=0$; then $R'_c((1+\eps')\theta_c)=R^0_c((1+\eps_0)\theta_c)$ for every real $\eps'$, and $R'_c$ keeps the regularity of $R^0_c$. (4) The score $v_c/P_c$ (or $\nabla R_c\theta_c/P_c$) is the score of the in-class nuisance path $q_c+\tau v_c$ (or $R_c+\tau\psi_cw_c$ with a smooth positivity-preserving bump $\psi_c$). Full proofs: \cref{app:ident}.
+\noindent\emph{Proof idea.} Each claim is an explicit equivalence with $\phi'=0$. For (1), shift the base law, $q'_c=q^0_c+(\eps_0-\eps')v_c$, which stays positive while $|\eps'-\eps_0|<\delta$; for (2), rescale the response directions, $D'=(\eps_0/\eps')D$; for (3), translate the response map, $R'_c(u)=R^0_c\bigl(u+(\eps_0-\eps')\theta_c\bigr)$; for (4), the $\eps$-score is itself the score of an in-class nuisance path. Full proofs are in \cref{app:ident}.
 
 \begin{proposition}[Sharp identified set under N-q]\label{prop:sharp}
 If for some $c$ the map $t\mapsto\sum_\ell s_\ell(t)D^0_{c\ell}$ is non-constant (or $\phi$ is known to be $0$), then $I=(\eps_0-\alpha,\eps_0+\beta)$ with $\alpha=\min_{v_c(b)<0}q^0_c(b)/|v_c(b)|$ and $\beta=\min_{v_c(b)>0}q^0_c(b)/v_c(b)$. If some $v_c\neq0$, both are finite: $\eps$ is locally but \emph{not} globally non-identified.
@@ -334,7 +394,7 @@ So the three notions really differ here: under N-q the information is zero and i
 At exact probabilities the profile log-likelihood maximisers attaining the population maximum are exactly $I$ (Gibbs' inequality), even if the class is misspecified. Hence at $\phi_0=0$ the profile maximiser is non-unique in every class above.
 \end{corollary}
 
-\paragraph{Shared-response readings (S1$''$).} The frozen class (spec §5.3) treats ``each target context's'' response as unknown, so in the \emph{distinct}-angle design two candidates may share one map $R$. If the class is closed under argument rescaling, $I\supseteq\R\setminus\{-1\}$ (put $R'=R(c\,\cdot)$, $c=(1+\eps_0)/(1+\eps')$); and $-1\in I$ iff all candidate laws coincide, for every $\phi'$ (the evaluation points $s(t)\phi'$ do not depend on the candidate). In the first-order shared version every $\eps'\neq0$ is in $I$, and $0\in I$ iff all candidate laws coincide. Visibility and label-independent offset ($vP+(1-v)o$) only enlarge identified sets (monotonicity). In all six primary designs and every reading, $I$ contains an open interval around $\eps_0$, realised with $\phi'=0$, which lies inside the optimiser box $[-0.05,0.05]^2$ since $|\eps_0|\le0.04$.
+\paragraph{Shared responses (S1$''$).} The frozen class lets the two candidates of the distinct-angle design share one response map $R$. If the class is closed under rescaling the argument, then $I\supseteq\R\setminus\{-1\}$, and $-1\in I$ only if all candidate laws coincide; the first-order shared version behaves the same way with $0$ in place of $-1$. Visibility loss or a label-independent offset only enlarges identified sets. In all six primary designs and every reading, $I$ contains an open interval around $\eps_0$ inside the optimiser box $[-0.05,0.05]^2$ (\cref{app:ident}).
 
 \paragraph{From non-uniqueness to Gate~1A FAIL.}\status{specification inference} Spec §7 declares ``a flat profile, nonunique solution \dots\ a failure'' and §9 requires recovery ``at every required grid point''; each design has nine grid points with $\phi=0$. With \cref{cor:gibbs}, Gate~1A fails. This step uses the specification's wording and is not a theorem. Whether readings (a)--(d) exhaust §5.3 is an open specification question.
 
@@ -374,9 +434,9 @@ Assume every tagged angle occurs in exactly one gate (each occurrence of a QAOA 
 \end{equation}
 The constant $\tfrac12$ is sharp over this circuit class.
 \end{theorem}
-\noindent\emph{Derivation.} Fixing all angles but one, $U_j=V_2\RZ(x)V_1$ and $E_j=a+b\cos x+c\sin x$. Since $0\le E_j\le1$ for every $x$, writing $E_j=a+\rho\cos(x-x_0)$ gives $a+\rho\le1$ and $a-\rho\ge0$, so $\rho\le\tfrac12$ and $|\partial E_j/\partial x|\le\tfrac12$ everywhere. Hence $\|\nabla g\|_\infty\le\tfrac12$ on all of $\R^M$, and the fundamental theorem of calculus along $\theta+t\delta$ with Hölder's inequality gives the first inequality; $|\delta_{ji}|\le|\eps||\theta_{ji}|+|\phi|$ gives the second. Sharpness: $E(x)=\cos^2(x/2)$ has $|E'(\pi/2)|=\tfrac12$.
+\noindent\emph{Proof idea.} Along any single tagged angle, $E_j(x)=a+\rho\cos(x-x_0)$ with $0\le E_j\le1$, so $\rho\le\tfrac12$ and $|\partial E_j/\partial x|\le\tfrac12$ everywhere; integrating the gradient along $\theta+t\delta$ gives \eqref{eq:B}. The function $E(x)=\cos^2(x/2)$ attains the constant.
 
-\paragraph{Scope.} The bound is global in $(\eps,\phi)$ and has no remainder term, because the derivative bound holds uniformly along the whole segment; the earlier first-order version of the bound is its linearisation. It is instance-dependent only through $A$ and $M$. A \emph{numerical check} on the frozen populations finds the largest ratio of the actual shift to $\tfrac12B$ to be $0.431$ (Gate~2) and $0.213$ (Gates~3--4). It says nothing about the plug-in $\hat B=B(\hat\eps,\hat\phi)$, its coverage, shot noise in $\hat g_0$, decision-flip probabilities, or models beyond the noiseless compiled-angle model. $\hat B$ is therefore a heuristic alarm threshold built from a provable population bound, not a guarantee about the rule.
+\paragraph{Scope.} The bound holds for all $(\eps,\phi)$ with no remainder term, and depends on the instance only through $A$ and $M$. On the frozen populations the actual shift never exceeds $0.431$ (Gate~2) or $0.213$ (Gates~3--4) of $\tfrac12B$ (numerical check). The bound says nothing about the plug-in $\hat B=B(\hat\eps,\hat\phi)$, its coverage, or decision flips; $\hat B$ is a heuristic alarm threshold built from a provable population bound.
 
 \subsection{P-amp identifiability (Gate~1B basis)}
 With its own known reference, P-amp observes phases that are linear in $(\eps,\phi)$ with a rank-two design, so $(\eps,\phi)$ is identified at every grid point and noiseless recovery is exact (81/81 grid points within $10^{-8}$). The resource condition compares the conservative standard error $\mathrm{SE}(\hat\eps)=0.0070902$ (from the frozen bound $\mathrm{Var}(\hat u)\le1/135$ per setting at visibility $v=1$) with the frozen threshold $0.0071429$: a margin of $1-0.0070902/0.0071429=0.74\%$. Since the standard error scales as $1/v$, the condition fails for $v<0.0070902/0.0071429=0.99263$. Visibility loss was not modelled in any gate.
@@ -409,7 +469,7 @@ With its own known reference, P-amp observes phases that are linear in $(\eps,\p
 
 \paragraph{Evidence boundary.} Every gate result (\cref{sec:results,sec:failure}) comes from shot-noise-only simulation of the synthetic compiled-angle model on 2--6 qubits at QAOA depth one; no device, decoherence, visibility loss, or drift is modelled. The hardware pilot of \cref{sec:hardware} is a separate study with its own lock and does not enter any gate verdict. The gate locks are internal Git and SHA-256 locks without an independent timestamp, so we call the gates prespecified rather than preregistered, and the analysis code was not itself locked (\cref{sec:failure}). Where a quantity was computed after a gate result, it is labelled \emph{post-lock}; such analyses can qualify a verdict but cannot change it. Label definitions are collected in \cref{tab:labels}.
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
 \begin{tikzpicture}[font=\scriptsize,node distance=5mm and 7mm,
   g/.style={draw=muted,rounded corners=2pt,align=center,inner sep=3pt,text=ink,minimum height=11mm,text width=24mm},
@@ -429,13 +489,30 @@ With its own known reference, P-amp observes phases that are linear in $(\eps,\p
 \end{tikzpicture}
 \caption{Gate route and stopping path. Blue outline: pass; orange outline: fail. Gate~1A's failure routed to the prespecified fallback sensor (Gate~1B). Gate~3's failure triggered the frozen stop rule; Gate~4 passed its frequency rule but is moot.}
 \label{fig:flow}
-\end{figure*}
+\end{figure}
 
-\paragraph{Gate 1 (M3 lock).} Exact enumeration on the 2-qubit edge (G2) and 3-qubit path (G3) at $p=1$, $\beta=\pi/8$, in three designs each (single angle $\pi/4$; same pair $(\pi/4,\pi/4)$; distinct pair $(\pi/8,\pi/4)$), 16 two-qubit Pauli labels per tagged block, all joint label vectors retained, a $9\times9$ grid $\eps,\phi\in\{0,\pm0.005,\pm0.01,\pm0.02,\pm0.04\}$, and $n_S=2430$. Information sources were kept separate: I1 (label contrast, response unknown), I2 (oracle, known response; diagnostic only), I3 (deployable profile information under the §5.3 class). Gate~1A required, in at least one design, rank two for I1 plus admissible I3, exact recovery at every grid point by profile maximum likelihood from nine starts in the box $[-0.05,0.05]^2$, and agreement of all controls. Gate~1B (fallback) required rank two, noiseless recovery, the resource condition, and no phase ambiguity.
+\Cref{tab:design} summarises the four gates.
 
-\paragraph{Gate 2 (development).} 6600 units from 10 graph strata on 2--5 qubits (edge-2, path-3, triangle-3, path-4, cycle-4, star-4, complete-4, path-5, cycle-5, star-5), four mixer angles $\beta\in\{\pi/16,\pi/8,3\pi/16,\pi/4\}$, 11 candidate pairs, and 15 error points; 4905 evaluable, split 1179/3726 into rule development and evaluation. The frozen rule predicts positive correction benefit exactly when the P-amp estimate is defined and unambiguous, either parameter clears its two-sided $1.96$-standard-error threshold, $\hat g_0\neq0$, and $|\hat g_0|\le\hat B$. The baseline predicts the constant majority class. The metric is balanced accuracy; the gate passes if the full improvement is positive and the minimum leave-one-graph-out improvement is at least $0.05$.
+\begin{table}[t]
+\centering\small
+\caption{Design of the four gates. All populations are shot-noise-only simulations of the compiled-angle model.}\label{tab:design}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Gate & Population & Rule or statistic & Pass criterion \\
+\midrule
+1A & 2-qubit edge (G2) and 3-qubit path (G3), $p=1$, $\beta=\pi/8$, three angle designs each; 16 Pauli labels per block; $9\times9$ grid with $\eps,\phi\in\{0,\pm0.005,\pm0.01,$ $\pm0.02,\pm0.04\}$; $n_S=2430$ & profile maximum likelihood of $(\eps,\phi)$ from retained labels with unknown response; nine starts in $[-0.05,0.05]^2$ & in some design: rank two, exact recovery at every grid point, all controls agree \\
+1B & same grid; P-amp on its own known reference & least-squares phase inversion & rank two, noiseless recovery, $\mathrm{SE}(\hat\eps)\le0.0071429$, no phase ambiguity \\
+2 & 6600 units: 10 graphs on 2--5 qubits, 4 mixer angles, 11 candidate pairs, 15 error points; 3726 evaluable evaluation units & predict benefit if P-amp is usable, a parameter clears $1.96$ standard errors, $\hat g_0\neq0$, and $|\hat g_0|\le\hat B$ & balanced-accuracy gain over a constant baseline $>0$ and leave-one-graph-out minimum $\ge0.05$ \\
+3 & 99 graph clusters on 4--6 qubits, 60 contexts each (5940 units); clusters 33--98 evaluate (3545 units, 66 clusters) & C if the Gate-2 predicate holds; else A if P-amp is unusable or $|\hat g_0|\le1.96\,\mathrm{SE}$; else N & $\DV>0$ and one-sided 95\% cluster-bootstrap lower bound $>0$ \\
+4 & as Gate 3 & action frequencies & two actions on $\ge5\%$ of units and in $\ge10$ of 66 clusters \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-\paragraph{Gates 3--4 (development, split-99).} 99 connected graph clusters on 4--6 qubits generated deterministically from SHA-256 edge masks; clusters 0--32 form the policy-lock/power partition and 33--98 the evaluation partition; 60 contexts per graph (four $\beta$, three $\gamma$-pairs, five error points), 5940 units, 3545 evaluable evaluation units in 66 clusters. The deployable policy is ordered: C if the Gate-2 correction predicate holds; else A if P-amp is undefined or ambiguous or $|\hat g_0|\le1.96\,\mathrm{SE}_{g_0}$; else N. The fixed comparator was selected once on the 33 policy-lock clusters. Gate~3 passes only if $\DV>0$ and the one-sided 95\% lower bound---the 5th percentile of 10{,}000 cluster-bootstrap means of the 66 cluster means of $\Delta_u$---is strictly positive. Gate~4 passes if at least two actions occur on $\ge5\%$ of units and in $\ge10$ of 66 clusters. Power was estimated from 5000 resampled 66-cluster studies of the policy-lock cluster means with the approximation $\text{mean}-1.669\,\mathrm{SD}/\sqrt{66}$.
+\paragraph{Gate 1 information sources.} Three sources were kept separate: label contrast with an unknown response (I1), the oracle law with a known response (I2, diagnostic only), and deployable profile information under the frozen nuisance class (I3).
+
+\paragraph{Gates 3--4 comparator, bound, and power.} Clusters 0--32 were used once, to select the fixed comparator and to estimate power. The lower bound is the 5th percentile of 10{,}000 cluster-bootstrap~\cite{efron1979} means of the 66 cluster means of $\Delta_u$. Power was estimated from 5000 resampled 66-cluster studies with the approximation $\text{mean}-1.669\,\mathrm{SD}/\sqrt{66}$.
 
 \paragraph{Scoring.} Shots are multinomial draws (NumPy PCG64) with seeds derived from SHA-256 unit keys. Action losses are 256-replicate Monte Carlo estimates of selection probabilities and are used only for scoring, never as policy inputs.
 
@@ -561,37 +638,53 @@ For a fixed unit let $W=\{\delta_0\neq k^*\}$ be the event that the issued answe
 \end{equation}
 (\textsc{proved, draft}; \cref{app:estimand}). The policy chooses N only when $|\hat g_0|>1.96\,\mathrm{SE}_{g_0}$, an event computed from the same shots as $\delta_0$, and conditional on a large observed gap the issued answer is less often wrong; so $\mathrm{Cov}(\one_N,\one_W)\le0$ is expected and the frozen N-path loss is biased upward. The stored records agree: mean N-path loss $0.00278$ (frozen, unconditional) against $0.00218$ (realised, conditional) on the 919 N units. The correction raises $\DV$ by $0.000156$ but leaves its lower bound negative.
 
-\paragraph{Governance defects.} (i) The Gate~1A runner wrote its verdict, I3 ranks, recovery, and control statuses as literals. (ii) Analysis code was outside every lock. (iii) Power was computed in the same execution as the evaluation, so no decision point existed between them; had it been inspected first, the design could have been revised. (iv) Locks state ``owner-approved'' without review notes, and lock-to-run intervals were 2--34 minutes. (v) Selection probabilities were estimated with 256 replicates (granularity $1/256$) although exact values were computable, which is coarse relative to $|\DV|<0.001$. (vi) Gate~4 thresholds were not power-derived, and 25.7\% of Gate~2 units were exact ideal-gap ties, not prescreened. None of these changes a verdict; all limit what the locks prove. Each is documented in the errata listed in \cref{tab:frozen}.
+\paragraph{Governance defects.} None of the following changes a verdict, but each limits what the locks prove; all are documented in the errata listed in \cref{tab:frozen}.
+\begin{itemize}
+\item The Gate~1A runner wrote its verdict, I3 ranks, recovery, and control statuses as literals.
+\item Analysis code was outside every lock.
+\item Power was computed in the same execution as the evaluation, so there was no point at which the design could have been revised.
+\item Locks state ``owner-approved'' without review notes, and lock-to-run intervals were 2--34 minutes.
+\item Selection probabilities used 256 Monte Carlo replicates (granularity $1/256$) although exact values were computable.
+\item Gate~4 thresholds were not power-derived, and 25.7\% of Gate~2 units were exact ideal-gap ties that were not prescreened.
+\end{itemize}
 
 \section{A Hardware Pilot of the Sensor}\label{sec:hardware}
 
 Gate~1B passed with 0.74\% headroom at visibility one, and the resource condition fails for any visibility below $0.99263$ (\cref{sec:ident}). Whether a real processor keeps the sensor within that standard is therefore the first question to ask of hardware. We answered it in a separately locked pilot (HW-P1, Stage~A); it does not revisit any gate verdict.
 
 \subsection{Design}
-\paragraph{Injected rather than native error.} On IBM processors $Z$ rotations are virtual frame changes \cite{mckay2017vz}: they are applied without error and without duration, so the compiled-angle error of \cref{sec:model} cannot arise physically on an $\RZ$. The pilot therefore \emph{injects} it: each tagged rotation in the P-amp circuits is compiled as $\RZ((1+\eps)a+\phi)$ with known $(\eps,\phi)$, which the estimator never sees. This changes the estimand. The pilot measures how precisely and how accurately P-amp recovers a known compiled-angle perturbation under real noise; it says nothing about whether such an error occurs naturally.
+\paragraph{Injected rather than native error.} On IBM processors $Z$ rotations are implemented as zero-duration updates of the control frame~\cite{mckay2017vz}; there is no physical rotation whose angle could be miscalibrated, so the compiled-angle error of \cref{sec:model} cannot arise on an $\RZ$. The pilot therefore \emph{injects} it: each tagged rotation in the P-amp circuits is compiled as $\RZ((1+\eps)a+\phi)$ with known $(\eps,\phi)$, which the estimator never sees. This changes the estimand. The pilot measures how precisely and how accurately P-amp recovers a known compiled-angle perturbation under real noise; it says nothing about whether such an error occurs naturally.
 
-\paragraph{Execution plan.} One Heron-family processor, \texttt{ibm\_marrakesh}, with physical qubits 53 (target) and 54 (control), chosen before execution as the pair minimising the sum of the two readout errors and the CZ error in the calibration snapshot; fractional gates were disabled. The five injected points were the Gate~3--4 error grid, $(0,0)$, $(\pm0.02,0)$, $(0.04,0.01)$ and $(-0.04,-0.01)$. Each estimate used the frozen 18 settings of 135 shots, 2430 shots in all. Eight blocks were run in sequence; each contained all five points in a seeded random order, one phase-blind control per point (P-amp measured in the $Z$ basis), and four readout-calibration circuits, for 134{,}600 shots in total. Circuits were transpiled at optimisation level~1 with barriers around each tagged block, with dynamical decoupling and twirling off; unmitigated counts are the primary analysis. The protocol, code, environment, seeds, and command were hashed in a lock committed before the first job (about two minutes earlier); execution was gated on that hash, and the written approval record was added afterwards. There was no external timestamp, so the pilot is prespecified under an internal lock, not preregistered.
+\paragraph{Execution plan.}
+\begin{itemize}
+\item \emph{Processor.} \texttt{ibm\_marrakesh} (Heron family), physical qubits 53 (target) and 54 (control), chosen before execution as the pair with the smallest sum of readout and CZ errors in the calibration snapshot; fractional gates disabled.
+\item \emph{Injected points.} The Gate~3--4 grid $(0,0)$, $(\pm0.02,0)$, $(0.04,0.01)$, $(-0.04,-0.01)$; each estimate uses the frozen 18 settings of 135 shots (2430 shots).
+\item \emph{Replication and controls.} Eight blocks in sequence, each with all five points in a seeded random order, a phase-blind negative control~\cite{lipsitch2010} per point (P-amp measured in the $Z$ basis), and four readout-calibration circuits; 134{,}600 shots in total.
+\item \emph{Compilation and analysis.} Optimisation level~1, barriers around each tagged block, no dynamical decoupling or twirling; unmitigated counts are primary.
+\item \emph{Lock.} Protocol, code, environment, seeds, and command were hashed in a lock committed about two minutes before the first job, and execution was gated on that hash. The written approval was recorded afterwards and there was no external timestamp, so the pilot is prespecified under an internal lock, not preregistered.
+\end{itemize}
 
 \subsection{Results}
-All eight blocks completed on one calibration snapshot, using 56 QPU-charge seconds. The validity checks passed: readout assignment error was 0.8--1.7\% per block, the phase-blind controls showed no dependence on the injected point ($|z|\le0.60$ against a Bonferroni threshold of 2.50), and the zero-injection estimate drifted by $0.0001$ per block. \Cref{tab:hw} and \cref{fig:hw} summarise the estimates.
+All eight blocks completed on one calibration snapshot, using 56 QPU-charge seconds. The validity checks passed: readout assignment error was 0.8--1.7\% per block, the phase-blind controls showed no dependence on the injected point ($|z|\le0.60$ against a Bonferroni threshold of 2.50), and the zero-injection estimate drifted by $0.0001$ per block; drift over longer windows~\cite{proctor2020drift} was not studied. \Cref{tab:hw} and \cref{fig:hw} summarise the estimates.
 
-\begin{table*}[t]
+\begin{table}[t]
 \centering\footnotesize\setlength{\tabcolsep}{5pt}
-\caption{HW-P1 Stage A on \texttt{ibm\_marrakesh} (qubits 53/54), eight blocks of 2430 shots per point, unmitigated. Bias and visibility are from the locked analysis; the precision column is the standard deviation of one 2430-shot estimate (post-lock correction, see text), with a 95\% block-bootstrap interval. The frozen precision threshold is $0.0071429$.}\label{tab:hw}
-\begin{tabular}{@{}lrrrrrl@{}}
+\caption{HW-P1 Stage A on \texttt{ibm\_marrakesh} (qubits 53/54), eight blocks of 2430 shots per point, unmitigated. The $\eps$ bias is the mean estimate minus the injected value. Bias and visibility are from the locked analysis; the precision column is the standard deviation of one 2430-shot estimate (post-lock correction, see text), with a 95\% block-bootstrap interval. The frozen precision threshold is $0.0071429$.}\label{tab:hw}
+\begin{tabular}{@{}lrrrrl@{}}
 \toprule
-Injected $(\eps,\phi)$ & mean $\hat\eps$ & $\eps$ bias (95\% CI) & $\phi$ bias & SD of one estimate (95\% CI) & visibility & precision label \\
+Injected & $\eps$ bias & $\phi$ & SD of one estimate & visi- & precision \\
+$(\eps,\phi)$ & (95\% CI) & bias & (95\% CI) & bility & label \\
 \midrule
-$(0,0)$ & $-0.0128$ & $-0.0128$ $[-0.0166,-0.0086]$ & $+0.0091$ & $0.0062$ $[0.0026,0.0082]$ & 0.955 & inconclusive \\
-$(+0.02,0)$ & $+0.0166$ & $-0.0034$ $[-0.0069,+0.0006]$ & $+0.0076$ & $0.0059$ $[0.0023,0.0072]$ & 0.955 & inconclusive \\
-$(-0.02,0)$ & $-0.0210$ & $-0.0010$ $[-0.0049,+0.0019]$ & $+0.0086$ & $0.0053$ $[0.0013,0.0072]$ & 0.951 & inconclusive \\
-$(+0.04,+0.01)$ & $+0.0322$ & $-0.0078$ $[-0.0126,-0.0029]$ & $+0.0075$ & $0.0077$ $[0.0031,0.0101]$ & 0.957 & inconclusive \\
-$(-0.04,-0.01)$ & $-0.0460$ & $-0.0060$ $[-0.0138,+0.0011]$ & $+0.0094$ & $0.0117$ $[0.0057,0.0146]$ & 0.948 & inconclusive \\
+$(0,0)$ & $-0.0128$ $[-0.0166,-0.0086]$ & $+0.0091$ & $0.0062$ $[0.0026,0.0082]$ & 0.955 & inconclusive \\
+$(+0.02,0)$ & $-0.0034$ $[-0.0069,+0.0006]$ & $+0.0076$ & $0.0059$ $[0.0023,0.0072]$ & 0.955 & inconclusive \\
+$(-0.02,0)$ & $-0.0010$ $[-0.0049,+0.0019]$ & $+0.0086$ & $0.0053$ $[0.0013,0.0072]$ & 0.951 & inconclusive \\
+$(+0.04,+0.01)$ & $-0.0078$ $[-0.0126,-0.0029]$ & $+0.0075$ & $0.0077$ $[0.0031,0.0101]$ & 0.957 & inconclusive \\
+$(-0.04,-0.01)$ & $-0.0060$ $[-0.0138,+0.0011]$ & $+0.0094$ & $0.0117$ $[0.0057,0.0146]$ & 0.948 & inconclusive \\
 \midrule
-pooled (35 d.f.) & & & & $0.0077$ $[0.0052,0.0084]$ & & inconclusive \\
+pooled (35 d.f.) & & & $0.0077$ $[0.0052,0.0084]$ & & inconclusive \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 
 \begin{figure}[t]
 \centering
@@ -618,11 +711,11 @@ pooled (35 d.f.) & & & & $0.0077$ $[0.0052,0.0084]$ & & inconclusive \\
 \label{fig:hw}
 \end{figure}
 
-\paragraph{Precision.} The spread of one 2430-shot estimate was $0.0053$--$0.0117$ across points and $0.0077$ pooled (95\% interval $0.0052$--$0.0084$), against the frozen threshold $0.0071429$: inconclusive at every point and pooled, with the pooled point estimate 8\% above the threshold. The pilot's locked analysis had divided this spread by $\sqrt8$, reporting the standard error of an eight-block mean instead, and labelled every point as meeting the threshold; an append-only erratum retracted those labels and added the corrected analysis (\cref{sec:repro}). With eight blocks the intervals are coarse, and the labels are descriptive.
+\paragraph{Precision.} The spread of one 2430-shot estimate was $0.0053$--$0.0117$ across points and $0.0077$ pooled (95\% interval $0.0052$--$0.0084$), against the frozen threshold $0.0071429$: inconclusive at every point and pooled (block bootstrap~\cite{efron1979}), with the pooled point estimate 8\% above the threshold. The pilot's locked analysis had divided this spread by $\sqrt8$, reporting the standard error of an eight-block mean instead, and labelled every point as meeting the threshold; an append-only erratum retracted those labels and added the corrected analysis (\cref{sec:repro}). With eight blocks the intervals are coarse, and the labels are descriptive.
 
 \paragraph{Visibility and the synthetic margin.} The effective visibility, the mean amplitude $\sqrt{\langle X\rangle^2+\langle Y\rangle^2}$ over settings, was 0.948--0.957, well below the $0.99263$ at which the synthetic resource condition fails. Scaling the frozen conservative standard error $0.0070902$ by $1/v$ with $v=0.953$ gives $0.0074$, close to the observed $0.0077$ (a post-lock comparison): the hardware spread is about what the shot-noise model predicts once the measured contrast is included.
 
-\paragraph{Accuracy.} The estimates track the injected values and change sign correctly, but they are biased. At zero injection the mean estimate was $-0.0128$ with 95\% interval $[-0.0166,-0.0086]$, which triggered the prespecified bias flag, and the additive phase was overestimated by $+0.0075$ to $+0.0094$ at every point. A native coherent phase on the qubit pair, for example from the CZ gate or a static $ZZ$ interaction, is a possible cause that the pilot did not test.
+\paragraph{Accuracy.} The estimates track the injected values and change sign correctly, but they are biased. At zero injection the mean estimate was $-0.0128$ with 95\% interval $[-0.0166,-0.0086]$, which triggered the prespecified bias flag, and the additive phase was overestimated by $+0.0075$ to $+0.0094$ at every point. A native coherent phase on the qubit pair, for example from the CZ gate or a static $ZZ$ interaction~\cite{krantz2019}, or crosstalk from neighbouring qubits~\cite{sarovar2020}, is a possible cause that the pilot did not test.
 
 \subsection{What the pilot does and does not show}
 The pilot shows that the idealisation behind Gate~1B does not hold on this processor: the measured contrast is far below the level the resource condition needs, the precision at the frozen budget is at best borderline, and the estimates carry an offset of about twice the precision threshold. An offset of that size is comparable to the errors the frozen grid injects ($|\eps|\le0.04$), so recalibrating with uncorrected P-amp estimates could itself add error; this was not tested. The pilot does not test correction, decisions, or the adaptive policy; it does not show that hardware has an angle-proportional error; and it covers one processor, one qubit pair, and one calibration window.
@@ -640,7 +733,9 @@ The pilot shows that the idealisation behind Gate~1B does not hold on this proce
 \paragraph{Checks and future locks.} The deterministic checks (errata and frozen-artifact manifests, archive metadata, RC and P-amp semantics, literature library, unit tests) run with the commands of \cref{tab:commands} and in continuous integration. Any future study must use the v2 lock template, which locks design files, every execution-code file, the environment, seeds, the exact command, absent outputs, and post-run artifact hashes together.
 
 \section{Conclusion}\label{sec:conclusion}
-\emph{When is runtime evidence sufficient to choose between trusting, correcting, and withholding a quantum decision under a fixed budget?} The theory gives the condition: the evidence must change the optimal action on a set of units large enough that the expected action-loss reduction exceeds the shots set aside for sensing and correction (\cref{prop:D1}); information-free policies never meet it (\cref{prop:P2}), and nearly dominated ones meet it only barely (P3). In the setting studied here the evidence was not sufficient. Retained randomized-compiling labels could not identify the multiplicative error at $\phi=0$ without knowledge of the ideal response; a known-reference sensor could, but its decision rule did not single out the units that benefit from correction; and because always correcting was already near-optimal, the adaptive policy had almost nothing to gain and showed no detectable value. These conclusions hold for the synthetic compiled-angle model and the frozen design. On a real processor the evidence was weaker still: with known errors injected, the sensor's precision at the frozen budget was inconclusive and its estimates were biased, so even the step that succeeded in simulation would need bias characterisation before any correction or policy could rely on it.
+\emph{When is runtime evidence sufficient to choose between trusting, correcting, and withholding a quantum decision under a fixed budget?} The theory gives the condition: the evidence must change the optimal action on a set of units large enough that the expected action-loss reduction exceeds the shots set aside for sensing and correction (\cref{prop:D1}); information-free policies never meet it (\cref{prop:P2}), and nearly dominated ones meet it only barely (P3). In the setting studied here the evidence was not sufficient. Retained randomized-compiling labels could not identify the multiplicative error at $\phi=0$ without knowledge of the ideal response; a known-reference sensor could, but its decision rule did not single out the units that benefit from correction; and because always correcting was already near-optimal, the adaptive policy had almost nothing to gain and showed no detectable value. These conclusions hold for the synthetic compiled-angle model and the frozen design.
+
+On a real processor the evidence was weaker still: with known errors injected, the sensor's precision at the frozen budget was inconclusive and its estimates were biased, so even the step that succeeded in simulation would need bias characterisation before any correction or policy could rely on it.
 
 \section{Discussion}\label{sec:discussion}
 
@@ -659,12 +754,11 @@ All frozen artifacts, errata, audit tools, and proofs are in the repository and 
 \bibliography{references}
 
 \clearpage
-\onecolumn
 \appendix
 
 \section{Proofs of the three-action results}\label{app:theory}
 
-Throughout, \cref{ass:X,ass:pol,ass:st2} hold. All action-conditional losses are measurable in $x$ (regular conditional laws exist on standard Borel spaces) and take values in $[0,\max(1,\lA,\lF)]$, so every expectation is finite. These proofs follow the owner-reviewed note \texttt{docs/theory/A4\_A6\_rigorous.pdf}; \cref{lem:TVup} and \cref{app:estimand} are new and carry the status \textsc{proved, draft}.
+Throughout, \cref{ass:X,ass:pol,ass:st2} hold. All action-conditional losses are measurable in $x$ (regular conditional laws exist on standard Borel spaces) and take values in $[0,\max(1,\lA,\lF)]$, so every expectation is finite. These proofs follow the owner-reviewed note \fn{docs/theory/A4_A6_rigorous.pdf}; \cref{lem:TVup} and \cref{app:estimand} are new and carry the status \textsc{proved, draft}.
 
 \paragraph{Proof of \cref{thm:T1}.} Fix $\vt$ and condition on $X=x$. The realised loss is
 $L=\one\{a=N\}\one\{\delta_0\neq k^*\}+\one\{a=A\}\lA+\one\{a=C\}[\lF F+(1-F)\one\{\delta_C\neq k^*\}]$.
@@ -697,7 +791,7 @@ $2\TV=\int|p-q|=\int|\sqrt p-\sqrt q|(\sqrt p+\sqrt q)\le\bigl(\int(\sqrt p-\sqr
 
 \section{Proofs of the identification results and Lemma B}\label{app:ident}
 
-These follow the owner-reviewed notes \texttt{docs/theory/S1prime\_B\_rigorous.pdf} and \texttt{S1doubleprime\_rigorous.pdf}. Observed draws are $(c,t,b)$ with law $Q(c,t,b)=w_c\pi_c(t)P_{c,t}(b)$ and known $w_c,\pi_c(t)>0$; candidate and outcome sets are finite.
+These follow the owner-reviewed notes \fn{docs/theory/S1prime_B_rigorous.pdf} and \fn{docs/theory/S1doubleprime_rigorous.pdf}. Observed draws are $(c,t,b)$ with law $Q(c,t,b)=w_c\pi_c(t)P_{c,t}(b)$ and known $w_c,\pi_c(t)>0$; candidate and outcome sets are finite.
 
 \paragraph{\Cref{thm:S1}(1).} Let $m=\min_{c,b}q^0_c(b)>0$ (a finite minimum of positive numbers), $V=\max_c\|v_c\|_\infty$, and $\delta=m/V$ ($\infty$ if $V=0$). For $|\eps'-\eps_0|<\delta$ define $q'_c=q^0_c+(\eps_0-\eps')v_c$, $D'=D^0$, $\phi'=0$. It sums to one since $v_c\in\Sigma_0$. If $v_c(b)=0$ then $q'_c(b)=q^0_c(b)>0$; otherwise $|(\eps_0-\eps')v_c(b)|<\delta V=m\le q^0_c(b)$. For every $t$, $P'_{c,t}=q'_c+\eps'v_c=q^0_c+\eps_0v_c=P_c\in\simp$, so the point is admissible in N-q and, with $D'=D^0$, in N-loc. \hfill\qedsymbol
 
@@ -788,7 +882,7 @@ $A,M$ & $\sum|\theta_{ji}|$ and number of tagged rotations; $B=|\eps|A+|\phi|M$,
 \begin{table}[h]
 \centering\small
 \caption{Gate~1A hard pairs at $n_S=2430$ under the oracle law. Columns 3--6 are from \fn{results/errata/gate1a_pairs_at_budget.json} (post-lock, E001 §4); the last column is $(1-\TV_n^{\mathrm{ub}})/2$ (deterministic recomputation). Action relevance is nonevaluable: no action map was frozen.}\label{tab:pairs}
-\begin{tabular}{@{}llrrrrr@{}}
+\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}llrrrrr@{}}
 \toprule
 Context & $(\theta_{\mathrm{ref}},\eps_1)$ & $\KL_n$ & $\BC_n$ & $\TV_n$ upper bound & error $\ge$ (Le Cam/BH) & error $\ge$ (\cref{lem:TVup}) \\
 \midrule
