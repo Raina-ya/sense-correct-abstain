@@ -1,0 +1,15 @@
+<section id="g3" class=""><p class="foot">Results</p><div class="pg"></div><div class="head"><p class="eyebrow">Results</p><h2>No detectable value over always correcting</h2></div>
+<div class="verdict"><p class="pill fail big">Gate 3 · FAIL</p></div>
+<div class="g3wrap">
+<div class="g3legend">
+<div class="lgrow"><svg aria-label="" width="56" height="24" viewBox="0 0 56 24" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="12" r="10" fill="#1F64B8"/></svg><p class="lg">frozen</p></div>
+<div class="lgrow"><svg aria-label="" width="56" height="24" viewBox="0 0 56 24" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="12" r="10" fill="#B54A1C"/></svg><p class="lg">corrected (post-lock)</p></div>
+<p class="small">ΔV and one-sided 95% lower bound, × 10⁻³</p>
+</div>
+<div class="plot" style="width:1180px;height:276px"><svg aria-label="Gate 3 point estimates and lower bounds" width="1180" height="230" viewBox="0 0 1180 230" xmlns="http://www.w3.org/2000/svg"><line x1="678" y1="0" x2="678" y2="230" stroke="#1B2433" stroke-width="3"/><line x1="1012" y1="0" x2="1012" y2="230" stroke="#5E6878" stroke-width="3" stroke-dasharray="10 8"/><line x1="305" y1="70" x2="718" y2="70" stroke="#1F64B8" stroke-width="7"/><line x1="305" y1="52" x2="305" y2="88" stroke="#1F64B8" stroke-width="7"/><circle cx="718" cy="70" r="14" fill="#1F64B8"/><line x1="364" y1="170" x2="797" y2="170" stroke="#B54A1C" stroke-width="7"/><line x1="364" y1="152" x2="364" y2="188" stroke="#B54A1C" stroke-width="7"/><circle cx="797" cy="170" r="14" fill="#B54A1C"/></svg><p class="tick" style="left:738px;top:20px;width:160px">0.080</p><p class="tick" style="left:155px;top:20px;width:140px;text-align:right">−0.743</p><p class="tick" style="left:817px;top:120px;width:160px">0.237</p><p class="tick" style="left:214px;top:120px;width:140px;text-align:right">−0.625</p><p class="tick" style="left:1026px;top:190px;width:220px">MDM 0.665</p><p class="tick" style="left:648px;top:238px;width:60px;text-align:center">0</p></div>
+</div>
+<div class="cols3">
+<div class="card"><p class="small">Always-correct was selected on the 33 policy-lock clusters: loss 0.0079 vs 0.029 for issue-only and 0.25 for abstain.</p></div>
+<div class="card"><p class="small">Evaluation (66 clusters): ΔV = 0.0000804, lower bound −0.000743. Post-lock corrected estimand: 0.000237, −0.000625.</p></div>
+<div class="card"><p class="small">Estimated power 0.0004; minimum detectable mean 0.000665 against a policy-lock mean of −0.00063.</p></div>
+</div><aside>Gate 3 失敗：ΔV 只有 0.0000804，單側 95% 下界 −0.000743。事後修正估計量後是 0.000237 和 −0.000625，下界仍為負，而且 post-lock 不能改變判決。估計檢定力只有 0.0004，最小可偵測均值 0.000665——這個設計根本不可能偵測到小的增益。</aside></section>

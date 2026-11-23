@@ -1,0 +1,7 @@
+<section id="repro" class=""><p class="foot">Reproducibility</p><div class="pg"></div><div class="head"><p class="eyebrow">Reproducibility and errata</p><h2>How the record is kept honest</h2></div>
+<div class="cols2">
+<div class="card"><h3>Append-only errata</h3><p>Frozen files are never edited. Nine errata correct the record (E001–E009), hashed in six manifests; the later erratum governs. HWP1-E001 corrects the hardware precision estimand without altering any locked file.</p></div>
+<div class="card"><h3>Internal recomputation</h3><p>A full and a sampled recomputation on different Python/NumPy versions reproduce every verdict-level quantity, including Gate 3’s ΔV and lower bound exactly.</p><p class="strong">This is internal recomputation, not independent validation.</p></div>
+<div class="card"><h3>Archive</h3><p>Release v1.0.0-mt7-synthesis (commit 66feb06) on Zenodo; checksums match the record.</p></div>
+<div class="card"><h3>Checks</h3><p>Errata manifests, archive metadata, RC and P-amp semantics, the hardware lock and receipts, and unit tests run in CI.</p></div>
+</div><aside>可重現性：凍結檔案從不修改，所有更正都用 append-only 勘誤。內部重算在不同版本上重現所有判決層級的數字——但要強調這是內部重算，不是獨立驗證。所有檢查都在 CI 上跑。</aside></section>

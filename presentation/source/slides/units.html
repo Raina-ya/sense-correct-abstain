@@ -1,0 +1,11 @@
+<section id="units" class=""><p class="foot">Decision problem</p><div class="pg"></div><div class="head"><p class="eyebrow">Decision problem</p><h2>Units and latent state</h2></div>
+<div class="cols2">
+<div class="col">
+<div class="card"><h3>Evaluation unit</h3><p>u = (G, c, ν, r): a MaxCut graph, a candidate pair of frozen QAOA parameters, a noise condition (ε, φ), and a replicate seed.</p></div>
+<div class="card"><h3>Latent state</h3><p>ϑ = (rideal, ε, φ, η) fixes the ideal values μA, μB, the gap g = μA − μB and the correct answer k* = argmax μk.</p></div>
+</div>
+<div class="col">
+<div class="card"><h3>Exclusion</h3><p>Units with g = 0 have no correct answer and are excluded, using a purely numerical tolerance of 10⁻¹².</p></div>
+<div class="card"><h3>Timeline</h3><p>Stage 0 fixes metadata. Stage 1 observes sensor and initial target data. The policy picks N, C or A from that evidence only.</p></div>
+</div>
+</div><aside>形式化：每個評估單位是一張圖、一組候選參數、一個誤差條件和一個種子。潛在狀態決定理想 gap 和正確答案。g=0 的單位沒有正確答案所以排除，只用數值容差 1e-12，沒有其他科學上的排除。</aside></section>

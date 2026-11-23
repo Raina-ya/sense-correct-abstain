@@ -1,0 +1,141 @@
+{
+ "v": 5,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-23T08:21:59Z"
+ },
+ "lists": "css",
+ "format": {
+  "v": 1,
+  "shared": [
+   "project/deck.css"
+  ]
+ },
+ "title": "Fixed-Budget Error Sensing and Decision Policies for QAOA",
+ "order": [
+  "cover",
+  "question",
+  "example1",
+  "example2",
+  "actions",
+  "line",
+  "contrib",
+  "rel1",
+  "rel2",
+  "units",
+  "budget",
+  "loss",
+  "comparators",
+  "deploy",
+  "compiled",
+  "frame",
+  "pamp",
+  "gapq",
+  "setting",
+  "T1",
+  "P1",
+  "C1C2",
+  "L1",
+  "twopoint",
+  "T2",
+  "consts",
+  "D1",
+  "P2",
+  "notions",
+  "nuis",
+  "S1",
+  "S1proof",
+  "sharp",
+  "idfig",
+  "lb",
+  "lemmaB",
+  "pampid",
+  "route",
+  "dtable",
+  "boundary",
+  "g1a",
+  "g1b",
+  "g2quote",
+  "g2chart",
+  "g3",
+  "dvsrc",
+  "g4",
+  "why3",
+  "estimand",
+  "gov",
+  "hwwhy",
+  "hwinject",
+  "hwplan",
+  "hwtable",
+  "hwplot",
+  "hwprec",
+  "hwacc",
+  "repro",
+  "conclusion",
+  "limits",
+  "next",
+  "thanks"
+ ],
+ "cover": "cover",
+ "sections": {
+  "s1": {
+   "description": "Why a coherent error makes a fixed-budget quantum decision a three-action problem.",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "Where the work sits among randomized compiling, characterisation, mitigation and selection.",
+   "start": "rel1"
+  },
+  "s3": {
+   "description": "Units, budget, loss and the single primary endpoint.",
+   "start": "units"
+  },
+  "s4": {
+   "description": "The compiled-angle error, randomized-compiling labels, the P-amp sensor and the gap shift.",
+   "start": "compiled"
+  },
+  "s5": {
+   "description": "Risk identity, reductions, blindness, finite-pilot bounds and value of information.",
+   "start": "setting"
+  },
+  "s6": {
+   "description": "What retained labels and a known-reference sensor can identify, and Lemma B.",
+   "start": "notions"
+  },
+  "s7": {
+   "description": "Four locked gates run in a fixed order with a stopping rule.",
+   "start": "route"
+  },
+  "s8": {
+   "description": "Gate 1A fails, 1B passes, Gate 2 passes only formally, Gate 3 fails.",
+   "start": "g1a"
+  },
+  "s9": {
+   "description": "Why the value gate is null, the estimand correction and governance defects.",
+   "start": "why3"
+  },
+  "s10": {
+   "description": "A separately locked pilot of the sensor on an IBM processor with injected errors.",
+   "start": "hwwhy"
+  },
+  "s11": {
+   "description": "Append-only errata, internal recomputation and the archive.",
+   "start": "repro"
+  },
+  "s12": {
+   "description": "What the evidence supports, its limits and the next steps.",
+   "start": "conclusion"
+  }
+ },
+ "faces": {
+  "eb-garamond": {
+   "family": "EB Garamond",
+   "href": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&display=swap"
+  },
+  "inter": {
+   "family": "Inter",
+   "href": "https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+  }
+ },
+ "designSystems": []
+}

@@ -1,0 +1,8 @@
+<section id="comparators" class=""><p class="foot">Decision problem</p><div class="pg"></div><div class="head"><p class="eyebrow">Decision problem</p><h2>Fixed comparators</h2></div>
+<div class="cols3">
+<div class="card actN"><h3>Issue only</h3><p>(i) all N shots on the target, or (ii) the sensor policy’s allocation with the sensor ignored.</p></div>
+<div class="card actC"><h3>Always correct</h3><p>Correct every unit at the sensor allocation.</p></div>
+<div class="card actA"><h3>Always abstain</h3><p>Never answer; loss 1/4 per unit.</p></div>
+</div>
+<div class="card wide"><h3>Why allocation (ii) matters</h3><p>Under a decision-flipping bias, fewer target shots lower the issue error (towards 1/2 rather than 1). Without (ii), an information-free policy could beat the comparator through allocation alone (P2).</p></div>
+<p class="note">Lfixed is the best of these, selected once on development data.</p><aside>固定比較策略有三種。特別要提 (ii)：只看感測配置但忽略感測結果的 issue-only。因為在翻轉性偏誤下，目標 shots 越少錯誤率反而越接近 1/2 而不是 1；如果沒有這個比較組，一個不用任何資訊的策略也可能只靠預算配置就贏。</aside></section>

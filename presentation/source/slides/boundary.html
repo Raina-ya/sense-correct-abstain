@@ -1,0 +1,9 @@
+<section id="boundary" class=""><p class="foot">Experimental design</p><div class="pg"></div><div class="head"><p class="eyebrow">Experimental design</p><h2>Locks and the evidence boundary</h2></div>
+<div class="cols2">
+<div class="card"><h3>Locks</h3><p>Each gate’s design was committed with a SHA-256 manifest before its run; the runner refused to run unless the repository was at the lock commit.</p><p class="small">Internal Git and SHA-256 locks, no independent timestamp: <b>prespecified, not preregistered</b>. Analysis code was not itself locked.</p></div>
+<div class="card"><h3>Evidence boundary</h3><p>2–6 qubits, QAOA depth one, shot noise only. Quantities computed after a gate result are labelled <b>post-lock</b>: they can qualify a verdict but cannot change it.</p></div>
+</div>
+<div class="cols2">
+<div class="card"><h3>Gates 3–4 comparator and power</h3><p class="small">Clusters 0–32 used once to select the comparator and estimate power; lower bound = 5th percentile of 10,000 cluster-bootstrap means of the 66 cluster means.</p></div>
+<div class="card"><h3>Scoring</h3><p class="small">Multinomial shots (NumPy PCG64), seeds from SHA-256 unit keys; action losses are 256-replicate Monte Carlo estimates used for scoring only.</p></div>
+</div><aside>證據邊界與鎖定：每個關卡事前用 SHA-256 鎖定，但只是內部 Git 鎖、沒有獨立時間戳，所以稱為「預先指定」而不是「預註冊」。分析程式碼本身沒鎖。事後計算的量都標記 post-lock，只能補充說明、不能改變判決。</aside></section>

@@ -1,0 +1,5 @@
+<section id="why3" class=""><p class="foot">Failure analysis</p><div class="pg"></div><div class="head"><p class="eyebrow">Failure analysis</p><h2>Why the gates came out this way</h2></div>
+<div class="cols2">
+<div class="card"><h3>Why Gate 3 is null</h3><p>With always-correct selected, the policy adds value only where it deviates from C and the deviation lowers loss.</p><p>Always-correct is already near-optimal (0.0079 vs 0.029), so G is bounded by small differences on the 27% of units where the policy deviates — the empirical counterpart of P3.</p><p class="small">Offered as an explanation, not as a tested finding.</p></div>
+<div class="card"><h3>Why Gate 2 is not selectivity</h3><p>Balanced accuracy against a constant baseline rewards any statistic associated with the label. The gap-bound condition removes large-gap units where accuracy is already about one.</p><p class="small">Labels are also noisy and measure unconditional benefit, not the decision-time quantity Gate 3 scores.</p></div>
+</div><aside>失敗分析。Gate 3 為什麼是零：總是修正已經接近最佳，所以策略能偏離的空間很小，這是 P3 的經驗對應。我們把它當作解釋而不是檢驗過的發現。Gate 2 為什麼不是選擇性：平衡準確率會獎勵任何跟標籤相關的統計量。</aside></section>

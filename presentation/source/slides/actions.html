@@ -1,0 +1,12 @@
+<section id="actions" class=""><p class="foot">Motivation</p><div class="pg"></div><div class="head"><p class="eyebrow">The three actions</p><h2>Issue, correct, or abstain</h2></div>
+<div class="flow-top">
+<div class="node">Stage 0<br>metadata m</div><p class="arrow">→</p>
+<div class="node">Stage 1: X = (m, X<span>S</span>, X<span>T0</span>)<br>2430 sensing + 10,934 target shots</div><p class="arrow">→</p>
+<div class="node strongnode">policy a = π(X)</div>
+</div>
+<div class="acts">
+<div class="card actN"><h3>N · issue</h3><p>Issue δ₀, the candidate with the larger observed mean.</p><p class="small">Loss 1 if wrong.</p></div>
+<div class="card actC"><h3>C · correct</h3><p>Recalibrate, re-run with 10,936 reserve shots, issue δC.</p><p class="small">Loss 1/4 if the correction fails, else 1 if wrong.</p></div>
+<div class="card actA"><h3>A · abstain</h3><p>Issue nothing.</p><p class="small">Loss λA = 1/4.</p></div>
+</div>
+<p class="note">Every path is charged the full 24,300 shots; on N and A the reserve is charged but unused.</p><aside>決策結構：Stage 1 先看感測資料和初始目標資料，然後策略在三個動作中選一個。N 直接發答案，C 修正重跑，A 放棄。關鍵設計是每條路徑都被收取全部 24,300 shots，保留的修正預算即使沒用也算成本。</aside></section>

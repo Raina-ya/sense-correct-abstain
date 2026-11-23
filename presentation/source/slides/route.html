@@ -1,0 +1,13 @@
+<section id="route" class=""><p class="foot">Experimental design</p><div class="pg"></div><div class="head"><p class="eyebrow">Experimental design</p><h2>Four gates in a fixed order</h2></div>
+<div class="route">
+<div class="g"><p class="gt">M1–M2</p><p class="small">contract, theory, RC semantics</p></div><p class="arrow">→</p>
+<div class="g fail"><p class="gt">Gate 1A</p><p class="pill fail">FAIL</p><p class="small">RC labels</p></div><p class="arrow">→</p>
+<div class="g pass"><p class="gt">Gate 1B</p><p class="pill pass">PASS</p><p class="small">P-amp, 0.7% margin</p></div><p class="arrow">→</p>
+<div class="g pass"><p class="gt">Gate 2</p><p class="pill formal">formal PASS</p><p class="small">0.093 vs 0.077</p></div><p class="arrow">→</p>
+<div class="g fail"><p class="gt">Gate 3</p><p class="pill fail">FAIL</p><p class="small">LB −0.000743</p></div>
+</div>
+<div class="cols3">
+<div class="card"><p>Gate 1A’s failure routed to the prespecified fallback sensor (Gate 1B).</p></div>
+<div class="card"><p>Gate 4 passed its frequency rule but is <b>moot</b> after Gate 3.</p></div>
+<div class="card"><p>Gate 3’s failure triggered the frozen stop rule: stop after M6; holdout not run.</p></div>
+</div><aside>關卡路線：依固定順序執行，有停止規則。Gate 1A 失敗後依預先指定的路線轉到備用感測器 Gate 1B。Gate 3 失敗觸發停止規則，研究在 M6 後結束，沒有執行保留集。</aside></section>

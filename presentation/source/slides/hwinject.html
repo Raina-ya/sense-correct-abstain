@@ -1,0 +1,5 @@
+<section id="hwinject" class=""><p class="foot">Hardware pilot</p><div class="pg"></div><div class="head"><p class="eyebrow">Hardware pilot</p><h2>Why the error is injected</h2></div>
+<div class="cols2">
+<div class="card"><h3>Injected rather than native error</h3><p>On IBM processors Z rotations are zero-duration updates of the control frame: there is no physical rotation whose angle could be miscalibrated.</p><p>So the pilot <b>injects</b> the compiled-angle error with known (ε, φ), which the estimator never sees.</p></div>
+<div class="card"><h3>What that changes</h3><p>The pilot measures how precisely and how accurately P-amp recovers a known perturbation under real noise.</p><p class="strong">It says nothing about whether such an error occurs naturally.</p></div>
+</div><aside>IBM 的 Z 旋轉是虛擬的、零時長的框架更新，沒有可以被校準錯的物理旋轉。所以 pilot 是「注入」已知誤差，估計器看不到真值。這改變了估計目標：它測的是在真實雜訊下 P-amp 還原已知擾動的精確度和準確度，不代表這種誤差會自然發生。</aside></section>
