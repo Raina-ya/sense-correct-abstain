@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "numpy": "2.3.5",
+    "qiskit": "2.6.2",
+    "qiskit-ibm-runtime": "0.50.1",
+    "scipy": "1.16.3"
+  },
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7"
+}

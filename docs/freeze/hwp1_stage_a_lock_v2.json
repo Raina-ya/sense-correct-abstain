@@ -1,0 +1,55 @@
+{
+  "analysis_command": [
+    "python",
+    "followup/ibm-hardware-pilot/analyze_stage_a.py"
+  ],
+  "artifacts": {},
+  "code_files": {
+    "followup/ibm-hardware-pilot/analyze_stage_a.py": "e9323e07d48a46201f9450c22b0fa43640eb8d9adb82042c2a8cb6b690ac120f",
+    "followup/ibm-hardware-pilot/cloud_preflight.py": "25a091b5f81e7ef6f56a8715acbb599b0c3cf2e3320e297546c1b513449b7bbd",
+    "followup/ibm-hardware-pilot/dry_run.py": "ef53799a588e5e8372cc23984b92c06279e034592dac8d6ee2d9c36b09aad8b5",
+    "followup/ibm-hardware-pilot/hwp1.py": "18dd1592bd6a5f00b98310f54e18279020c0fcd8db5c53dadb77a371f8bc2581",
+    "followup/ibm-hardware-pilot/prepare_lock.py": "97797902693aca3c7dd2b35d83e54c6a872e2bb3e9537b73cd0dba4f804123a0",
+    "followup/ibm-hardware-pilot/run_stage_a.py": "d91340ffdded05482e427ee1d67baa3257cab109b10ca96425e45d9f50578506",
+    "followup/ibm-hardware-pilot/test_hwp1.py": "a54985f51ca9b692323cae9baa34b7dcb77e858d69cc2c53f4ed4570479523a0",
+    "src/sense_correct_abstain/__init__.py": "02d665640eb7196351ddcb9eb14d21e2302ce142e139a5beb6ea17be579c6151",
+    "src/sense_correct_abstain/gate2.py": "ca1bb6c935da1b0cec6fea1bb3bfa125ee701c2140c4bd3f7cf28720712c08df"
+  },
+  "command": [
+    "python",
+    "followup/ibm-hardware-pilot/run_stage_a.py",
+    "--submit"
+  ],
+  "design_files": {
+    "followup/ibm-hardware-pilot/LOCK_REVIEW.md": "5aa44e44359e1153dd2d7b8856360a5dd02d782317c29e5830dee45af6579e67",
+    "followup/ibm-hardware-pilot/PROTOCOL_DRAFT.md": "77ab4b0ed66c0ac0254b80b45e4b24338afa243adaa006f88178092639291b22",
+    "followup/ibm-hardware-pilot/cloud_preflight_report_fez.json": "2ab17bcba6907b503b382a89acd52e9dd68ebf8b270d5367cb1cdb0fe0855d95",
+    "followup/ibm-hardware-pilot/cloud_preflight_report_marrakesh.json": "f56169b19e2ecbf9c67b95e604f4c523db562f09440b289129f9b2409804303d",
+    "followup/ibm-hardware-pilot/dry_run_report.json": "0eec8c3a10dcf0914983407239599af3f77e5484d2804ca415d4c52372d47014"
+  },
+  "environment": {
+    "packages": {
+      "numpy": "2.3.5",
+      "qiskit": "2.6.2",
+      "qiskit-ibm-runtime": "0.50.1",
+      "scipy": "1.16.3"
+    },
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.14.7"
+  },
+  "environment_files": {
+    "followup/ibm-hardware-pilot/environment_snapshot.json": "f52b2269c1d61ca8f43de1abb75d1961239a7e3f3bf6f81e8e5fd3cf97d5e2e0",
+    "followup/ibm-hardware-pilot/requirements.txt": "4da8d0b3ebf52c35822d9fc4b571822c77a0f34147343ce65ce7aade2db69fb1",
+    "requirements.txt": "a77b8cd08d7b803aeda4f8d2ca3132d71c46a92a8bd36aa6da65cd9d45f154dc"
+  },
+  "lock_id": "hwp1_stage_a",
+  "outputs": [
+    "followup/ibm-hardware-pilot/results/stage_a/"
+  ],
+  "runner": "followup/ibm-hardware-pilot/run_stage_a.py",
+  "schema": "protocol_lock_v2",
+  "seeds": {
+    "derivation": "SHA256('hwp1|' + '|'.join(parts))[:4], big-endian",
+    "root": "hwp1"
+  }
+}
